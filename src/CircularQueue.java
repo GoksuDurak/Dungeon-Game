@@ -12,7 +12,7 @@ public class CircularQueue {
             System.out.println("Queue is full");
             return;
         }
-        rear = rear + 1 % elements.length;
+        rear = (rear + 1) % elements.length;
         count++;
         elements[rear] = element;
 
@@ -26,7 +26,7 @@ public class CircularQueue {
         }
         Object data = elements[front];
         elements[front] = null;
-        front = front + 1 % elements.length;
+        front = (front + 1) % elements.length;
         count--;
         return data;
     }

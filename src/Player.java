@@ -6,14 +6,15 @@ public class Player {
     private String name;
     private int score;
     private int attack;
-    private int defense;
+    private int defence;
     private int level;
     private int hp;
     private int stamina;
     private int money;
     private int xp;
+    private  int mana;
     //Constructor
-    Player(String name, int score, int level, int hp, int stamina, int money, int xp,int attack,int defense)
+    Player(String name, int score, int level, int hp, int stamina, int money, int xp,int attack,int defence,int mana)
     {
         this.name = name;
         this.attack = attack;
@@ -23,7 +24,8 @@ public class Player {
         this.stamina = stamina;
         this.money = money;
         this.xp = xp;
-        this.defense = defense;
+        this.defence = defence;
+        this.mana = mana;
     }
     //Get-Set
     //Name
@@ -86,11 +88,6 @@ public class Player {
     {
         return xp;
     }
-    public void printMoney(int money)
-    {
-        System.out.println("Money : " + money);
-    }
-
 
     public int getAttack() {
         return attack;
@@ -100,11 +97,19 @@ public class Player {
         this.attack = attack;
     }
 
-    public int getDefense() {
-        return defense;
+    public int getDefence() {
+        return defence;
     }
 
-    public void setDefense(int defense) {
-        this.defense = defense;
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
     }
 }

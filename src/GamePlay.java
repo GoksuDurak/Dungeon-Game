@@ -13,8 +13,10 @@ public class GamePlay {
     //Dunegon Npc Player burada yaratılır.
     private final Random rand = new Random();
     private Vertex startVertex;
-    private int enenmyX = 0;
-    private int enenmyY = 0;
+    private int enemyX = 0;
+    private int playerFirstLife =0;
+    private int enemyFirstLife =0;
+    private int enemyY = 0;
     private Vertex finalVertex;
     private Vertex vertex;
     private Vertex vertexF;
@@ -22,11 +24,13 @@ public class GamePlay {
     private final Scanner scanner = new Scanner(System.in);
     private boolean quit = false;
     private Stack dungeonStack = new Stack(5); // zindanları burda tutacağız
+    private CircularQueue enemyCoordinateQueue = new CircularQueue(2);
+    private Vertex enemyCoordinateVertex;
     //private char[][] dungeon;
-    private boolean enemyIsDefeated = false; // düşman yenildi mi
     private Dungeon dungeon;
     private Enemy[] enemies;
     private Enemy enemy;
+    private Enemy secondEnemy;
     private Dungeon dungeon2;
     private Player player;
     private boolean infoIsCome = true;
@@ -49,7 +53,7 @@ public class GamePlay {
         System.out.print("Please enter your name : ");
         String name = scanner.nextLine();
         game.Clear();
-        player = new Player(name,0,0,225,200,200,0,225,150);
+        player = new Player(name,0,0,2250,200,200,0,22500,150,3);
         /*
         Dungeon dungeon = new Dungeon(17,17);
         dungeon.createRandomDungeon(); // we create matrix for random dungeon
@@ -78,7 +82,7 @@ public class GamePlay {
         dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] = 'P';
         //dungeon.printDungeon(game);
         dungeon = dungeon.randomMoney(dungeon); // burda mevcut zindanı parayla döndür
-        enemy = new Enemy(0,0,0,"",0,0,"");
+        enemy = new Enemy(0,0,0,"",0,0,"",false);
         enemies = enemy.randomEnemy(dungeon);
         dungeon.printDungeon(game);
 
@@ -91,16 +95,9 @@ public class GamePlay {
                 game.Clear();
                 dungeon.printDungeon(game);
                 game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 0);
-                player.printMoney(player.getMoney()); // parayı yazdır
+                printStatics(game,player); // parayı yazdır
                 while (!takesInput)
                 {
-                    for (int i = 0; i < enemies.length; i++)
-                    {
-                        if(enenmyX == enemies[i].getX() && enenmyY == enemies[i].getY())
-                        {
-                            enemy = enemies[i];
-                        }
-                    }
                     game.Clear();
                     System.out.print("You encountered ");
                     game.cn.setTextAttributes(new TextAttributes(Color.cyan));
@@ -117,19 +114,13 @@ public class GamePlay {
                         infoIsCome = true;
                     }else if(choice.equals("y"))
                     {
+                        enemyFirstLife = enemy.getHealth();
+                        playerFirstLife = player.getHp();
                         game.Clear();
                         System.out.println("War begin !!! ");
-                        game.cn.setTextAttributes(new TextAttributes(Color.yellow));
-                        System.out.println(enemy.getType());
-                        game.cn.setTextAttributes(new TextAttributes(Color.white));
-                        printEnemy(enemy,game);
-                        printPlayer(game);
-                        //savaş olacak
-                        /*
-                        if(player wins) enemy.getHealth() <= 0 enemyIsDefeated true ve  takesInput true
-                        else player.getHP() <= 0 enemyIsDefeated false ve  takesInput true
-                        */
-                        String choice1 = scanner.nextLine();
+                        war(enemy,game);
+                        takesInput = true;
+                        infoIsCome = true;
                     }
                 }
 
@@ -151,13 +142,7 @@ public class GamePlay {
                 dungeon.printDungeon(game);
                 while (!takesInput)
                 {
-                    for (int i = 0; i < enemies.length; i++)
-                    {
-                        if(enenmyX == enemies[i].getX() && enenmyY == enemies[i].getY())
-                        {
-                            enemy = enemies[i];
-                        }
-                    }
+
                     game.Clear();
                     System.out.print("You encountered ");
                     game.cn.setTextAttributes(new TextAttributes(Color.cyan));
@@ -174,7 +159,13 @@ public class GamePlay {
                         infoIsCome = true;
                     }else if(choice.equals("y"))
                     {
+                        enemyFirstLife = enemy.getHealth();
+                        playerFirstLife = player.getHp();
+                        game.Clear();
                         System.out.println("War begin !!! ");
+                        war(enemy,game);
+                        takesInput = true;
+                        infoIsCome = true;
                     }
                 }
             }
@@ -183,6 +174,186 @@ public class GamePlay {
 
 
         //player moves then we write '●' instead of 'P'
+    }
+    public void printStatics(Game game,Player player)
+    {
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 0);
+        System.out.println(player.getName());
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 1);
+        System.out.println("Level : " + player.getLevel());
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 2);
+        System.out.println("Xp : " + player.getXp());
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 3);
+        System.out.println("Money : " + player.getMoney());
+    }
+    public void war(Enemy enemy,Game game) throws InterruptedException
+    {
+        player.setMana(3);
+        int ultiCount = 0;
+        int num = rand.nextInt(1000);
+        CircularQueue loop = new CircularQueue(2);
+        if(num % 2 == 0)
+        {
+            loop.enqueue(enemy.getType());
+            loop.enqueue(player.getName());
+        }else
+        {
+            loop.enqueue(player.getName());
+            loop.enqueue(enemy.getType());
+        }
+        while (player.getHp() > 0 && enemy.getHealth() > 0) { // biri ölene kadar
+            game.Clear();
+            game.cn.setTextAttributes(new TextAttributes(Color.yellow));
+            System.out.println(enemy.getType());
+            game.cn.setTextAttributes(new TextAttributes(Color.white));
+            printEnemy(enemy,game);
+            printPlayer(game);
+            game.cn.getTextWindow().setCursorPosition(45, 5);
+            System.out.print(player.getName().toUpperCase()+ "'s UltiCount --> ");
+            game.cn.setTextAttributes(new TextAttributes(Color.green));
+            System.out.print(ultiCount); //defans
+            game.cn.setTextAttributes(new TextAttributes(Color.white));
+            System.out.println(".");
+            if(loop.peek().equals(player.getName())) // sıra playerdaysa
+            {
+                //sıra playerda
+
+                String choice = "";
+                int damage = 0;
+                damage = player.getAttack()/((100+enemy.getDefence())/100);
+                int x =  game.cn.getTextWindow().getCursorX();
+                int y =  game.cn.getTextWindow().getCursorY();
+                if(player.getMana() < 8)
+                {
+                    player.setMana(player.getMana()+1);
+                }
+                while (true) {
+                    System.out.println();
+                    System.out.println(player.getName() + " turn. \nChoose LowAttack(LA) or Attack(A) or HighAttack(HA) or VeryHighAttack(VHA)");
+                    choice = scanner.nextLine();
+                    if(choice.equalsIgnoreCase("LA")) // low attack add 2 mana
+                    {
+                        if(player.getMana() + 2 <= 8) {
+                            player.setMana(player.getMana()+2);
+                        }
+                        damage = damage / 2;
+                        enemy.setHealth(enemy.getHealth()-damage);
+                        break;
+                    }else if(choice.equalsIgnoreCase("A") && (player.getMana() - 2 >= 0)) // normal attack -2 mana
+                    {
+                        player.setMana(player.getMana()-2);
+                        enemy.setHealth(enemy.getHealth()-damage);
+                        break;
+                    }else if(choice.equalsIgnoreCase("HA") && (player.getMana() - 4 >= 0)) // high attack -4 mana
+                    {
+                        player.setMana(player.getMana()-4);
+                        damage = damage * 2;
+                        enemy.setHealth(enemy.getHealth()-damage);
+                        break;
+                    }else if(choice.equalsIgnoreCase("VHA") && (player.getMana() - 6 >= 0) && (ultiCount == 2)) // very high attack -6 mana
+                    {
+                        ultiCount = -1;
+                        player.setMana(player.getMana()-6);
+                        damage = damage * 5;
+                        enemy.setHealth(enemy.getHealth()-damage);
+                        break;
+                    }
+                    game.cn.getTextWindow().setCursorPosition(x, y);
+                    for(int i = 0; i < 20; i++)
+                    {
+                        for(int j = 0; j < 20; j++)
+                        {
+                            System.out.print(" ");
+                        }
+                        System.out.println();
+                    }
+                    game.cn.getTextWindow().setCursorPosition(x, y);
+                }
+                System.out.println(player.getName()+ " hit " +enemy.getType()+" "+ damage);
+                Thread.sleep(1000);
+                loop.enqueue(loop.dequeue());
+                if(ultiCount < 2) {
+                    ultiCount++;
+                }
+            }else if(loop.peek().equals(enemy.getType()))
+            {
+                //sıra düşmanda
+                int damage = 0;
+                damage = enemy.getAttack()/((100+player.getDefence())/100);
+                int x =  game.cn.getTextWindow().getCursorX();
+                int y =  game.cn.getTextWindow().getCursorY();
+                String choice = "";
+                while (true) {
+                    System.out.println("Enemy attacked you.\nDo you want to defence");
+                    choice = scanner.nextLine();
+                    if(choice.equalsIgnoreCase("Y") && ((player.getMana() - 2) >= 0)) // mana yetmeli
+                    {
+                        player.setMana(player.getMana()-2);
+                        damage = damage / 2;
+                        player.setHp(player.getHp()-damage);
+                        break;
+                    }else if(choice.equalsIgnoreCase("N"))
+                    {
+                        player.setHp(player.getHp()-damage);
+                        break;
+                    }
+                    game.cn.getTextWindow().setCursorPosition(x, y);
+                    for(int i = 0; i < 20; i++)
+                    {
+                        for(int j = 0; j < 20; j++)
+                        {
+                            System.out.print(" ");
+                        }
+                        System.out.println();
+                    }
+                    game.cn.getTextWindow().setCursorPosition(x, y);
+                }
+                System.out.println(enemy.getType()+ " hit "+player.getName() +" "+ damage);
+                Thread.sleep(1000);
+                loop.enqueue(loop.dequeue());
+            }
+        }
+        game.Clear();
+        game.cn.setTextAttributes(new TextAttributes(Color.yellow));
+        System.out.println(enemy.getType());
+        game.cn.setTextAttributes(new TextAttributes(Color.white));
+        printEnemy(enemy,game);
+        printPlayer(game);
+        if(player.getHp() <= 0) // player loose
+        {
+            System.out.println("You are dead");
+            enemy.setHealth(enemyFirstLife);
+            player.setHp(playerFirstLife);
+            System.out.println("To continue, press enter. ");
+            String line = scanner.nextLine();
+        }else // player win (gain money and xp)
+        {
+            System.out.println("You won");
+            levelUp(); // level sistemi
+            enemy.setDead(true); // düşam öldü
+            player.setHp(playerFirstLife);
+            System.out.println("To continue, press enter. ");
+            String line = scanner.nextLine();
+        }
+    }
+    public void levelUp()
+    {
+        int currentLevel = player.getLevel();
+        for (int i = 0 ; i < 20;i++) // 20 level
+        {
+            if (currentLevel == i)
+            {
+                player.setMoney(player.getMoney()+(200 * (i +1))); // leveli ile orantılı para kazanıyo
+                player.setXp(player.getXp()+(200 * (i +1))); // leveli ile orantılı xp kazanıyo
+                if(player.getXp() >= 5000 *(i+1))
+                {
+                    player.setLevel(player.getLevel()+1);
+                    player.setXp(player.getXp()-(5000 *(i+1)));
+                }
+                break;
+            }
+        }
+
     }
     public void printEnemy(Enemy enemy,Game game)
     {
@@ -204,26 +375,32 @@ public class GamePlay {
     }
     public void printPlayer(Game game)
     {
-        game.cn.getTextWindow().setCursorPosition(35, 1);
+        game.cn.getTextWindow().setCursorPosition(45, 0);
         game.cn.setTextAttributes(new TextAttributes(Color.yellow));
         System.out.print(player.getName());
         game.cn.setTextAttributes(new TextAttributes(Color.white));
-        game.cn.getTextWindow().setCursorPosition(35, 2);
+        game.cn.getTextWindow().setCursorPosition(45, 1);
         System.out.print(player.getName().toUpperCase()+ "'s Health --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.red));
         System.out.print(player.getHp()); //canı
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
-        game.cn.getTextWindow().setCursorPosition(35, 3);
+        game.cn.getTextWindow().setCursorPosition(45, 2);
         System.out.print(player.getName().toUpperCase()+ "'s Attcak --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.green));
         System.out.print(player.getAttack()); //attack
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
-        game.cn.getTextWindow().setCursorPosition(35, 4);
+        game.cn.getTextWindow().setCursorPosition(45, 3);
         System.out.print(player.getName().toUpperCase()+ "'s Defense --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.blue));
-        System.out.print(player.getDefense()); //defans
+        System.out.print(player.getDefence()); //defans
+        game.cn.setTextAttributes(new TextAttributes(Color.white));
+        System.out.println(".");
+        game.cn.getTextWindow().setCursorPosition(45, 4);
+        System.out.print(player.getName().toUpperCase()+ "'s Mana --> ");
+        game.cn.setTextAttributes(new TextAttributes(Color.orange));
+        System.out.print(player.getMana()); //defans
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
     }
@@ -248,16 +425,44 @@ public class GamePlay {
                             dungeon.getDungeonMatrix()[x][y] = ' ';
                             if(dungeon.getDungeonMatrix()[x-1][y] == 'E') // yukarısı E ise
                             {
-                                enenmyX = x - 1;
-                                enenmyY = y;
+                                enemyX = x - 1;
+                                enemyY = y;
+                                enemyCoordinateVertex = new Vertex(enemyX,enemyY); //konumu aldık
                             }
+                            if(enemyCoordinateQueue.size() == 2) // queue doluysa
+                            {
+                                enemyCoordinateQueue.dequeue();// son eleman sil
+                            }
+                            enemyCoordinateQueue.enqueue(enemyCoordinateVertex); // queue at
+                            for (int i = 0; i < enemies.length; i++)
+                            {
+                                if(enemyX == enemies[i].getX() && enemyY == enemies[i].getY())
+                                {
+                                    enemy = enemies[i];
+                                }
+                            }
+
                             x = x - 1;
                             if (dungeon.getDungeonMatrix()[x][y] == '¤') {
                                 player.setMoney(player.getMoney() + 1);
                             }
-                            dungeon.getDungeonMatrix()[x][y] = 'P'; //konumu x ve y
-                            if (dungeon.getDungeonMatrix()[enenmyX][enenmyY] == ' ' && !enemyIsDefeated) {
-                                dungeon.getDungeonMatrix()[enenmyX][enenmyY] = 'E';
+                            dungeon.getDungeonMatrix()[x][y] = 'P'; //konumu x ve y //ilerledik
+
+                            if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
+                                dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
+                            }
+                            for (int i = 0; i < enemies.length; i++)
+                            {
+                                if(!enemyCoordinateQueue.isEmpty() && enemyCoordinateQueue.peek() != null) { // boş değilse
+                                    if (((Vertex) enemyCoordinateQueue.peek()).getVertexX() == enemies[i].getX() && ((Vertex) enemyCoordinateQueue.peek()).getVertexY() == enemies[i].getY()) {
+                                        secondEnemy = enemies[i];
+                                    }
+                                }
+                            }
+                            if(!enemyCoordinateQueue.isEmpty() && enemyCoordinateQueue.peek() != null){ // boş değilse
+                                if (dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] == ' ' && !secondEnemy.isDead()) {
+                                    dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] = 'E';
+                                }
                             }
                             if (dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] == ' ') {
                                 dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] = '●';
@@ -273,16 +478,44 @@ public class GamePlay {
                             dungeon.getDungeonMatrix()[x][y] = ' ';
                             if(dungeon.getDungeonMatrix()[x+1][y] == 'E') // yukarısı E ise
                             {
-                                enenmyX = x + 1;
-                                enenmyY = y;
+                                enemyX = x + 1; // bir sağında e var bir sağına daha bakalım
+                                enemyY = y;
+                                enemyCoordinateVertex = new Vertex(enemyX,enemyY); //konumu aldık
                             }
+                            if(enemyCoordinateQueue.size() == 2) // queue doluysa
+                            {
+                                enemyCoordinateQueue.dequeue();// son eleman sil
+                            }
+                            enemyCoordinateQueue.enqueue(enemyCoordinateVertex); // queue at
+                            for (int i = 0; i < enemies.length; i++)
+                            {
+                                if(enemyX == enemies[i].getX() && enemyY == enemies[i].getY())
+                                {
+                                    enemy = enemies[i];
+                                }
+                            }
+
                             x = x + 1;
                             if (dungeon.getDungeonMatrix()[x][y] == '¤') {
                                 player.setMoney(player.getMoney() + 1);
                             }
                             dungeon.getDungeonMatrix()[x][y] = 'P';
-                            if (dungeon.getDungeonMatrix()[enenmyX][enenmyY] == ' ' && !enemyIsDefeated) {
-                                dungeon.getDungeonMatrix()[enenmyX][enenmyY] = 'E';
+
+                            if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
+                                dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
+                            }
+                            for (int i = 0; i < enemies.length; i++)
+                            {
+                                if(!enemyCoordinateQueue.isEmpty() && enemyCoordinateQueue.peek() != null) { // boş değilse
+                                    if (((Vertex) enemyCoordinateQueue.peek()).getVertexX() == enemies[i].getX() && ((Vertex) enemyCoordinateQueue.peek()).getVertexY() == enemies[i].getY()) {
+                                        secondEnemy = enemies[i];
+                                    }
+                                }
+                            }
+                            if(!enemyCoordinateQueue.isEmpty() && enemyCoordinateQueue.peek() != null){ // boş değilse
+                                if (dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] == ' ' && !secondEnemy.isDead()) {
+                                    dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] = 'E';
+                                }
                             }
                             if (dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] == ' ') {
                                 dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] = '●';
@@ -298,16 +531,44 @@ public class GamePlay {
                             dungeon.getDungeonMatrix()[x][y] = ' ';
                             if(dungeon.getDungeonMatrix()[x][y + 1] == 'E') // yukarısı E ise
                             {
-                                enenmyX = x;
-                                enenmyY = y + 1;
+                                enemyX = x;
+                                enemyY = y + 1;
+                                enemyCoordinateVertex = new Vertex(enemyX,enemyY); //konumu aldık
                             }
+                            if(enemyCoordinateQueue.size() == 2) // queue doluysa
+                            {
+                                enemyCoordinateQueue.dequeue();// son eleman sil
+                            }
+                            enemyCoordinateQueue.enqueue(enemyCoordinateVertex); // queue at
+                            for (int i = 0; i < enemies.length; i++)
+                            {
+                                if(enemyX == enemies[i].getX() && enemyY == enemies[i].getY())
+                                {
+                                    enemy = enemies[i];
+                                }
+                            }
+
                             y = y + 1;
                             if (dungeon.getDungeonMatrix()[x][y] == '¤') {
                                 player.setMoney(player.getMoney() + 1);
                             }
                             dungeon.getDungeonMatrix()[x][y] = 'P';
-                            if (dungeon.getDungeonMatrix()[enenmyX][enenmyY] == ' ' && !enemyIsDefeated) {
-                                dungeon.getDungeonMatrix()[enenmyX][enenmyY] = 'E';
+
+                            if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
+                                dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
+                            }
+                            for (int i = 0; i < enemies.length; i++)
+                            {
+                                if(!enemyCoordinateQueue.isEmpty() && enemyCoordinateQueue.peek() != null) { // boş değilse
+                                    if (((Vertex) enemyCoordinateQueue.peek()).getVertexX() == enemies[i].getX() && ((Vertex) enemyCoordinateQueue.peek()).getVertexY() == enemies[i].getY()) {
+                                        secondEnemy = enemies[i];
+                                    }
+                                }
+                            }
+                            if(!enemyCoordinateQueue.isEmpty() && enemyCoordinateQueue.peek() != null){ // boş değilse
+                                if (dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] == ' ' && !secondEnemy.isDead()) {
+                                    dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] = 'E';
+                                }
                             }
                             if (dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] == ' ') {
                                 dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] = '●';
@@ -323,16 +584,44 @@ public class GamePlay {
                             dungeon.getDungeonMatrix()[x][y] = ' ';
                             if(dungeon.getDungeonMatrix()[x][y - 1] == 'E') // yukarısı E ise
                             {
-                                enenmyX = x;
-                                enenmyY = y - 1;
+                                enemyX = x;
+                                enemyY = y - 1;
+                                enemyCoordinateVertex = new Vertex(enemyX,enemyY); //konumu aldık
                             }
+                            if(enemyCoordinateQueue.size() == 2) // queue doluysa
+                            {
+                                enemyCoordinateQueue.dequeue();// son eleman sil
+                            }
+                            enemyCoordinateQueue.enqueue(enemyCoordinateVertex); // queue at
+                            for (int i = 0; i < enemies.length; i++)
+                            {
+                                if(enemyX == enemies[i].getX() && enemyY == enemies[i].getY())
+                                {
+                                    enemy = enemies[i];
+                                }
+                            }
+
                             y = y - 1;
                             if (dungeon.getDungeonMatrix()[x][y] == '¤') {
                                 player.setMoney(player.getMoney() + 1);
                             }
                             dungeon.getDungeonMatrix()[x][y] = 'P';
-                            if (dungeon.getDungeonMatrix()[enenmyX][enenmyY] == ' ' && !enemyIsDefeated) {
-                                dungeon.getDungeonMatrix()[enenmyX][enenmyY] = 'E';
+
+                            if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) { // buarda düşman yaşıyo
+                                dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
+                            }
+                            for(int i = 0; i < enemies.length; i++)
+                            {
+                                if(!enemyCoordinateQueue.isEmpty() && enemyCoordinateQueue.peek() != null) { // boş değilse
+                                    if (((Vertex) enemyCoordinateQueue.peek()).getVertexX() == enemies[i].getX() && ((Vertex) enemyCoordinateQueue.peek()).getVertexY() == enemies[i].getY()) {
+                                        secondEnemy = enemies[i];
+                                    }
+                                }
+                            }
+                            if(!enemyCoordinateQueue.isEmpty() && enemyCoordinateQueue.peek() != null){ // boş değilse
+                                if (dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] == ' ' && !secondEnemy.isDead()) {
+                                    dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] = 'E';
+                                }
                             }
                             if (dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] == ' ') {
                                 dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] = '●';
@@ -346,7 +635,7 @@ public class GamePlay {
                         {
                             quit = true;
                         }
-                        if(x == enenmyX && y == enenmyY)
+                        if(x == enemyX && y == enemyY && !enemy.isDead())
                         {
                             takesInput = false;
                         }

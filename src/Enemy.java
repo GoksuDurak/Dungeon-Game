@@ -8,9 +8,9 @@ public class Enemy {
     private int x;
     private int y;
     private String comment;
-    private Enemy[] enemies; //düşmanlar
     private Random rand = new Random();
-    Enemy(int health, int attack, int defence, String type, int x, int y,String comment) {
+    private boolean dead; // düşam öldü mü
+    Enemy(int health, int attack, int defence, String type, int x, int y,String comment,boolean dead) {
         this.health = health;
         this.attack = attack;
         this.defence = defence;
@@ -18,6 +18,7 @@ public class Enemy {
         this.x = x;
         this.y = y;
         this.comment = comment;
+        this.dead = dead;
     }
 
     public void setHealth(int health) {
@@ -96,32 +97,40 @@ public class Enemy {
             if (randomNum == 0)
             {
                 type = "orc";
-                health = 300;
+                health = 3000;
                 attack = 175;
                 defense = 100;
             }else if (randomNum == 1)
             {
                 type = "goblin";
-                health = 150;
+                health = 1500;
                 attack = 250;
                 defense = 100;
             }else if(randomNum == 2)
             {
                 type = "skeleton";
-                health = 125;
+                health = 1250;
                 attack = 225;
                 defense = 100;
             }
             else
             {
                 type = "undead";
-                health = 175;
+                health = 1750;
                 attack = 200;
                 defense = 75;
             }
             dungeon.getDungeonMatrix()[x][y] = 'E';
-            enemies[i] = new Enemy(health,attack,defense,type,x,y,comment);
+            enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false);
         }
         return enemies;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 }
