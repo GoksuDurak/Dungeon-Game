@@ -12,9 +12,11 @@ public class Player {
     private int stamina;
     private int money;
     private int xp;
-    private  int mana;
+    private int mana;
+    private Inventory inventory;
+    private int inventoryCapacity;
     //Constructor
-    Player(String name, int score, int level, int hp, int stamina, int money, int xp,int attack,int defence,int mana)
+    Player(String name, int score, int level, int hp, int stamina, int money, int xp,int attack,int defence,int mana,int inventoryCapacity)
     {
         this.name = name;
         this.attack = attack;
@@ -26,6 +28,7 @@ public class Player {
         this.xp = xp;
         this.defence = defence;
         this.mana = mana;
+        inventory = new Inventory(inventoryCapacity);
     }
     //Get-Set
     //Name
@@ -111,5 +114,21 @@ public class Player {
 
     public void setMana(int mana) {
         this.mana = mana;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public int getInventoryCapacity() {
+        return inventoryCapacity;
+    }
+
+    public void setInventoryCapacity(int inventoryCapacity) {
+        this.inventoryCapacity = inventoryCapacity;
     }
 }

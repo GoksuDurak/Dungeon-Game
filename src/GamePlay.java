@@ -1,10 +1,10 @@
 import enigma.console.TextAttributes;
 
+import javax.tools.Tool;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -13,6 +13,8 @@ public class GamePlay {
     //Dunegon Npc Player burada yaratılır.
     private final Random rand = new Random();
     private Vertex startVertex;
+    private String[] loots;
+    private Chest chest;
     private int enemyX = 0;
     private int playerFirstLife =0;
     private int enemyFirstLife =0;
@@ -20,6 +22,7 @@ public class GamePlay {
     private Vertex finalVertex;
     private Vertex vertex;
     private Vertex vertexF;
+    private boolean inventoryOpened = false;
     private boolean takesInput = true;
     private final Scanner scanner = new Scanner(System.in);
     private boolean quit = false;
@@ -30,9 +33,13 @@ public class GamePlay {
     private Dungeon dungeon;
     private Enemy[] enemies;
     private Enemy enemy;
+    private Inventory inventory;
     private Enemy secondEnemy;
     private Dungeon dungeon2;
     private Player player;
+    private Item item;
+    private Armor armor;
+    private Weapon weapon;
     private boolean infoIsCome = true;
     private int x = 1, y = 1;  // Başlangıç konumu
     private  boolean flag = false;
@@ -53,7 +60,30 @@ public class GamePlay {
         System.out.print("Please enter your name : ");
         String name = scanner.nextLine();
         game.Clear();
-        player = new Player(name,0,0,2250,200,200,0,22500,150,3);
+        player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
+
+
+         /*
+        item = new Item("elixir",5,54);
+        player.getInventory().addItem(item);
+        player.getInventory().searchItem(item.getItemName());
+        player.getInventory().addItem(item);
+        player.getInventory().searchItem(item.getItemName());
+
+        player.getInventory().deleteItem("elixir",scanner);
+        player.getInventory().deleteItem("elixir",scanner);
+        player.getInventory().deleteItem("elixir",scanner);
+        item = new Item("money",15,53);
+        player.getInventory().addItem(item);
+        player.getInventory().addItem(item);
+        player.getInventory().addItem(item);
+        player.getInventory().searchItem("money");
+        System.out.println(player.getInventory().size());
+        scanner.nextLine();
+        
+         */
+
+
         /*
         Dungeon dungeon = new Dungeon(17,17);
         dungeon.createRandomDungeon(); // we create matrix for random dungeon
@@ -105,6 +135,7 @@ public class GamePlay {
                     game.cn.setTextAttributes(new TextAttributes(Color.white));
                     System.out.println(".");
                     printEnemy(enemy,game);
+                    printPlayer(game);
                     System.out.print("Do you want to fight? (y/n) : ");
                     String choice = scanner.nextLine();
                     choice = choice.toLowerCase();
@@ -150,6 +181,7 @@ public class GamePlay {
                     game.cn.setTextAttributes(new TextAttributes(Color.white));
                     System.out.println(".");
                     printEnemy(enemy,game);
+                    printPlayer(game);
                     System.out.print("Do you want to fight? (y/n) : ");
                     String choice = scanner.nextLine();
                     choice = choice.toLowerCase();
@@ -168,6 +200,35 @@ public class GamePlay {
                         infoIsCome = true;
                     }
                 }
+            }
+            while (inventoryOpened) // buardayım
+            {
+                game.Clear();
+                System.out.println("inventory opened");
+                if(player.getInventory().size() == 0){
+                    System.out.println("You have no item in your inventory");
+                    scanner.nextLine();
+                }else {
+                    for (int i = 0; i < player.getInventory().size(); i++) {
+                        Object data = player.getInventory().getItems()[i].getData();
+                        int value = 0;
+                        String type = "";
+                        if(data instanceof Armor)
+                        {
+                            value = ((Armor) data).getDefense();
+                            type = "defence";
+                        }else if(data instanceof Weapon)
+                        {
+                            value = ((Weapon) data).getDamage();
+                            type = "damage";
+                        }
+                        System.out.print(player.getInventory().getItems()[i].getItemName() +" " +type+" "+value + " " +player.getInventory().getItems()[i].getQuantity());
+                        scanner.nextLine();
+                    }
+                }
+                scanner.nextLine();
+                infoIsCome = true;
+                inventoryOpened = false;
             }
             Thread.sleep(10);
         }
@@ -208,6 +269,12 @@ public class GamePlay {
             game.cn.setTextAttributes(new TextAttributes(Color.white));
             printEnemy(enemy,game);
             printPlayer(game);
+            game.cn.getTextWindow().setCursorPosition(45, 4);
+            System.out.print(player.getName().toUpperCase()+ "'s Mana --> ");
+            game.cn.setTextAttributes(new TextAttributes(Color.orange));
+            System.out.print(player.getMana()); //defans
+            game.cn.setTextAttributes(new TextAttributes(Color.white));
+            System.out.println(".");
             game.cn.getTextWindow().setCursorPosition(45, 5);
             System.out.print(player.getName().toUpperCase()+ "'s UltiCount --> ");
             game.cn.setTextAttributes(new TextAttributes(Color.green));
@@ -226,10 +293,16 @@ public class GamePlay {
                 if(player.getMana() < 8)
                 {
                     player.setMana(player.getMana()+1);
+                    game.cn.getTextWindow().setCursorPosition(45, 4);
+                    System.out.print(player.getName().toUpperCase()+ "'s Mana --> ");
+                    game.cn.setTextAttributes(new TextAttributes(Color.orange));
+                    System.out.print(player.getMana()); //defans
+                    game.cn.setTextAttributes(new TextAttributes(Color.white));
+                    System.out.println(".");
                 }
                 while (true) {
                     System.out.println();
-                    System.out.println(player.getName() + " turn. \nChoose LowAttack(LA) or Attack(A) or HighAttack(HA) or VeryHighAttack(VHA)");
+                    System.out.println(player.getName() + " turn. \nChoose LowAttack(LA (+2 mana)) or Attack(A (-2 mana)) or \nHighAttack(HA (-4 mana)) or VeryHighAttack(VHA (-6 mana -2 ultiCount))");
                     choice = scanner.nextLine();
                     if(choice.equalsIgnoreCase("LA")) // low attack add 2 mana
                     {
@@ -239,29 +312,54 @@ public class GamePlay {
                         damage = damage / 2;
                         enemy.setHealth(enemy.getHealth()-damage);
                         break;
-                    }else if(choice.equalsIgnoreCase("A") && (player.getMana() - 2 >= 0)) // normal attack -2 mana
+                    }else if(choice.equalsIgnoreCase("A")) // normal attack -2 mana
                     {
-                        player.setMana(player.getMana()-2);
-                        enemy.setHealth(enemy.getHealth()-damage);
-                        break;
-                    }else if(choice.equalsIgnoreCase("HA") && (player.getMana() - 4 >= 0)) // high attack -4 mana
+                        if((player.getMana() - 2 >= 0)) { // mana yeterse
+                            player.setMana(player.getMana() - 2);
+                            enemy.setHealth(enemy.getHealth() - damage);
+                            break;
+                        }else
+                        {
+                            System.out.println("Mana is not enough.\nYou need 2 mana, but you have only "+player.getMana()+".");
+                            Thread.sleep(1000);
+                        }
+                    }else if(choice.equalsIgnoreCase("HA")) // high attack -4 mana
                     {
-                        player.setMana(player.getMana()-4);
-                        damage = damage * 2;
-                        enemy.setHealth(enemy.getHealth()-damage);
-                        break;
-                    }else if(choice.equalsIgnoreCase("VHA") && (player.getMana() - 6 >= 0) && (ultiCount == 2)) // very high attack -6 mana
+                        if((player.getMana() - 4 >= 0)) {
+                            player.setMana(player.getMana() - 4);
+                            damage = damage * 2;
+                            enemy.setHealth(enemy.getHealth() - damage);
+                            break;
+                        }else
+                        {
+                            System.out.println("Mana is not enough.\nYou need 4 mana, but you have only "+player.getMana()+".");
+                            Thread.sleep(1000);
+                        }
+                    }else if(choice.equalsIgnoreCase("VHA")) // very high attack -6 mana
                     {
-                        ultiCount = -1;
-                        player.setMana(player.getMana()-6);
-                        damage = damage * 5;
-                        enemy.setHealth(enemy.getHealth()-damage);
-                        break;
+                        if((ultiCount == 2)) { // ulti miktarı
+                            if((player.getMana() - 6 >= 0)) {
+                                ultiCount = -1;
+                                player.setMana(player.getMana() - 6);
+                                damage = damage * 5;
+                                enemy.setHealth(enemy.getHealth() - damage);
+                                break;
+                            }else
+                            {
+                                System.out.println("Mana is not enough.\nYou need 6 mana, but you have only "+player.getMana()+".");
+                                Thread.sleep(1000);
+                            }
+                        }else
+                        {
+                            //yetesiz ulti
+                            System.out.println("Ulti is not enough.\nYou need 2 ultiCount, but you have only "+ultiCount+".");
+                            Thread.sleep(1000);
+                        }
                     }
                     game.cn.getTextWindow().setCursorPosition(x, y);
                     for(int i = 0; i < 20; i++)
                     {
-                        for(int j = 0; j < 20; j++)
+                        for(int j = 0; j < 50; j++)
                         {
                             System.out.print(" ");
                         }
@@ -284,15 +382,21 @@ public class GamePlay {
                 int y =  game.cn.getTextWindow().getCursorY();
                 String choice = "";
                 while (true) {
-                    System.out.println("Enemy attacked you.\nDo you want to defence");
+                    System.out.println("Enemy attacked you.\nDo you want to defence Yes(Y) or No(N)?");
                     choice = scanner.nextLine();
-                    if(choice.equalsIgnoreCase("Y") && ((player.getMana() - 2) >= 0)) // mana yetmeli
+                    if((choice.equalsIgnoreCase("Y") || choice.equalsIgnoreCase("Yes"))) // mana yetmeli
                     {
-                        player.setMana(player.getMana()-2);
-                        damage = damage / 2;
-                        player.setHp(player.getHp()-damage);
-                        break;
-                    }else if(choice.equalsIgnoreCase("N"))
+                        if(((player.getMana() - 2) >= 0)) {
+                            player.setMana(player.getMana() - 2);
+                            damage = damage / 2;
+                            player.setHp(player.getHp() - damage);
+                            break;
+                        }else
+                        {
+                            System.out.println("Mana is not enough.\nYou need 2 mana, but you have only "+player.getMana()+".");
+                            Thread.sleep(1000);
+                        }
+                    }else if((choice.equalsIgnoreCase("N") || choice.equalsIgnoreCase("No")))
                     {
                         player.setHp(player.getHp()-damage);
                         break;
@@ -300,7 +404,7 @@ public class GamePlay {
                     game.cn.getTextWindow().setCursorPosition(x, y);
                     for(int i = 0; i < 20; i++)
                     {
-                        for(int j = 0; j < 20; j++)
+                        for(int j = 0; j < 50; j++)
                         {
                             System.out.print(" ");
                         }
@@ -329,14 +433,120 @@ public class GamePlay {
         }else // player win (gain money and xp)
         {
             System.out.println("You won");
-            levelUp(); // level sistemi
+            warLevelUp(); // level sistemi
             enemy.setDead(true); // düşam öldü
+            chest();
             player.setHp(playerFirstLife);
             System.out.println("To continue, press enter. ");
-            String line = scanner.nextLine();
+            scanner.nextLine();
         }
     }
-    public void levelUp()
+    public void chest()
+    {
+        int randomNum = rand.nextInt(100);
+        String type = "";
+        int damage = 0;
+        String armorType = "";
+        int defence = 0;
+        int minInterval = 0;
+        int amount = 0;
+        int maxInterval = 0;
+        int itemID = 0;
+        if(randomNum < 60)
+        {
+            type = "common";
+            minInterval = 100;
+            maxInterval = 200;
+            defence = 250;
+        }else if(randomNum <90)
+        {
+            type = "rare";
+            minInterval = 200;
+            maxInterval = 400;
+            defence = 500;
+            itemID +=1;
+        }else
+        {
+            type = "epic";
+            minInterval = 400;
+            maxInterval = 800;
+            defence = 1000;
+            itemID +=2;
+        }
+        armor = new Armor(0,""); // default armor
+        chest = new Chest(0,0,type,loots);
+        chest.randomChest(rand);
+        loots = chest.getItems();
+        System.out.println("You got " + chest.getType() + " chest.");
+        scanner.nextLine();
+        int itemsCount = loots.length - 1;
+        for(int i = 0;i<loots.length ; i++) {
+            if (loots[i].equals("money")) //item paraysa
+            {
+                amount = rand.nextInt(maxInterval - minInterval) + minInterval;
+                System.out.print(loots[i] +" "+ amount + " (" + itemsCount + ") items left.");
+                itemsCount--;
+                player.setMoney(player.getMoney()+amount);
+            } else if (loots[i].equals("xp")) {
+                amount = rand.nextInt(maxInterval - minInterval) + minInterval;
+                levelUP(amount);
+                System.out.print(loots[i] +" "+ amount + " (" + itemsCount + ") items left.");
+                itemsCount--;
+            } else if (loots[i].equals("chestPlate") || loots[i].equals("boots") || loots[i].equals("helmet")) {
+                if(loots[i].equals("chestPlate")) //ITEMID 3,4,5
+                {
+                    itemID +=3;
+                    defence = defence*2;
+                    armorType = loots[i];
+                    armor = new Armor(defence,armorType);
+                    item = new Item(loots[i],1,itemID,armor);
+                    player.getInventory().addItem(item);
+                    defence = defence/2;
+                    itemID -= 3;
+                }else if(loots[i].equals("boots")) //ITEMID 0,1,2
+                {
+                    armorType = loots[i];
+                    armor = new Armor(defence,armorType);
+                    item = new Item(loots[i],1,itemID,armor);
+                    player.getInventory().addItem(item);
+                } else if (loots[i].equals("helmet")) {//ITEMID 6,7,8
+                    itemID +=6;
+                    armorType = loots[i];
+                    armor = new Armor(defence,armorType);
+                    item = new Item(loots[i],1,itemID,armor);
+                    player.getInventory().addItem(item);
+                    itemID -= 6;
+                }
+                System.out.print(loots[i] + " (" + itemsCount + ") items left.");
+                itemsCount--;
+            } else{
+                System.out.print(loots[i]  + " (" + itemsCount + ") items left.");
+                itemsCount--;
+            }
+            scanner.nextLine();
+        }
+    }
+    public void levelUP(int XP) //level system
+    {
+        int currentLevel;
+        player.setXp(player.getXp()+XP);
+        boolean isCanLevelUp = true;
+        while (isCanLevelUp) {
+            currentLevel = player.getLevel();
+            isCanLevelUp = false;
+            for (int i = 0; i < 20; i++) {
+                if (currentLevel == i) {
+                    if (player.getXp() >= 5000 * (i + 1)) {
+                        player.setLevel(player.getLevel() + 1);
+                        player.setXp(player.getXp() - (5000 * (i + 1)));
+                        isCanLevelUp = true;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    public void warLevelUp() // war xp and money
     {
         int currentLevel = player.getLevel();
         for (int i = 0 ; i < 20;i++) // 20 level
@@ -344,16 +554,10 @@ public class GamePlay {
             if (currentLevel == i)
             {
                 player.setMoney(player.getMoney()+(200 * (i +1))); // leveli ile orantılı para kazanıyo
-                player.setXp(player.getXp()+(200 * (i +1))); // leveli ile orantılı xp kazanıyo
-                if(player.getXp() >= 5000 *(i+1))
-                {
-                    player.setLevel(player.getLevel()+1);
-                    player.setXp(player.getXp()-(5000 *(i+1)));
-                }
                 break;
             }
         }
-
+        levelUP(200);
     }
     public void printEnemy(Enemy enemy,Game game)
     {
@@ -362,7 +566,7 @@ public class GamePlay {
         System.out.print(enemy.getHealth()); //canı
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
-        System.out.print(enemy.getType().toUpperCase()+ "'s Attcak --> ");
+        System.out.print(enemy.getType().toUpperCase()+ "'s Attack --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.green));
         System.out.print(enemy.getAttack()); //attack
         game.cn.setTextAttributes(new TextAttributes(Color.white));
@@ -386,7 +590,7 @@ public class GamePlay {
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
         game.cn.getTextWindow().setCursorPosition(45, 2);
-        System.out.print(player.getName().toUpperCase()+ "'s Attcak --> ");
+        System.out.print(player.getName().toUpperCase()+ "'s Attack --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.green));
         System.out.print(player.getAttack()); //attack
         game.cn.setTextAttributes(new TextAttributes(Color.white));
@@ -395,12 +599,6 @@ public class GamePlay {
         System.out.print(player.getName().toUpperCase()+ "'s Defense --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.blue));
         System.out.print(player.getDefence()); //defans
-        game.cn.setTextAttributes(new TextAttributes(Color.white));
-        System.out.println(".");
-        game.cn.getTextWindow().setCursorPosition(45, 4);
-        System.out.print(player.getName().toUpperCase()+ "'s Mana --> ");
-        game.cn.setTextAttributes(new TextAttributes(Color.orange));
-        System.out.print(player.getMana()); //defans
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
     }
@@ -418,6 +616,11 @@ public class GamePlay {
                     if (game.keypr == 0) {
                         game.keypr = 1;
                         game.rkey = e.getKeyCode();
+                    }
+                    if(e.getKeyCode() == KeyEvent.VK_E)
+                    {
+                        inventoryOpened = true;
+                        infoIsCome = false;
                     }
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
                         if (dungeon.getDungeonMatrix()[x - 1][y] != '+' && dungeon.getDungeonMatrix()[x - 1][y] != '-') {
@@ -529,7 +732,7 @@ public class GamePlay {
                         if (dungeon.getDungeonMatrix()[x][y + 1] != '+' && dungeon.getDungeonMatrix()[x][y + 1] != '|') {
 
                             dungeon.getDungeonMatrix()[x][y] = ' ';
-                            if(dungeon.getDungeonMatrix()[x][y + 1] == 'E') // yukarısı E ise
+                            if(dungeon.getDungeonMatrix()[x][y + 1] == 'E') // sağında E ise
                             {
                                 enemyX = x;
                                 enemyY = y + 1;
@@ -643,9 +846,6 @@ public class GamePlay {
                 }
 
             }
-
-
-
             public void keyReleased(KeyEvent e) {}
         };
 

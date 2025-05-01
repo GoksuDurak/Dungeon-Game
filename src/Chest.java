@@ -4,12 +4,13 @@ public class Chest {
     private int x;
     private int y;
     private String type;
-    private String[] chest;
-    public Chest(int x, int y, String type)
+    private String[] items;
+    public Chest(int x, int y, String type,String[] items)
     {
         this.x = x;
         this.y = y;
         this.type = type;
+        this.items = items;
     }
 
     public int getX() {
@@ -37,23 +38,10 @@ public class Chest {
     }
     public void randomChest(Random random)
     {
-        String[] randomType = new String[3];
-        randomType[0] = "common";
-        randomType[1] = "rare";
-        randomType[2] = "super rare";
-        int randomNum = random.nextInt(100);
-        if(randomNum < 60)
-        {
-            randomNum = 0;
-        } else if (randomNum < 90) {
-            randomNum = 1;
-        }else {
-            randomNum = 2;
-        }
-        String type = randomType[randomNum];
+        int randomNum = 0;
         if(type.equals("common")) {
-            chest = new String[5];
-            for (int i = 0; i < chest.length; i++)
+            items = new String[5];
+            for (int i = 0; i < items.length; i++)
             {
                 //100 - 200 para 0
                 //sıradan zırh 1
@@ -61,7 +49,7 @@ public class Chest {
                 randomNum = random.nextInt(3);
                 if(randomNum == 0)
                 {
-                    chest[i] = "m "+(random.nextInt(100) + 100);
+                    items[i] = "money";
                 }else if(randomNum == 1)
                 {
                     // 0 kask
@@ -71,15 +59,15 @@ public class Chest {
                     randomNum = random.nextInt(4);
                     if(randomNum == 0)
                     {
-                        chest[i] = "helmet"; // helmet
+                        items[i] = "helmet"; // helmet defence 250
                     }
                     else if (randomNum == 1)
                     {
-                        chest[i] = "chestPlate"; // chestPlate 1000 defence gibi
+                        items[i] = "chestPlate"; // chestPlate defence 500
                     }
                     else if(randomNum == 2)
                     {
-                        chest[i] = "boots"; // boots
+                        items[i] = "boots"; // boots defence 250
                     }else
                     {
                         //silahlar
@@ -91,52 +79,174 @@ public class Chest {
                         randomNum = random.nextInt(5);
                         if(randomNum == 0)
                         {
-                            chest[i] = "sword";
+                            items[i] = "sword";
                         }
                         else if (randomNum == 1)
                         {
-                            chest[i] = "bow";
+                            items[i] = "bow";
                         }
                         else if (randomNum == 2)
                         {
-                            chest[i] = "spear";
+                            items[i] = "spear";
                         }
                         else if (randomNum == 3)
                         {
-                            chest[i] = "axe";
+                            items[i] = "axe";
                         }else
                         {
-                            chest[i] = "staff";
+                            items[i] = "staff";
                         }
 
                     }
 
                 }else
                 {
-
+                    items[i] = "xp";
                 }
 
             }
         } else if (type.equals("rare")) {
-            chest = new String[10];
-            for (int i = 0; i < chest.length; i++)
+            items = new String[10];
+            for (int i = 0; i < items.length; i++)
             {
                 //200 - 400 para
                 //ender zırh
                 //xp
+                randomNum = random.nextInt(3);
+                if(randomNum == 0)
+                {
+                    items[i] = "money";
+                }else if(randomNum == 1)
+                {
+                    // 0 kask
+                    // 1 pantolon
+                    // 2 zırh
+                    // 3 kılıç
+                    randomNum = random.nextInt(4);
+                    if(randomNum == 0)
+                    {
+                        items[i] = "helmet"; // helmet defence 500
+                    }
+                    else if (randomNum == 1)
+                    {
+                        items[i] = "chestPlate"; // chestPlate defence 750
+                    }
+                    else if(randomNum == 2)
+                    {
+                        items[i] = "boots"; // boots defence 500
+                    }else
+                    {
+                        //silahlar
+                        // 1 kılıç sword
+                        // 2 yay bow
+                        // 3 mızrak spear
+                        // 4 balta axe
+                        // 5 asa staff
+                        randomNum = random.nextInt(5);
+                        if(randomNum == 0)
+                        {
+                            items[i] = "sword";
+                        }
+                        else if (randomNum == 1)
+                        {
+                            items[i] = "bow";
+                        }
+                        else if (randomNum == 2)
+                        {
+                            items[i] = "spear";
+                        }
+                        else if (randomNum == 3)
+                        {
+                            items[i] = "axe";
+                        }else
+                        {
+                            items[i] = "staff";
+                        }
+
+                    }
+
+                }else
+                {
+                    items[i] = "xp";
+                }
 
 
             }
-        } else if (type.equals("super rare")) {
-            chest = new String[15];
-            for (int i = 0; i < chest.length; i++)
+        } else if (type.equals("epic")) {
+            items = new String[15];
+            for (int i = 0; i < items.length; i++)
             {
                 //400 - 800 para
                 //destansı zırh
                 //xp
+                randomNum = random.nextInt(3);
+                if(randomNum == 0)
+                {
+                    items[i] = "money";
+                }else if(randomNum == 1)
+                {
+                    // 0 kask
+                    // 1 pantolon
+                    // 2 zırh
+                    // 3 kılıç
+                    randomNum = random.nextInt(4);
+                    if(randomNum == 0)
+                    {
+                        items[i] = "helmet"; // helmet defence 250
+                    }
+                    else if (randomNum == 1)
+                    {
+                        items[i] = "chestPlate"; // chestPlate defence 500
+                    }
+                    else if(randomNum == 2)
+                    {
+                        items[i] = "boots"; // boots defence 250
+                    }else
+                    {
+                        //silahlar
+                        // 1 kılıç sword
+                        // 2 yay bow
+                        // 3 mızrak spear
+                        // 4 balta axe
+                        // 5 asa staff
+                        randomNum = random.nextInt(5);
+                        if(randomNum == 0)
+                        {
+                            items[i] = "sword";
+                        }
+                        else if (randomNum == 1)
+                        {
+                            items[i] = "bow";
+                        }
+                        else if (randomNum == 2)
+                        {
+                            items[i] = "spear";
+                        }
+                        else if (randomNum == 3)
+                        {
+                            items[i] = "axe";
+                        }else
+                        {
+                            items[i] = "staff";
+                        }
 
+                    }
+
+                }else
+                {
+                    items[i] = "xp";
+                }
 
             }
+            setItems(items);
         }
+    }
+
+    public String[] getItems() {
+        return items;
+    }
+
+    public void setItems(String[] items) {
+        this.items = items;
     }
 }

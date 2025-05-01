@@ -9,3 +9,9 @@ class GameTest {
         gamePlay.Start();
     }
 }
+//TODO List
+/*
+* iksir sistemi
+* sandığa iksir ekler
+* stamina can xp etc...
+* */
