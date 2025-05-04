@@ -56,6 +56,29 @@ public class Inventory {
         }
 
     }
+    public void useItems(Item item, int quantity)
+    {
+        for (int i = 0; i < items.length; i++)
+        {
+            if(items[i] == item)
+            {
+                if(items[i].getQuantity() >= quantity) {
+                    items[i].setQuantity(items[i].getQuantity() - quantity); // bu kadar kullandık
+                    if(items[i].getQuantity() == 0)
+                    {
+                        items[i] = null;
+                        for (int j = i + 1; j < items.length; j++)
+                        {
+                            items[j - 1] = items[j];
+                        }
+                    }
+                }else
+                {
+                    System.out.println("You have not enough item");
+                }
+            }
+        }
+    }
     public void deleteItem(String name,Scanner scanner)
     {
         int quantity = 0;
@@ -100,17 +123,17 @@ public class Inventory {
         }
 
     }
-    public Object searchItem(String name)
+    public Item searchItem(String name,int id)
     {
         int quantity = 0;
         boolean found = false;
         for(int i = 0; i < items.length; i++)
         {
             if(items[i] != null) {
-                if (name.equals(items[i].getItemName())) {
+                if (items[i].getItemID() == id) {
                     quantity = items[i].getQuantity(); // arayacağımız itemin id aldık
                     System.out.println("You have " + quantity + " "+ name);
-                    return items[i].getData();
+                    return items[i];
                 }
             }
         }

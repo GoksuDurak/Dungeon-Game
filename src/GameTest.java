@@ -11,7 +11,5 @@ class GameTest {
 }
 //TODO List
 /*
-* iksir sistemi
-* sandığa iksir ekler
-* stamina can xp etc...
+*envanter zırh giyme
 * */

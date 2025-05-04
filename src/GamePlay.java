@@ -13,17 +13,32 @@ public class GamePlay {
     //Dunegon Npc Player burada yaratılır.
     private final Random rand = new Random();
     private Vertex startVertex;
+    private int defenceElixir = 0;
+    private int attackElixir = 0;
     private String[] loots;
     private Chest chest;
     private int enemyX = 0;
     private int playerFirstLife =0;
     private int enemyFirstLife =0;
     private int enemyY = 0;
+    private Item currentHelmet = null;
+    private Item currentChestPLate = null;
+    private Item currentBoots = null;
+    private Item currentWeapon= null;
+    private int weaponAttack = 0;
+    private int helmetDefence = 0; // kaskın eski defansı tutmak ve çıkarınca ekleneni çıkarmak için
+    private int chestplateDefence = 0;
+    private int bootsDefence = 0;
     private Vertex finalVertex;
     private Vertex vertex;
     private Vertex vertexF;
+    private boolean isWarBegin = false;
     private boolean inventoryOpened = false;
     private boolean takesInput = true;
+    private boolean helmetUsed = false;
+    private boolean chestPlateUsed = false;
+    private boolean bootsUsed = false;
+    private boolean weaponUsed = false;
     private final Scanner scanner = new Scanner(System.in);
     private boolean quit = false;
     private Stack dungeonStack = new Stack(5); // zindanları burda tutacağız
@@ -31,6 +46,9 @@ public class GamePlay {
     private Vertex enemyCoordinateVertex;
     //private char[][] dungeon;
     private Dungeon dungeon;
+    private int PlayerHP =0; // playerı can
+    private int PlayerDefence =0; // playerı can
+    private int PlayerAttack =0; // playerı can
     private Enemy[] enemies;
     private Enemy enemy;
     private Inventory inventory;
@@ -40,6 +58,7 @@ public class GamePlay {
     private Item item;
     private Armor armor;
     private Weapon weapon;
+    private Potion potion;
     private boolean infoIsCome = true;
     private int x = 1, y = 1;  // Başlangıç konumu
     private  boolean flag = false;
@@ -55,14 +74,22 @@ public class GamePlay {
     public void Start() throws Exception//Oyun buarada başlıyacak
     {
         Game game = new Game();
+
         //Oyun başladı önce oyuncu oluşur
         System.out.println("Welcome to the Dungeon");
         System.out.print("Please enter your name : ");
         String name = scanner.nextLine();
         game.Clear();
-        player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
+        player = new Player(name,0,0,2250,200,200,0,22500,150,3,200);
+        PlayerHP = player.getHp();
+        PlayerDefence = player.getDefence();
+        PlayerAttack = player.getAttack();
+        /*
+        Armor armor1 = new Armor(250,"helmet");
+        currentHelmet = new Item("helmet",1,6,armor1);
+        player.getInventory().addItem(currentHelmet);
 
-
+         */
          /*
         item = new Item("elixir",5,54);
         player.getInventory().addItem(item);
@@ -145,11 +172,29 @@ public class GamePlay {
                         infoIsCome = true;
                     }else if(choice.equals("y"))
                     {
+                        isWarBegin = true;
+                        System.out.print("Do you want to use inventory? (y/n) : "); // envanteri kullanmak istiyor mu?
+                        choice = scanner.nextLine();
+                        choice = choice.toLowerCase();
+                        if(choice.equals("y"))
+                        {
+                            inventoryOpened = true; // envanter açıldı
+                            inventory(game);
+                        } else if (choice.equals("n")) {
+
+                        }
                         enemyFirstLife = enemy.getHealth();
                         playerFirstLife = player.getHp();
                         game.Clear();
                         System.out.println("War begin !!! ");
+
                         war(enemy,game);
+                        player.setHp(PlayerHP);
+                        player.setDefence(player.getDefence()-defenceElixir);
+                        defenceElixir = 0;
+                        player.setAttack(player.getAttack()-attackElixir);
+                        attackElixir = 0;
+
                         takesInput = true;
                         infoIsCome = true;
                     }
@@ -173,7 +218,6 @@ public class GamePlay {
                 dungeon.printDungeon(game);
                 while (!takesInput)
                 {
-
                     game.Clear();
                     System.out.print("You encountered ");
                     game.cn.setTextAttributes(new TextAttributes(Color.cyan));
@@ -191,50 +235,729 @@ public class GamePlay {
                         infoIsCome = true;
                     }else if(choice.equals("y"))
                     {
+                        isWarBegin = true;
+                        System.out.print("Do you want to use inventory? (y/n) : "); // envanteri kullanmak istiyor mu?
+                        choice = scanner.nextLine();
+                        choice = choice.toLowerCase();
+                        if(choice.equals("y"))
+                        {
+                            inventoryOpened = true; // envanter açıldı
+                            inventory(game);
+                        } else if (choice.equals("n")) {
+
+                        }
                         enemyFirstLife = enemy.getHealth();
                         playerFirstLife = player.getHp();
                         game.Clear();
                         System.out.println("War begin !!! ");
                         war(enemy,game);
+                        player.setHp(PlayerHP);
+                        player.setDefence(player.getDefence()-defenceElixir);
+                        defenceElixir = 0;
+                        player.setAttack(player.getAttack()-attackElixir);
+                        attackElixir = 0;
                         takesInput = true;
-                        infoIsCome = true;
+                        infoIsCome = true; // savaş bitti
                     }
                 }
             }
-            while (inventoryOpened) // buardayım
-            {
-                game.Clear();
-                System.out.println("inventory opened");
-                if(player.getInventory().size() == 0){
-                    System.out.println("You have no item in your inventory");
-                    scanner.nextLine();
-                }else {
-                    for (int i = 0; i < player.getInventory().size(); i++) {
-                        Object data = player.getInventory().getItems()[i].getData();
-                        int value = 0;
-                        String type = "";
-                        if(data instanceof Armor)
-                        {
-                            value = ((Armor) data).getDefense();
-                            type = "defence";
-                        }else if(data instanceof Weapon)
-                        {
-                            value = ((Weapon) data).getDamage();
-                            type = "damage";
-                        }
-                        System.out.print(player.getInventory().getItems()[i].getItemName() +" " +type+" "+value + " " +player.getInventory().getItems()[i].getQuantity());
-                        scanner.nextLine();
-                    }
-                }
-                scanner.nextLine();
-                infoIsCome = true;
-                inventoryOpened = false;
-            }
+            inventory(game);
             Thread.sleep(10);
         }
 
 
         //player moves then we write '●' instead of 'P'
+    }
+    public void clearPart(int x, int y,Game game,int rowSizeToDelete,int columnSizeToDelete)
+    {
+        game.cn.getTextWindow().setCursorPosition(x, y);
+        for (int i = 0; i < rowSizeToDelete; i++)
+        {
+            for (int j = 0; j < columnSizeToDelete; j++)
+            {
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+        game.cn.getTextWindow().setCursorPosition(x, y);
+    }
+    public void inventory(Game game)
+    {
+        while (inventoryOpened) // buardayım
+        {
+            game.Clear();
+            System.out.println("inventory opened");
+
+            game.cn.getTextWindow().setCursorPosition(0, 1);
+            if (player.getInventory().size() == 0) {
+                game.cn.setTextAttributes(new TextAttributes(Color.yellow));
+                System.out.println("You have no item in your inventory.");
+                game.cn.setTextAttributes(new TextAttributes(Color.white));
+            } else {
+                for (int i = 0; i < player.getInventory().size(); i++) {
+                    Object data  = null;
+                    if(player.getInventory().getItems()[i] != null) {
+                      data = player.getInventory().getItems()[i].getData();
+                        int value = 0;
+                        String type = "";
+                        if (data instanceof Armor) {
+                            value = ((Armor) data).getDefense();
+                            type = "defence";
+                        } else if (data instanceof Weapon) {
+                            value = ((Weapon) data).getDamage();
+                            type = "damage";
+                        } else if (data instanceof Potion) {
+                            value = ((Potion) data).getEffect();
+                            type = ((Potion) data).getName();
+                        }
+                      System.out.print(player.getInventory().getItems()[i].getItemName() + " " + type + " " + value + " Quantity " + player.getInventory().getItems()[i].getQuantity());
+                    scanner.nextLine();
+                    }
+                }
+            }
+            int x =  game.cn.getTextWindow().getCursorX();
+            int y =  game.cn.getTextWindow().getCursorY();
+            printArmor(game,x,y);
+            //---------------Armor wear--------------------
+            while (true) {
+                System.out.println("Do you want to wear armor ? yes(y) || no(n)  ");
+                String choice = scanner.nextLine();
+                if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("yes")) {
+                    game.cn.getTextWindow().setCursorPosition(x, y + 3);
+                    System.out.println("You can use when you search the initial letters of the words of armor.");
+                    System.out.print("Which armor piece do you want to wear? (Write with effect): "); // hangi item giyecek
+                    choice = scanner.nextLine();
+                    //burda giyecek
+                    String[] datas = choice.split(" ");
+                    String armorType = "";
+                    int id =0;
+                    int defence = 250;
+                    if(datas[0].equalsIgnoreCase("chestPlate") || datas[0].equalsIgnoreCase("ch") )
+                    { // can iksiriyse
+                        armorType = "chestPlate"; //3,4,5
+                        defence = defence * 2; // ikiye böldük
+                        id += 3;
+                    } else if (datas[0].equalsIgnoreCase("helmet") || datas[0].equalsIgnoreCase("he") ) {
+                        armorType = "helmet"; //6,7,8
+                        id += 6;
+                    } else if (datas[0].equalsIgnoreCase("boots") || datas[0].equalsIgnoreCase("bo") ) {
+                        armorType = "boots"; //0,1,2
+                    }
+                    if(Integer.parseInt(datas[1]) == defence)
+                    {
+                        id += 0;
+                    }else if(Integer.parseInt(datas[1]) == (defence * 2))
+                    {
+                        id += 1;
+                    }else if(Integer.parseInt(datas[1]) == (defence * 4))
+                    {
+                        id += 2;
+                    }
+                    if(armorType.equalsIgnoreCase("chestPlate"))
+                    {
+                        defence = defence / 2;
+                    }
+                    boolean isItemExist = false;
+                    for(int j = 0; j < player.getInventory().size(); j++)
+                    {
+                        if (player.getInventory().getItems()[j] != null) {
+                            Object data = player.getInventory().getItems()[j].getData();
+                            if (data instanceof Armor) {
+                                if(armorType.equalsIgnoreCase(player.getInventory().getItems()[j].getItemName()) && Integer.parseInt(datas[1]) == ((Armor) data).getDefense())
+                                { // isim ve etki eşitse
+                                    isItemExist = true; //item var
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (isItemExist) { // item var ve null değil
+                        Item item = player.getInventory().searchItem(armorType,id);
+                        Object data;
+                        data = item.getData();
+                        if(data instanceof Armor)
+                        {
+                            if(armorType.equalsIgnoreCase("helmet"))
+                            {
+                                if(currentHelmet == null)
+                                {
+                                    helmetUsed = true; // kask giyildi
+                                    helmetDefence = (((Armor) data).getDefense()); // kaskın defansı
+                                    PlayerDefence = player.getDefence(); // defansı arttırdık
+                                    player.setDefence(PlayerDefence + helmetDefence);
+                                    currentHelmet = item;
+                                    player.getInventory().useItems(currentHelmet,1);
+                                }else
+                                {
+                                    while (true) {
+                                        System.out.print("Do you want to exchange your helmet : "); // hangi item giyecek
+                                        choice = scanner.nextLine();
+                                        if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
+                                            // eskisinin sayısı azalt
+                                            helmetUsed = true; // kask giyildi
+                                            currentHelmet.setQuantity(currentHelmet.getQuantity() + 1);
+                                            player.getInventory().addItem(currentHelmet);
+                                            player.setDefence(player.getDefence() - helmetDefence);
+                                            helmetDefence = 0;
+                                            currentHelmet = item; // yeni kask
+                                            data = item.getData();
+                                            helmetDefence = ((Armor) data).getDefense();
+                                            PlayerDefence = player.getDefence(); // defansı arttırdık
+                                            player.setDefence(PlayerDefence + helmetDefence);
+                                            player.getInventory().useItems(currentHelmet,1);
+                                            printArmor(game,x,y);
+                                        } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
+                                            break;
+                                        }
+                                        clearPart(x,y,game,10,70);
+                                    }
+                                }
+                            }else if (armorType.equalsIgnoreCase("chestPlate"))
+                            {
+                                if(currentChestPLate == null)
+                                {
+                                    chestPlateUsed = true;
+                                    chestplateDefence= (((Armor) data).getDefense()); // kaskın defansı
+                                    PlayerDefence = player.getDefence();
+                                    player.setDefence(PlayerDefence + chestplateDefence);
+                                    currentChestPLate = item;
+                                    player.getInventory().useItems(currentChestPLate,1);
+                                }else
+                                {
+                                    while (true) {
+                                        System.out.print("Do you want to exchange your chestPlate : "); // hangi item giyecek
+                                        choice = scanner.nextLine();
+                                        if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
+                                            // eskisinin sayısı azlat
+                                            chestPlateUsed = true;
+                                            currentChestPLate.setQuantity(currentChestPLate.getQuantity() + 1); // kullanırken 1 azalttık çıkaarıken 1 artırcaz eklemeden
+                                            player.getInventory().addItem(currentChestPLate);
+                                            player.setDefence(player.getDefence() - chestplateDefence);
+                                            chestplateDefence = 0;
+                                            currentChestPLate = item; // yeni chestPLate
+                                            data = item.getData();
+                                            chestplateDefence = ((Armor) data).getDefense();
+                                            PlayerDefence = player.getDefence();
+                                            player.setDefence(PlayerDefence + chestplateDefence);
+                                            player.getInventory().useItems(currentChestPLate,1);
+                                            printArmor(game,x,y);
+                                        } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
+                                            break;
+                                        }
+                                        clearPart(x,y,game,10,70);
+                                    }
+                                }
+
+                            }else if (armorType.equalsIgnoreCase("boots"))
+                            {
+                                if(currentBoots == null) // ilk item
+                                {
+                                    bootsUsed = true;
+                                    bootsDefence= (((Armor) data).getDefense()); // kaskın defansı
+                                    PlayerDefence = player.getDefence();
+                                    player.setDefence(PlayerDefence + bootsDefence);
+                                    currentBoots = item;
+                                    player.getInventory().useItems(currentBoots,1);
+                                }else
+                                {
+                                    while (true) { // item varsa
+                                        System.out.print("Do you want to exchange your boots : "); // hangi item giyecek
+                                        choice = scanner.nextLine();
+                                        if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
+                                            // eskisinin sayısı geri ekle(eskisi al ve ekle)
+                                            bootsUsed = true;
+                                            currentBoots.setQuantity(currentBoots.getQuantity() + 1);
+                                            player.getInventory().addItem(currentBoots); // mevcut olanı envantere al
+                                            player.setDefence(player.getDefence() - bootsDefence);
+                                            bootsDefence = 0;
+                                            currentBoots = item; // itemi al
+                                            data = item.getData(); // data güncelle
+                                            bootsDefence = ((Armor) data).getDefense();  // itemin defansı al
+                                            PlayerDefence = player.getDefence(); // oyuncu mevcut defans
+                                            player.setDefence(PlayerDefence + bootsDefence);
+                                            player.getInventory().useItems(currentBoots,1);
+                                            printArmor(game,x,y);
+                                        } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
+                                            break;
+                                        }
+                                        clearPart(x,y,game,10,70);
+                                    }
+                                }
+                            }
+                            printArmor(game,x,y);
+                        }
+
+                    } else {
+                        System.out.print("Item not found.");
+                        scanner.nextLine();
+                    }
+                }else if(choice.equalsIgnoreCase("n") || choice.equalsIgnoreCase("no"))
+                {
+                    break;
+                }
+                clearPart(x, y, game, 10, 70);
+                printArmor(game,x,y);
+            }
+            printArmor(game,x,y);
+            //---------------Armor take off--------------------
+            while (true)
+            {
+                clearPart(x, y, game, 2, 43);
+                System.out.println("Do you want to take of your armor pieces.\nyes(y) || no(n)");
+                String choice = scanner.nextLine();
+                if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y"))
+                {
+                    while (true) {
+                        System.out.println();
+                        System.out.println();
+                        System.out.println("You can use when you search the initial letters of the words of armor.");
+                        System.out.print("Which armor piece do you want to take off? (Write only name): "); // hangi item giyecek
+                        choice = scanner.nextLine();
+                        if(choice.equalsIgnoreCase("he"))
+                        {
+                            choice = "helmet";
+                        } else if (choice.equalsIgnoreCase("ch")) {
+                            choice = "chestplate";
+                        } else if (choice.equalsIgnoreCase("bo")) {
+                            choice = "boots";
+                        }
+                        if(currentHelmet != null) {
+                            if (choice.equalsIgnoreCase(currentHelmet.getItemName())) {
+                                currentHelmet.setQuantity(currentHelmet.getQuantity() + 1);
+                                player.getInventory().addItem(currentHelmet); // kask ekle envantere
+                                player.setDefence(player.getDefence() - helmetDefence);
+                                helmetDefence = 0;
+                                currentHelmet = null;
+                                break;
+                            }
+                        } else if (currentChestPLate != null) {
+                            if (choice.equalsIgnoreCase(currentChestPLate.getItemName())) {
+                                currentChestPLate.setQuantity(currentChestPLate.getQuantity() + 1);
+                                player.getInventory().addItem(currentChestPLate);
+                                player.setDefence(player.getDefence() - chestplateDefence);
+                                chestplateDefence = 0;
+                                currentChestPLate = null;
+                                break;
+                            }
+                        } else if (currentBoots != null)
+                        {
+                            if (choice.equalsIgnoreCase(currentBoots.getItemName())) {
+                                currentBoots.setQuantity(currentBoots.getQuantity() + 1);
+                                player.getInventory().addItem(currentBoots);
+                                player.setDefence(player.getDefence() - bootsDefence);
+                                bootsDefence = 0;
+                                currentBoots = null;
+                                break;
+                            }
+                        } else {
+                            System.out.println("item not found.");
+                            break;
+                        }
+                        clearPart(x, y, game, 10, 70);
+                        printArmor(game,x,y);
+                    }
+                } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
+                    break;
+                }
+                clearPart(x, y, game, 10, 70);
+                printArmor(game,x,y);
+            }
+            printArmor(game,x,y);
+            //---------------Sword equip--------------------
+            while (true)
+            {
+                clearPart(x, y, game, 2, 43);
+                System.out.println("Do you want to equip the weapon? :\nyes(y) || no(n)");
+                String choice = scanner.nextLine();
+                if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y"))
+                {
+                    System.out.println("You can use when you search the initial letters of the words of weapon.");
+                    System.out.print("Which weapon do you want to equip? (Write with effect): "); // hangi item giyecek
+                    choice = scanner.nextLine();
+                    //burda giyecek
+                    String[] datas = choice.split(" ");
+                    String weaponType = "";
+                    int id =0;
+                    int attack = 200;
+                    if(datas[0].equalsIgnoreCase("sword") || datas[0].equalsIgnoreCase("sw") )
+                    { // can iksiriyse
+                        weaponType = "sword"; //9,10,11
+                        id += 9;
+                    } else if (datas[0].equalsIgnoreCase("bow")) {
+                        weaponType = "bow"; //12,13,14
+                        id += 12;
+                        attack += 50;
+                    } else if (datas[0].equalsIgnoreCase("staff") || datas[0].equalsIgnoreCase("st") ) {
+                        weaponType = "staff"; //15,16,17
+                        id += 15;
+                        attack += 25;
+                    }else if (datas[0].equalsIgnoreCase("axe")) {
+                        weaponType = "axe"; //18,19,20
+                        id += 18;
+                        attack += 75;
+                    }else if (datas[0].equalsIgnoreCase("spear") || datas[0].equalsIgnoreCase("sp") ) {
+                        weaponType = "spear"; //21,22,23
+                        id += 21;
+                        attack -= 25;
+                    }
+                    if(Integer.parseInt(datas[1]) == attack)
+                    {
+                        id += 0;
+                    }else if(Integer.parseInt(datas[1]) == (attack * 2))
+                    {
+                        id += 1;
+                    }else if(Integer.parseInt(datas[1]) == (attack * 4))
+                    {
+                        id += 2;
+                    }
+
+                    boolean isItemExist = false;
+                    for(int j = 0; j < player.getInventory().size(); j++)
+                    {
+                        if (player.getInventory().getItems()[j] != null) {
+                            Object data = player.getInventory().getItems()[j].getData();
+                            if (data instanceof Weapon) {
+                                if(weaponType.equalsIgnoreCase(player.getInventory().getItems()[j].getItemName()) && Integer.parseInt(datas[1]) == ((Weapon) data).getDamage())
+                                { // isim ve etki eşitse
+                                    isItemExist = true; //item var
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if(isItemExist)
+                    {
+                        Item item = player.getInventory().searchItem(weaponType,id); // bu weapon
+                        Object data;
+                        data = item.getData();
+                        if(data instanceof Weapon)
+                        {
+                            if(currentWeapon == null)
+                            {
+                                // silah yoksa
+                                weaponUsed = true;
+                                weaponAttack = ((Weapon) data).getDamage(); // silahın hasarı
+                                PlayerAttack = player.getAttack();
+                                player.setAttack(weaponAttack + PlayerAttack);
+                                currentWeapon = item; // mevcut silah
+                                player.getInventory().useItems(currentWeapon,1);
+                            }else
+                            {
+                                //silah varsa
+                                while (true)
+                                {
+                                    System.out.print("Do you want to exchange your weapon : "); // hangi item giyecek
+                                    choice = scanner.nextLine();
+                                    if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y"))
+                                    {
+                                        weaponUsed = true;
+                                        currentWeapon.setQuantity(currentWeapon.getQuantity() + 1); // silahı envanter ekle
+                                        player.getInventory().addItem(currentWeapon);
+                                        player.setAttack(player.getAttack() - weaponAttack);
+                                        weaponAttack = 0;
+                                        currentWeapon = item;
+                                        data = item.getData();
+                                        if(data instanceof  Weapon)
+                                        {
+                                            weaponAttack = ((Weapon) data).getDamage();
+                                            PlayerAttack = player.getAttack(); // mevcut attack
+                                            player.setAttack(weaponAttack + PlayerAttack);
+                                            player.getInventory().useItems(currentWeapon,1);
+                                        }
+                                        printArmor(game, x, y);
+                                    } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
+                                        break;
+                                    }
+                                    clearPart(x, y, game, 10, 70);
+                                }
+                            }
+                            printArmor(game,x,y);
+                        }
+                    } else {
+                        System.out.println("item not found.");
+                        break;
+                    }
+                    clearPart(x, y, game, 10, 70);
+                    printArmor(game,x,y);
+                } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
+                    // kılıç giymeyecekse
+                    break;
+                }
+            }
+            //---------------Sword unEquip--------------------
+            while (true)
+            {
+                clearPart(x, y, game, 2, 43);
+                System.out.println("Do you want to take off your weapon.\nyes(y) || no(n)");
+                String choice = scanner.nextLine();
+                if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y"))
+                {
+                    while (true) {
+                        System.out.println();
+                        System.out.println();
+                        System.out.println("You can use when you search the initial letters of the words of weapon.");
+                        System.out.print("Which weapon do you want to take off? (Write only name): "); // hangi item giyecek
+                        choice = scanner.nextLine();
+                        if(choice.equalsIgnoreCase("sw"))
+                        {
+                            choice = "sword";
+                        } else if (choice.equalsIgnoreCase("sp")) {
+                            choice = "spear";
+                        } else if (choice.equalsIgnoreCase("st")) {
+                            choice = "staff";
+                        }
+                        if(currentWeapon != null) {
+                            if (choice.equalsIgnoreCase(currentWeapon.getItemName())) {
+                                currentWeapon.setQuantity(currentWeapon.getQuantity() + 1); // envanter al
+                                player.getInventory().addItem(currentWeapon); //silah ekle envantere
+                                player.setAttack(player.getAttack() - weaponAttack);
+                                weaponAttack = 0;
+                                currentWeapon = null;
+                                break;
+                            }
+                        }
+                        else {
+                            System.out.println("item not found.");
+                            break;
+                        }
+                        clearPart(x, y, game, 10, 70);
+                        printArmor(game,x,y);
+                    }
+                } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
+                    break;
+                }
+                clearPart(x, y, game, 10, 70);
+                printArmor(game,x,y);
+            }
+            printArmor(game,x,y);
+            //-----------------WAR BEGİN----------------
+            if(isWarBegin) {
+                 x =  game.cn.getTextWindow().getCursorX();
+                 y =  game.cn.getTextWindow().getCursorY();
+                boolean potionIsUsed = false;
+                if (player.getInventory().size() != 0) {
+                    while (true) {
+                        System.out.print("Do you want to use item? (y/n) : ");
+                        String choice = scanner.nextLine();
+                        choice = choice.toLowerCase();
+                        if (choice.equals("y")) {
+                            //booleanElixir true
+                            //search item and decreaded 1 quantity
+                            System.out.println("You can use when you search the initial letters of the words of elixir");
+                            System.out.print("Which item do you want to use? (Write with effect): ");
+                            choice = scanner.nextLine();
+                            String[] datas = choice.split(" ");
+                            String elixirType = "";
+                            int id = 0;
+                            if(datas[0].equalsIgnoreCase("healthPotion") || datas[0].equalsIgnoreCase("hp") )
+                            { // can iksiriyse
+                                elixirType = "healthPotion";
+                            } else if (datas[0].equalsIgnoreCase("defencePotion") || datas[0].equalsIgnoreCase("dp") ) {
+                                elixirType = "defencePotion";
+                                id += 3;
+                            } else if (datas[0].equalsIgnoreCase("attackPotion") || datas[0].equalsIgnoreCase("ap") ) {
+                                elixirType = "attackPotion";
+                                id += 6;
+                            }
+                            System.out.print("How many potion do you want to use ? ");
+                            int amount = scanner.nextInt(); //bizim istediğimiz miktar
+
+                            if(Integer.parseInt(datas[1]) < 200)
+                            {
+                                id += 24;
+                            }else if(Integer.parseInt(datas[1]) < 400 && Integer.parseInt(datas[1]) >= 200)
+                            {
+                                id += 25;
+                            }else if(Integer.parseInt(datas[1]) < 800 && Integer.parseInt(datas[1]) >= 400)
+                            {
+                                id += 26;
+                            }
+                            boolean isItemExist = false;
+                            for(int j = 0; j < player.getInventory().size(); j++)
+                            {
+                                if (player.getInventory().getItems()[j] != null) {
+                                    Object data = player.getInventory().getItems()[j].getData();
+                                    if (data instanceof Potion) {
+                                        if(elixirType.equalsIgnoreCase(player.getInventory().getItems()[j].getItemName()) && Integer.parseInt(datas[1]) == ((Potion) data).getEffect())
+                                        { // isim ve etki eşitse
+                                            isItemExist = true; //item var
+                                        }
+                                    }
+                                }
+                            }
+                            if (isItemExist) { // ite var ve null değil
+                                Item item = player.getInventory().searchItem(elixirType,id);
+                                // burda aranılan item bulunacak
+                                Object data;
+                                data = item.getData();
+                                if(data instanceof Potion) {
+                                    int quantity = item.getQuantity();
+                                    if (quantity < amount) {
+                                        clearPart(x,y,game,30,70);
+                                        x =  game.cn.getTextWindow().getCursorX();
+                                        y =  game.cn.getTextWindow().getCursorY();
+                                        while (true) {
+                                            System.out.print("You don't have enough potion.\nYou have " + quantity + " potions.");
+                                            System.out.print("Do you want to use this item ?\nyes(y) or no(n)");
+                                            choice = scanner.nextLine();
+                                            if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("yes")) {
+                                                clearPart(x,y,game,30,70);
+                                                x =  game.cn.getTextWindow().getCursorX();
+                                                y =  game.cn.getTextWindow().getCursorY();
+                                                while (true) {
+                                                    System.out.print("How many potion do you want to use ? ");
+                                                    amount = scanner.nextInt();
+                                                    if (quantity < amount) { // yetersiz iksir
+                                                        System.out.println("You don't have enough potion!!! ");
+                                                        System.out.print("Do you want to use this item ? yes(y) or no(n)");
+                                                        choice = game.cn.readLine();
+                                                        if (choice.equalsIgnoreCase("n") || choice.equalsIgnoreCase("no"))
+                                                        {
+                                                            break;
+                                                        }
+                                                    }else
+                                                    {
+                                                        player.getInventory().useItems(item,amount);
+                                                        //yeterli iksir var ve kullanıcak
+                                                        data = item.getData();
+                                                        if(data instanceof Potion)
+                                                        {
+                                                            if(elixirType.equalsIgnoreCase("healthPotion") || elixirType.equalsIgnoreCase("hp"))
+                                                            {
+                                                                PlayerHP = player.getHp();
+                                                                player.setHp(player.getHp()+ (((Potion) data).getEffect() * amount));
+                                                            }else if (elixirType.equalsIgnoreCase("defencePotion")) {
+                                                                defenceElixir = (((Potion) data).getEffect() * amount); // ekledik
+                                                                PlayerDefence = player.getDefence();
+                                                                player.setDefence(player.getDefence() + defenceElixir);
+                                                            } else if (elixirType.equalsIgnoreCase("attackPotion")) {
+                                                                attackElixir = (((Potion) data).getEffect() * amount);
+                                                                PlayerAttack = player.getAttack();
+                                                                player.setAttack(player.getAttack() +attackElixir);
+                                                            }
+                                                        }
+                                                        potionIsUsed = true;
+                                                        break;
+                                                    }
+                                                    clearPart(x,y,game,30,70);
+                                                }
+                                                if(potionIsUsed)
+                                                {
+                                                    break;
+                                                }
+                                            } else if (choice.equalsIgnoreCase("n") || choice.equalsIgnoreCase("no")) {
+                                                break;
+                                            }
+                                            clearPart(x,y,game,30,70);
+                                        }
+                                    }else
+                                    {
+                                        // buarada yeterince var ve kullanıcak
+                                        player.getInventory().useItems(item,amount);
+                                        //yeterli iksir var ve kullanıcak
+                                        data = item.getData();
+                                        if(data instanceof Potion)
+                                        {
+                                            if(elixirType.equalsIgnoreCase("healthPotion"))
+                                            {
+                                                PlayerHP = player.getHp();
+                                                player.setHp(player.getHp()+ (((Potion) data).getEffect() * amount));
+                                            } else if (elixirType.equalsIgnoreCase("defencePotion")) {
+                                                defenceElixir = (((Potion) data).getEffect() * amount); // ekledik
+                                                PlayerDefence = player.getDefence();
+                                                player.setDefence(player.getDefence() + defenceElixir);
+                                            } else if (elixirType.equalsIgnoreCase("attackPotion")) {
+                                                attackElixir = (((Potion) data).getEffect() * amount);
+                                                PlayerAttack = player.getAttack();
+                                                player.setAttack(player.getAttack() +attackElixir);
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            }else
+                            {
+                                System.out.print("Item not found.");
+                            }
+
+                        } else if (choice.equals("n")) {
+                            break;
+                        }
+                        if(potionIsUsed)
+                        {
+                            break;
+                        }
+                        clearPart(x,y,game,20,70);
+                    }
+                }
+            }
+            game.cn.readLine();
+            infoIsCome = true;
+            inventoryOpened = false;
+        }
+    }
+    public void printArmor(Game game,int x,int y)
+    {
+        game.cn.setTextAttributes(new TextAttributes(Color.cyan));
+        game.cn.getTextWindow().setCursorPosition(45, 0);
+        System.out.println("Helmet : ");
+        game.cn.getTextWindow().setCursorPosition(45, 1);
+        System.out.println("Chestplate : ");
+        game.cn.getTextWindow().setCursorPosition(45, 2);
+        System.out.println("Boots : ");
+        game.cn.getTextWindow().setCursorPosition(45, 3);
+        System.out.println("Weapon : ");
+        game.cn.setTextAttributes(new TextAttributes(Color.white));
+        if(helmetUsed) {
+            game.cn.getTextWindow().setCursorPosition(54, 0);
+            if(currentHelmet != null) {
+                Object data = currentHelmet.getData();
+                if (data instanceof Armor) {
+                    System.out.print(currentHelmet.getItemName() + " " + ((Armor) data).getDefense() + "     ");
+                }
+            } else {
+                System.out.print("none       ");
+            }
+        }
+        if (chestPlateUsed)
+        {
+            game.cn.getTextWindow().setCursorPosition(58, 1);
+            if(currentChestPLate != null) {
+                Object data = currentChestPLate.getData();
+                if (data instanceof Armor) {
+                    System.out.print(currentChestPLate.getItemName() + " " + ((Armor) data).getDefense() + "     ");
+                }
+            } else {
+                System.out.print("none       ");
+            }
+        }
+        if (bootsUsed)
+        {
+            game.cn.getTextWindow().setCursorPosition(53, 2);
+            if(currentBoots != null) {
+                Object data = currentBoots.getData();
+                if (data instanceof Armor) {
+                    System.out.print(currentBoots.getItemName() + " " + ((Armor) data).getDefense() + "     ");
+                }
+            }else
+            {
+                System.out.print("none       ");
+            }
+        }
+        if (weaponUsed)
+        {
+            game.cn.getTextWindow().setCursorPosition(54, 3);
+            if(currentWeapon != null) {
+                Object data = currentWeapon.getData();
+                if (data instanceof Weapon) {
+                    System.out.print(currentWeapon.getItemName() + " " + ((Weapon) data).getDamage() + "     ");
+                }
+            }else
+            {
+                System.out.print("none       ");
+            }
+        }
+        game.cn.getTextWindow().setCursorPosition(x, y);
     }
     public void printStatics(Game game,Player player)
     {
@@ -284,7 +1007,6 @@ public class GamePlay {
             if(loop.peek().equals(player.getName())) // sıra playerdaysa
             {
                 //sıra playerda
-
                 String choice = "";
                 int damage = 0;
                 damage = player.getAttack()/((100+enemy.getDefence())/100);
@@ -435,19 +1157,23 @@ public class GamePlay {
             System.out.println("You won");
             warLevelUp(); // level sistemi
             enemy.setDead(true); // düşam öldü
-            chest();
+            chest(game);
             player.setHp(playerFirstLife);
             System.out.println("To continue, press enter. ");
             scanner.nextLine();
         }
+        isWarBegin = false;
     }
-    public void chest()
+    public void chest(Game game)
     {
         int randomNum = rand.nextInt(100);
         String type = "";
         int damage = 0;
         String armorType = "";
+        String potionType = "";
+        String description = "";
         int defence = 0;
+        int effection = 0;
         int minInterval = 0;
         int amount = 0;
         int maxInterval = 0;
@@ -458,22 +1184,29 @@ public class GamePlay {
             minInterval = 100;
             maxInterval = 200;
             defence = 250;
+            damage = 200;
+            effection = rand.nextInt(200);
         }else if(randomNum <90)
         {
             type = "rare";
             minInterval = 200;
             maxInterval = 400;
             defence = 500;
+            damage = 400;
             itemID +=1;
+            effection = rand.nextInt(200)+200;
         }else
         {
             type = "epic";
             minInterval = 400;
             maxInterval = 800;
             defence = 1000;
+            damage = 800;
             itemID +=2;
+            effection = rand.nextInt(400)+400;
         }
         armor = new Armor(0,""); // default armor
+        weapon = new Weapon("",0);
         chest = new Chest(0,0,type,loots);
         chest.randomChest(rand);
         loots = chest.getItems();
@@ -484,14 +1217,10 @@ public class GamePlay {
             if (loots[i].equals("money")) //item paraysa
             {
                 amount = rand.nextInt(maxInterval - minInterval) + minInterval;
-                System.out.print(loots[i] +" "+ amount + " (" + itemsCount + ") items left.");
-                itemsCount--;
                 player.setMoney(player.getMoney()+amount);
             } else if (loots[i].equals("xp")) {
                 amount = rand.nextInt(maxInterval - minInterval) + minInterval;
                 levelUP(amount);
-                System.out.print(loots[i] +" "+ amount + " (" + itemsCount + ") items left.");
-                itemsCount--;
             } else if (loots[i].equals("chestPlate") || loots[i].equals("boots") || loots[i].equals("helmet")) {
                 if(loots[i].equals("chestPlate")) //ITEMID 3,4,5
                 {
@@ -517,12 +1246,100 @@ public class GamePlay {
                     player.getInventory().addItem(item);
                     itemID -= 6;
                 }
-                System.out.print(loots[i] + " (" + itemsCount + ") items left.");
-                itemsCount--;
-            } else{
-                System.out.print(loots[i]  + " (" + itemsCount + ") items left.");
-                itemsCount--;
+            } else if (loots[i].equals("sword") || loots[i].equals("bow") || loots[i].equals("staff")|| loots[i].equals("axe") || loots[i].equals("spear")) {
+                if(loots[i].equals("sword")) //ITEMID 9,10,11 //damage 200
+                {
+                    itemID +=9;
+                    armorType = loots[i];
+                    weapon = new Weapon(armorType,damage);
+                    item = new Item(loots[i],1,itemID,weapon);
+                    player.getInventory().addItem(item);
+                    itemID -= 9;
+                }else if(loots[i].equals("bow")) //ITEMID 12,13,14 //damage 250
+                {
+                    itemID +=12;
+                    armorType = loots[i];
+                    damage = (damage * 5)/4;
+                    weapon = new Weapon(armorType,damage);
+                    item = new Item(loots[i],1,itemID,weapon);
+                    player.getInventory().addItem(item);
+                    damage = (damage * 4)/5;
+                    itemID -=12;
+                } else if (loots[i].equals("staff")) {//ITEMID 15,16,17 //damage 225
+                    itemID +=15;
+                    armorType = loots[i];
+                    damage = (damage * 9) / 8;
+                    weapon = new Weapon(armorType,damage);
+                    item = new Item(loots[i],1,itemID,weapon);
+                    player.getInventory().addItem(item);
+                    damage = (damage * 8) / 9;
+                    itemID -= 15;
+                }
+                else if(loots[i].equals("axe")) //ITEMID 18,19,20 // 275
+                {
+                    itemID +=18;
+                    armorType = loots[i];
+                    damage = (damage * 11) / 8;
+                    weapon = new Weapon(armorType,damage);
+                    item = new Item(loots[i],1,itemID,weapon);
+                    player.getInventory().addItem(item);
+                    damage = (damage * 8) / 11;
+                    itemID -=18;
+                } else if (loots[i].equals("spear")) {//ITEMID 21,22,23 // 175
+                    itemID +=21;
+                    armorType = loots[i];
+                    damage = (damage * 7) / 8;
+                    weapon = new Weapon(armorType,damage);
+                    item = new Item(loots[i],1,itemID,weapon);
+                    player.getInventory().addItem(item);
+                    damage = (damage * 8) / 7;
+                    itemID -= 21;
+                }
+            } else if (loots[i].equals("healthPotion") || loots[i].equals("defencePotion") || loots[i].equals("attackPotion")){
+                if(loots[i].equals("healthPotion")) {//ITEMID 24,25,26
+                    itemID += 24;
+                    potionType = loots[i];
+                    description = "This increase your health";
+                    potion = new Potion(potionType,description,effection,"Red");
+                    item = new Item(loots[i],1,itemID,potion);
+                    player.getInventory().addItem(item);
+                    itemID -= 24;
+                } else if (loots[i].equals("defencePotion")) { //ITEMID 27,28,29
+                    itemID += 27;
+                    potionType = loots[i];
+                    description = "This increase your defence";
+                    potion = new Potion(potionType,description,effection,"Yellow");
+                    item = new Item(loots[i],1,itemID,potion);
+                    player.getInventory().addItem(item);
+                    itemID -= 27;
+                } else if  (loots[i].equals("attackPotion")) { //ITEMID 30,31,32
+                    itemID += 30;
+                    potionType = loots[i];
+                    description = "This increase your attack";
+                    potion = new Potion(potionType,description,effection,"Blue");
+                    item = new Item(loots[i],1,itemID,potion);
+                    player.getInventory().addItem(item);
+                    itemID -= 30;
+                }
             }
+            System.out.print(loots[i] + " (");
+            int randomColorNum = rand.nextInt(5);
+            if(randomColorNum == 0)
+            {
+                game.cn.setTextAttributes(new TextAttributes(Color.red));
+            } else if (randomColorNum == 1) {
+                game.cn.setTextAttributes(new TextAttributes(Color.blue));
+            } else if (randomColorNum == 2) {
+                game.cn.setTextAttributes(new TextAttributes(Color.green));
+            } else if (randomColorNum == 3) {
+                game.cn.setTextAttributes(new TextAttributes(Color.orange));
+            }else {
+                game.cn.setTextAttributes(new TextAttributes(Color.cyan));
+            }
+            System.out.print(itemsCount);
+            itemsCount--;
+            game.cn.setTextAttributes(new TextAttributes(Color.white));
+            System.out.print(") items left.");
             scanner.nextLine();
         }
     }

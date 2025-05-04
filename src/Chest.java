@@ -46,7 +46,7 @@ public class Chest {
                 //100 - 200 para 0
                 //sıradan zırh 1
                 //xp 2
-                randomNum = random.nextInt(3);
+                randomNum = random.nextInt(4);
                 if(randomNum == 0)
                 {
                     items[i] = "money";
@@ -99,9 +99,23 @@ public class Chest {
 
                     }
 
-                }else
+                }else if(randomNum == 2)
                 {
                     items[i] = "xp";
+                }else
+                {
+                    randomNum = random.nextInt(3);
+                    if(randomNum == 0)
+                    {
+                        items[i] = "healthPotion";
+                    }else if(randomNum == 1)
+                    {
+                        items[i] = "defencePotion";
+                    }else
+                    {
+                        items[i] = "attackPotion"; // 1 iksir etkisi 0-x
+                    }
+
                 }
 
             }
@@ -112,7 +126,7 @@ public class Chest {
                 //200 - 400 para
                 //ender zırh
                 //xp
-                randomNum = random.nextInt(3);
+                randomNum = random.nextInt(4);
                 if(randomNum == 0)
                 {
                     items[i] = "money";
@@ -165,9 +179,23 @@ public class Chest {
 
                     }
 
-                }else
+                }else if(randomNum == 2)
                 {
                     items[i] = "xp";
+                }else
+                {
+                    randomNum = random.nextInt(3);
+                    if(randomNum == 0)
+                    {
+                        items[i] = "healthPotion";
+                    }else if(randomNum == 1)
+                    {
+                        items[i] = "defencePotion";
+                    }else
+                    {
+                        items[i] = "attackPotion"; // 2 iksir etkisi x-2x
+                    }
+
                 }
 
 
@@ -179,7 +207,7 @@ public class Chest {
                 //400 - 800 para
                 //destansı zırh
                 //xp
-                randomNum = random.nextInt(3);
+                randomNum = random.nextInt(4);
                 if(randomNum == 0)
                 {
                     items[i] = "money";
@@ -232,9 +260,23 @@ public class Chest {
 
                     }
 
-                }else
+                }else if(randomNum == 2)
                 {
                     items[i] = "xp";
+                }else
+                {
+                    randomNum = random.nextInt(3);
+                    if(randomNum == 0)
+                    {
+                        items[i] = "healthPotion";
+                    }else if(randomNum == 1)
+                    {
+                        items[i] = "defencePotion";
+                    }else
+                    {
+                        items[i] = "attackPotion"; // 3 iksir etkisi 2x-3x
+                    }
+
                 }
 
             }
