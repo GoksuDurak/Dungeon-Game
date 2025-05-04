@@ -80,7 +80,7 @@ public class GamePlay {
         System.out.print("Please enter your name : ");
         String name = scanner.nextLine();
         game.Clear();
-        player = new Player(name,0,0,2250,200,200,0,22500,150,3,200);
+        player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
         PlayerHP = player.getHp();
         PlayerDefence = player.getDefence();
         PlayerAttack = player.getAttack();

@@ -78,8 +78,8 @@ public class Enemy {
     }
     public Enemy[] randomEnemy(Dungeon dungeon)
     {
-        Enemy[] enemies = new Enemy[55];
-        for (int i = 0; i < 55; i++)
+        Enemy[] enemies = new Enemy[10];
+        for (int i = 0; i < 10; i++)
         {
             String type = " ";
             int health = 0;
