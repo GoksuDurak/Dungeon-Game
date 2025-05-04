@@ -1,6 +1,6 @@
 import enigma.console.TextAttributes;
 
-import javax.tools.Tool;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -80,7 +80,7 @@ public class GamePlay {
         System.out.print("Please enter your name : ");
         String name = scanner.nextLine();
         game.Clear();
-        player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
+        player = new Player(name,0,0,2250,200,200,0,22500,150,3,200);
         PlayerHP = player.getHp();
         PlayerDefence = player.getDefence();
         PlayerAttack = player.getAttack();
@@ -320,15 +320,28 @@ public class GamePlay {
             printArmor(game,x,y);
             //---------------Armor wear--------------------
             while (true) {
-                System.out.println("Do you want to wear armor ? yes(y) || no(n)  ");
+                System.out.println("Do you want to wear armor ? \nyes(y) || no(n)  ");
                 String choice = scanner.nextLine();
                 if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("yes")) {
-                    game.cn.getTextWindow().setCursorPosition(x, y + 3);
-                    System.out.println("You can use when you search the initial letters of the words of armor.");
-                    System.out.print("Which armor piece do you want to wear? (Write with effect): "); // hangi item giyecek
-                    choice = scanner.nextLine();
+                    String[] datas = null;
+                    while (true) {
+                        printArmor(game,x,y);
+                        System.out.println("");
+                        System.out.println("");
+                        System.out.println("You can use when you search the initial letters of the words of armor.");
+                        System.out.print("Which armor piece do you want to wear? (Write with effect): \n"); // hangi item giyecek
+                        choice = scanner.nextLine();
+                        datas = choice.split(" ");
+                        if (datas.length == 2 && datas[1].matches("\\d+"))
+                        {
+                            // Girdi geçerli
+                            break;
+                        }
+                        clearPart(x,y,game,6,70);
+                    }
+                    clearPart(x, y, game, 10, 70);
                     //burda giyecek
-                    String[] datas = choice.split(" ");
+
                     String armorType = "";
                     int id =0;
                     int defence = 250;
@@ -406,6 +419,7 @@ public class GamePlay {
                                             player.setDefence(PlayerDefence + helmetDefence);
                                             player.getInventory().useItems(currentHelmet,1);
                                             printArmor(game,x,y);
+                                            break;
                                         } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
                                             break;
                                         }
@@ -441,6 +455,7 @@ public class GamePlay {
                                             player.setDefence(PlayerDefence + chestplateDefence);
                                             player.getInventory().useItems(currentChestPLate,1);
                                             printArmor(game,x,y);
+                                            break;
                                         } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
                                             break;
                                         }
@@ -477,6 +492,7 @@ public class GamePlay {
                                             player.setDefence(PlayerDefence + bootsDefence);
                                             player.getInventory().useItems(currentBoots,1);
                                             printArmor(game,x,y);
+                                            break;
                                         } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
                                             break;
                                         }
@@ -488,6 +504,7 @@ public class GamePlay {
                         }
 
                     } else {
+                        printArmor(game,x,y);
                         System.out.print("Item not found.");
                         scanner.nextLine();
                     }
@@ -505,22 +522,31 @@ public class GamePlay {
                 clearPart(x, y, game, 2, 43);
                 System.out.println("Do you want to take of your armor pieces.\nyes(y) || no(n)");
                 String choice = scanner.nextLine();
+                clearPart(x,y,game,5,70);
                 if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y"))
                 {
                     while (true) {
-                        System.out.println();
-                        System.out.println();
-                        System.out.println("You can use when you search the initial letters of the words of armor.");
-                        System.out.print("Which armor piece do you want to take off? (Write only name): "); // hangi item giyecek
-                        choice = scanner.nextLine();
-                        if(choice.equalsIgnoreCase("he"))
-                        {
-                            choice = "helmet";
-                        } else if (choice.equalsIgnoreCase("ch")) {
-                            choice = "chestplate";
-                        } else if (choice.equalsIgnoreCase("bo")) {
-                            choice = "boots";
+                        while (true) {
+                            printArmor(game, x, y);
+                            System.out.println("Do you want to take of your armor pieces.\nyes(y) || no(n)");
+                            System.out.println();
+                            System.out.println("You can use when you search the initial letters of the words of armor.");
+                            System.out.print("Which armor piece do you want to take off? (Write only name): \n"); // hangi item giyecek
+                            choice = scanner.nextLine();
+                            if(choice.equalsIgnoreCase("he")||choice.equalsIgnoreCase("helmet"))
+                            {
+                                choice = "helmet";
+                                break;
+                            } else if (choice.equalsIgnoreCase("ch")||choice.equalsIgnoreCase("chestPlate")) {
+                                choice = "chestplate";
+                                break;
+                            } else if (choice.equalsIgnoreCase("bo")||choice.equalsIgnoreCase("boots")) {
+                                choice = "boots";
+                                break;
+                            }
+                            clearPart(x,y,game,7,70);
                         }
+
                         if(currentHelmet != null) {
                             if (choice.equalsIgnoreCase(currentHelmet.getItemName())) {
                                 currentHelmet.setQuantity(currentHelmet.getQuantity() + 1);
@@ -551,6 +577,7 @@ public class GamePlay {
                             }
                         } else {
                             System.out.println("item not found.");
+                            scanner.nextLine();
                             break;
                         }
                         clearPart(x, y, game, 10, 70);
@@ -567,15 +594,30 @@ public class GamePlay {
             while (true)
             {
                 clearPart(x, y, game, 2, 43);
+                printArmor(game, x, y);
                 System.out.println("Do you want to equip the weapon? :\nyes(y) || no(n)");
                 String choice = scanner.nextLine();
+                clearPart(x,y,game,5,70);
                 if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y"))
                 {
-                    System.out.println("You can use when you search the initial letters of the words of weapon.");
-                    System.out.print("Which weapon do you want to equip? (Write with effect): "); // hangi item giyecek
-                    choice = scanner.nextLine();
+                    String[] datas = null;
+                    while (true) {
+                        printArmor(game,x,y);
+                        System.out.println("Do you want to equip the weapon? :\nyes(y) || no(n)");
+                        System.out.println();
+                        System.out.println("You can use when you search the initial letters of the words of weapon.");
+                        System.out.print("Which weapon do you want to equip? (Write with effect): \n"); // hangi item giyecek
+                        choice = scanner.nextLine();
+                        datas = choice.split(" ");
+                        if (datas.length == 2 && datas[1].matches("\\d+"))
+                        {
+                            // Girdi geçerli
+                            break;
+                        }
+                        clearPart(x,y,game,7,70);
+                    }
+                    clearPart(x,y,game,7,70);
                     //burda giyecek
-                    String[] datas = choice.split(" ");
                     String weaponType = "";
                     int id =0;
                     int attack = 200;
@@ -687,24 +729,33 @@ public class GamePlay {
             //---------------Sword unEquip--------------------
             while (true)
             {
+                printArmor(game,x,y);
                 clearPart(x, y, game, 2, 43);
                 System.out.println("Do you want to take off your weapon.\nyes(y) || no(n)");
                 String choice = scanner.nextLine();
+                //printArmor(game,x,y);
+                clearPart(x,y,game,5,70);
                 if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y"))
                 {
                     while (true) {
-                        System.out.println();
-                        System.out.println();
-                        System.out.println("You can use when you search the initial letters of the words of weapon.");
-                        System.out.print("Which weapon do you want to take off? (Write only name): "); // hangi item giyecek
-                        choice = scanner.nextLine();
-                        if(choice.equalsIgnoreCase("sw"))
-                        {
-                            choice = "sword";
-                        } else if (choice.equalsIgnoreCase("sp")) {
-                            choice = "spear";
-                        } else if (choice.equalsIgnoreCase("st")) {
-                            choice = "staff";
+                        while (true) {
+                            printArmor(game,x,y); // bu fonksiyon konumla oynuyo
+                            System.out.println("Do you want to take off your weapon.\nyes(y) || no(n)");
+                            System.out.println();
+                            System.out.println("You can use when you search the initial letters of the words of weapon");
+                            System.out.print("Which weapon do you want to take off? (Write only name): \n"); // hangi item giyecek
+                            choice = scanner.nextLine();
+                            if (choice.equalsIgnoreCase("sw") || choice.equalsIgnoreCase("sword")) {
+                                choice = "sword";
+                                break;
+                            } else if (choice.equalsIgnoreCase("sp")|| choice.equalsIgnoreCase("spear")) {
+                                choice = "spear";
+                                break;
+                            } else if (choice.equalsIgnoreCase("st")|| choice.equalsIgnoreCase("staff")) {
+                                choice = "staff";
+                                break;
+                            }
+                            clearPart(x,y,game,7,70);
                         }
                         if(currentWeapon != null) {
                             if (choice.equalsIgnoreCase(currentWeapon.getItemName())) {
@@ -718,11 +769,13 @@ public class GamePlay {
                         }
                         else {
                             System.out.println("item not found.");
+                            scanner.nextLine();
                             break;
                         }
                         clearPart(x, y, game, 10, 70);
                         printArmor(game,x,y);
                     }
+                    clearPart(x, y, game, 10, 70);
                 } else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
                     break;
                 }
@@ -737,16 +790,29 @@ public class GamePlay {
                 boolean potionIsUsed = false;
                 if (player.getInventory().size() != 0) {
                     while (true) {
+                        System.out.println();
                         System.out.print("Do you want to use item? (y/n) : ");
                         String choice = scanner.nextLine();
                         choice = choice.toLowerCase();
+                        clearPart(x,y,game,5,70);
                         if (choice.equals("y")) {
                             //booleanElixir true
                             //search item and decreaded 1 quantity
-                            System.out.println("You can use when you search the initial letters of the words of elixir");
-                            System.out.print("Which item do you want to use? (Write with effect): ");
-                            choice = scanner.nextLine();
-                            String[] datas = choice.split(" ");
+                            String[] datas = null;
+                            while (true) {
+                                printArmor(game,x,y);
+                                System.out.println("You can use when you search the initial letters of the words of elixir");
+                                System.out.print("Which item do you want to use? (Write with effect): ");
+                                choice = scanner.nextLine();
+                                datas = choice.split(" ");
+                                if (datas.length == 2 && datas[1].matches("\\d+"))
+                                {
+                                    // Girdi geçerli
+                                    break;
+                                }
+                                clearPart(x,y,game,5,70);
+                            }
+                            clearPart(x,y,game,5,70);
                             String elixirType = "";
                             int id = 0;
                             if(datas[0].equalsIgnoreCase("healthPotion") || datas[0].equalsIgnoreCase("hp") )
@@ -759,9 +825,21 @@ public class GamePlay {
                                 elixirType = "attackPotion";
                                 id += 6;
                             }
-                            System.out.print("How many potion do you want to use ? ");
-                            int amount = scanner.nextInt(); //bizim istediğimiz miktar
-
+                            int amount = 0;
+                            while (true) {
+                                printArmor(game,x,y);
+                                System.out.print("How many potion do you want to use ? ");
+                                String input = scanner.nextLine(); //bizim istediğimiz miktar
+                                if(input.matches("\\d+")) // eğer sayıysa
+                                {
+                                    amount = Integer.parseInt(input);
+                                    break;
+                                }else {
+                                    System.out.println("Geçersiz giriş! Lütfen geçerli bir sayı girin.");
+                                }
+                                clearPart(x,y,game,5,70);
+                            }
+                            clearPart(x,y,game,5,70);
                             if(Integer.parseInt(datas[1]) < 200)
                             {
                                 id += 24;
@@ -896,6 +974,7 @@ public class GamePlay {
             inventoryOpened = false;
         }
     }
+    //------------------------------------ZIRH SEKMESI PRINT---------------------------
     public void printArmor(Game game,int x,int y)
     {
         game.cn.setTextAttributes(new TextAttributes(Color.cyan));
@@ -1661,7 +1740,15 @@ public class GamePlay {
                         }
                     }
                 }
-
+                if(inventoryOpened)
+                {
+                      if (e.getKeyCode() == KeyEvent.VK_LEFT)
+                      {
+                          System.out.println("hello");
+                      } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                          System.out.println("world");
+                      }
+                }
             }
             public void keyReleased(KeyEvent e) {}
         };
