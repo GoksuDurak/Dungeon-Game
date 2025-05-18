@@ -32,13 +32,17 @@ public class GamePlay {
     private Vertex finalVertex;
     private Vertex vertex;
     private Vertex vertexF;
+    private boolean isMarketOpened = false; // market açıldı mı
     private boolean isWarBegin = false;
-    private boolean inventoryOpened = false;
+    public static boolean inventoryOpened = false;
     private boolean takesInput = true;
     private boolean helmetUsed = false;
     private boolean chestPlateUsed = false;
     private boolean bootsUsed = false;
     private boolean weaponUsed = false;
+    public static boolean isMarketMovesRight = false;
+    public static boolean isMarketMovesLeft = false;
+    public static boolean isBuyActive = false;
     private final Scanner scanner = new Scanner(System.in);
     private boolean quit = false;
     private Stack dungeonStack = new Stack(5); // zindanları burda tutacağız
@@ -59,6 +63,7 @@ public class GamePlay {
     private Armor armor;
     private Weapon weapon;
     private Potion potion;
+    private Market market = new Market(200,this); // boyutu
     private boolean infoIsCome = true;
     private int x = 1, y = 1;  // Başlangıç konumu
     private  boolean flag = false;
@@ -76,20 +81,22 @@ public class GamePlay {
         Game game = new Game();
 
         //Oyun başladı önce oyuncu oluşur
-        System.out.println("Welcome to the Dungeon");
+        System.out.println("Welcome to the Dungeon Warrior ");
         System.out.print("Please enter your name : ");
         String name = scanner.nextLine();
         game.Clear();
-        player = new Player(name,0,0,2250,200,200,0,22500,150,3,200);
+        player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
         PlayerHP = player.getHp();
         PlayerDefence = player.getDefence();
         PlayerAttack = player.getAttack();
+        market.fillMarketProducts();
         /*
         Armor armor1 = new Armor(250,"helmet");
         currentHelmet = new Item("helmet",1,6,armor1);
         player.getInventory().addItem(currentHelmet);
 
          */
+
          /*
         item = new Item("elixir",5,54);
         player.getInventory().addItem(item);
@@ -147,37 +154,33 @@ public class GamePlay {
         movement(); //hareket fonksiyonu
 
         while (true) {
-            if(infoIsCome) {
+            if (infoIsCome) {
                 infoIsCome = false;
                 game.Clear();
                 dungeon.printDungeon(game);
-                game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 0);
-                printStatics(game,player); // parayı yazdır
-                while (!takesInput)
-                {
+                game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY() + 1, 0);
+                printStatics(game, player); // parayı yazdır
+                while (!takesInput) {
                     game.Clear();
                     System.out.print("You encountered ");
                     game.cn.setTextAttributes(new TextAttributes(Color.cyan));
                     System.out.print(enemy.getType()); //türü
                     game.cn.setTextAttributes(new TextAttributes(Color.white));
                     System.out.println(".");
-                    printEnemy(enemy,game);
+                    printEnemy(enemy, game);
                     printPlayer(game);
                     System.out.print("Do you want to fight? (y/n) : ");
                     String choice = scanner.nextLine();
                     choice = choice.toLowerCase();
-                    if(choice.equals("n"))
-                    {
+                    if (choice.equals("n")) {
                         takesInput = true;
                         infoIsCome = true;
-                    }else if(choice.equals("y"))
-                    {
+                    } else if (choice.equals("y")) {
                         isWarBegin = true;
                         System.out.print("Do you want to use inventory? (y/n) : "); // envanteri kullanmak istiyor mu?
                         choice = scanner.nextLine();
                         choice = choice.toLowerCase();
-                        if(choice.equals("y"))
-                        {
+                        if (choice.equals("y")) {
                             inventoryOpened = true; // envanter açıldı
                             inventory(game);
                         } else if (choice.equals("n")) {
@@ -188,11 +191,11 @@ public class GamePlay {
                         game.Clear();
                         System.out.println("War begin !!! ");
 
-                        war(enemy,game);
+                        war(enemy, game);
                         player.setHp(PlayerHP);
-                        player.setDefence(player.getDefence()-defenceElixir);
+                        player.setDefence(player.getDefence() - defenceElixir);
                         defenceElixir = 0;
-                        player.setAttack(player.getAttack()-attackElixir);
+                        player.setAttack(player.getAttack() - attackElixir);
                         attackElixir = 0;
 
                         takesInput = true;
@@ -201,9 +204,8 @@ public class GamePlay {
                 }
 
             }
-            if(quit)
-            {
-                Dungeon dungeon1 = new Dungeon(35,37);
+            if (quit) {
+                Dungeon dungeon1 = new Dungeon(35, 37);
                 dungeon1.createRandomDungeon();
                 createRandomDungeon(dungeon1);
                 startVertex = vertex;
@@ -216,31 +218,27 @@ public class GamePlay {
                 infoIsCome = true;
                 enemies = enemy.randomEnemy(dungeon);
                 dungeon.printDungeon(game);
-                while (!takesInput)
-                {
+                while (!takesInput) {
                     game.Clear();
                     System.out.print("You encountered ");
                     game.cn.setTextAttributes(new TextAttributes(Color.cyan));
                     System.out.print(enemy.getType()); //türü
                     game.cn.setTextAttributes(new TextAttributes(Color.white));
                     System.out.println(".");
-                    printEnemy(enemy,game);
+                    printEnemy(enemy, game);
                     printPlayer(game);
                     System.out.print("Do you want to fight? (y/n) : ");
                     String choice = scanner.nextLine();
                     choice = choice.toLowerCase();
-                    if(choice.equals("n"))
-                    {
+                    if (choice.equals("n")) {
                         takesInput = true;
                         infoIsCome = true;
-                    }else if(choice.equals("y"))
-                    {
+                    } else if (choice.equals("y")) {
                         isWarBegin = true;
                         System.out.print("Do you want to use inventory? (y/n) : "); // envanteri kullanmak istiyor mu?
                         choice = scanner.nextLine();
                         choice = choice.toLowerCase();
-                        if(choice.equals("y"))
-                        {
+                        if (choice.equals("y")) {
                             inventoryOpened = true; // envanter açıldı
                             inventory(game);
                         } else if (choice.equals("n")) {
@@ -250,11 +248,11 @@ public class GamePlay {
                         playerFirstLife = player.getHp();
                         game.Clear();
                         System.out.println("War begin !!! ");
-                        war(enemy,game);
+                        war(enemy, game);
                         player.setHp(PlayerHP);
-                        player.setDefence(player.getDefence()-defenceElixir);
+                        player.setDefence(player.getDefence() - defenceElixir);
                         defenceElixir = 0;
-                        player.setAttack(player.getAttack()-attackElixir);
+                        player.setAttack(player.getAttack() - attackElixir);
                         attackElixir = 0;
                         takesInput = true;
                         infoIsCome = true; // savaş bitti
@@ -262,7 +260,10 @@ public class GamePlay {
                 }
             }
             inventory(game);
-            Thread.sleep(10);
+            if (isMarketOpened){
+                market.marketOpened(scanner, game);
+            }
+            //Thread.sleep(10);
         }
 
 
@@ -365,6 +366,15 @@ public class GamePlay {
                     }else if(Integer.parseInt(datas[1]) == (defence * 4))
                     {
                         id += 2;
+                    } else if (Integer.parseInt(datas[1]) == (defence * 10)) {
+                        if(armorType.equalsIgnoreCase("chestPlate"))
+                        {
+                            id = 37;
+                        } else if (armorType.equalsIgnoreCase("helmet")) {
+                            id = 36;
+                        } else if (armorType.equalsIgnoreCase("boots")) {
+                            id = 38;
+                        }
                     }
                     if(armorType.equalsIgnoreCase("chestPlate"))
                     {
@@ -532,6 +542,7 @@ public class GamePlay {
                             System.out.println();
                             System.out.println("You can use when you search the initial letters of the words of armor.");
                             System.out.print("Which armor piece do you want to take off? (Write only name): \n"); // hangi item giyecek
+                            choice = "";
                             choice = scanner.nextLine();
                             if(choice.equalsIgnoreCase("he")||choice.equalsIgnoreCase("helmet"))
                             {
@@ -556,7 +567,8 @@ public class GamePlay {
                                 currentHelmet = null;
                                 break;
                             }
-                        } else if (currentChestPLate != null) {
+                        }
+                        if (currentChestPLate != null) {
                             if (choice.equalsIgnoreCase(currentChestPLate.getItemName())) {
                                 currentChestPLate.setQuantity(currentChestPLate.getQuantity() + 1);
                                 player.getInventory().addItem(currentChestPLate);
@@ -565,7 +577,8 @@ public class GamePlay {
                                 currentChestPLate = null;
                                 break;
                             }
-                        } else if (currentBoots != null)
+                        }
+                        if (currentBoots != null)
                         {
                             if (choice.equalsIgnoreCase(currentBoots.getItemName())) {
                                 currentBoots.setQuantity(currentBoots.getQuantity() + 1);
@@ -575,7 +588,8 @@ public class GamePlay {
                                 currentBoots = null;
                                 break;
                             }
-                        } else {
+                        }
+                        if((choice.equalsIgnoreCase("boots") && currentBoots == null) || (choice.equalsIgnoreCase("helmet") && currentHelmet == null) || (choice.equalsIgnoreCase("chestPlate") && currentChestPLate == null)) {
                             System.out.println("item not found.");
                             scanner.nextLine();
                             break;
@@ -651,6 +665,19 @@ public class GamePlay {
                     }else if(Integer.parseInt(datas[1]) == (attack * 4))
                     {
                         id += 2;
+                    } else if (Integer.parseInt(datas[1]) == (attack * 10)) {
+                        if(weaponType.equalsIgnoreCase("sword"))
+                        {
+                            id = 39;
+                        } else if (weaponType.equalsIgnoreCase("bow")) {
+                            id = 40;
+                        } else if (weaponType.equalsIgnoreCase("staff")) {
+                            id = 41;
+                        } else if (weaponType.equalsIgnoreCase("axe")) {
+                            id = 42;
+                        } else if (weaponType.equalsIgnoreCase("spear")) {
+                            id = 43;
+                        }
                     }
 
                     boolean isItemExist = false;
@@ -849,6 +876,17 @@ public class GamePlay {
                             }else if(Integer.parseInt(datas[1]) < 800 && Integer.parseInt(datas[1]) >= 400)
                             {
                                 id += 26;
+                            }else if(Integer.parseInt(datas[1]) <= 1500 && Integer.parseInt(datas[1]) >= 1000)
+                            {
+                                if(elixirType.equalsIgnoreCase("healthPotion"))
+                                {
+                                    id = 33;
+                                } else if (elixirType.equalsIgnoreCase("defencePotion")) {
+                                    id = 34;
+                                }else if (elixirType.equalsIgnoreCase("attackPotion"))
+                                {
+                                    id = 35;
+                                }
                             }
                             boolean isItemExist = false;
                             for(int j = 0; j < player.getInventory().size(); j++)
@@ -876,7 +914,7 @@ public class GamePlay {
                                         y =  game.cn.getTextWindow().getCursorY();
                                         while (true) {
                                             System.out.print("You don't have enough potion.\nYou have " + quantity + " potions.");
-                                            System.out.print("Do you want to use this item ?\nyes(y) or no(n)");
+                                            System.out.print("Do you want to use this item ?\nyes(y) or no(n) : ");
                                             choice = scanner.nextLine();
                                             if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("yes")) {
                                                 clearPart(x,y,game,30,70);
@@ -884,10 +922,24 @@ public class GamePlay {
                                                 y =  game.cn.getTextWindow().getCursorY();
                                                 while (true) {
                                                     System.out.print("How many potion do you want to use ? ");
-                                                    amount = scanner.nextInt();
+                                                    amount = 0;
+                                                    while (true) {
+                                                        printArmor(game,x,y);
+                                                        System.out.print("How many potion do you want to use ? ");
+                                                        String input = scanner.nextLine(); //bizim istediğimiz miktar
+                                                        if(input.matches("\\d+")) // eğer sayıysa
+                                                        {
+                                                            amount = Integer.parseInt(input);
+                                                            break;
+                                                        }else {
+                                                            System.out.println("Geçersiz giriş! Lütfen geçerli bir sayı girin.");
+                                                        }
+                                                        clearPart(x,y,game,5,70);
+                                                    }
+                                                    clearPart(x,y,game,5,70);
                                                     if (quantity < amount) { // yetersiz iksir
                                                         System.out.println("You don't have enough potion!!! ");
-                                                        System.out.print("Do you want to use this item ? yes(y) or no(n)");
+                                                        System.out.print("Do you want to use this item ? yes(y) or no(n) : ");
                                                         choice = game.cn.readLine();
                                                         if (choice.equalsIgnoreCase("n") || choice.equalsIgnoreCase("no"))
                                                         {
@@ -1038,16 +1090,65 @@ public class GamePlay {
         }
         game.cn.getTextWindow().setCursorPosition(x, y);
     }
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public void printStatics(Game game,Player player)
     {
+
         game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 0);
         System.out.println(player.getName());
         game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 1);
         System.out.println("Level : " + player.getLevel());
         game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 2);
-        System.out.println("Xp : " + player.getXp());
+        System.out.println("Xp    : " + player.getXp());
         game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 3);
         System.out.println("Money : " + player.getMoney());
+        game.cn.setTextAttributes(new TextAttributes(Color.red));
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 1);
+        System.out.print("HP      ");
+        game.cn.setTextAttributes(new TextAttributes(Color.white));
+        System.out.println( " : " +player.getHp());
+        game.cn.setTextAttributes(new TextAttributes(Color.cyan));
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 2);
+        System.out.print("Attack  ");
+        game.cn.setTextAttributes(new TextAttributes(Color.white));
+        System.out.println( " : " +player.getAttack());
+        game.cn.setTextAttributes(new TextAttributes(Color.green));
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 3);
+        System.out.print("Defence ");
+        game.cn.setTextAttributes(new TextAttributes(Color.white));
+        System.out.println( " : " +player.getDefence());
+    }
+    public int lengthNumbers(int x) // sayı uzunluk alıyo
+    {
+        if((x / 10) <= 0)
+        {
+            // tek basamaklı
+            return 1;
+        } else if ((x / 100) <= 0) {
+            // iki basamak
+            return 2;
+        } else if ((x / 1000) <= 0) {
+            // 3 basamak
+            return 3;
+        } else if ((x / 10000) <= 0) {
+            // 4 basamak
+            return 4;
+        }else if ((x / 100000) <= 0)
+        {
+            // 5 basamak
+            return 5;
+        }else
+        {
+            // 6 basamak ve üsütü
+            return 6;
+        }
     }
     public void war(Enemy enemy,Game game) throws InterruptedException
     {
@@ -1251,6 +1352,7 @@ public class GamePlay {
         String armorType = "";
         String potionType = "";
         String description = "";
+        int capacity = 0;
         int defence = 0;
         int effection = 0;
         int minInterval = 0;
@@ -1265,6 +1367,7 @@ public class GamePlay {
             defence = 250;
             damage = 200;
             effection = rand.nextInt(200);
+            capacity = 5;
         }else if(randomNum <90)
         {
             type = "rare";
@@ -1274,6 +1377,7 @@ public class GamePlay {
             damage = 400;
             itemID +=1;
             effection = rand.nextInt(200)+200;
+            capacity = 10;
         }else
         {
             type = "epic";
@@ -1283,11 +1387,13 @@ public class GamePlay {
             damage = 800;
             itemID +=2;
             effection = rand.nextInt(400)+400;
+            capacity = 15;
         }
         armor = new Armor(0,""); // default armor
         weapon = new Weapon("",0);
         chest = new Chest(0,0,type,loots);
-        chest.randomChest(rand);
+        //chest.randomChest(rand);
+        chest.randomChest1(rand,capacity);
         loots = chest.getItems();
         System.out.println("You got " + chest.getType() + " chest.");
         scanner.nextLine();
@@ -1301,7 +1407,7 @@ public class GamePlay {
                 amount = rand.nextInt(maxInterval - minInterval) + minInterval;
                 levelUP(amount);
             } else if (loots[i].equals("chestPlate") || loots[i].equals("boots") || loots[i].equals("helmet")) {
-                if(loots[i].equals("chestPlate")) //ITEMID 3,4,5
+                if(loots[i].equals("chestPlate")) //ITEMID 3,4,5 defence 500
                 {
                     itemID +=3;
                     defence = defence*2;
@@ -1311,13 +1417,13 @@ public class GamePlay {
                     player.getInventory().addItem(item);
                     defence = defence/2;
                     itemID -= 3;
-                }else if(loots[i].equals("boots")) //ITEMID 0,1,2
+                }else if(loots[i].equals("boots")) //ITEMID 0,1,2 defence 250
                 {
                     armorType = loots[i];
                     armor = new Armor(defence,armorType);
                     item = new Item(loots[i],1,itemID,armor);
                     player.getInventory().addItem(item);
-                } else if (loots[i].equals("helmet")) {//ITEMID 6,7,8
+                } else if (loots[i].equals("helmet")) {//ITEMID 6,7,8 defence 250
                     itemID +=6;
                     armorType = loots[i];
                     armor = new Armor(defence,armorType);
@@ -1468,7 +1574,7 @@ public class GamePlay {
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
         System.out.print(enemy.getType().toUpperCase()+ "'s Defense --> ");
-        game.cn.setTextAttributes(new TextAttributes(Color.blue));
+        game.cn.setTextAttributes(new TextAttributes(Color.cyan));
         System.out.print(enemy.getDefence()); //defans
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
@@ -1493,7 +1599,7 @@ public class GamePlay {
         System.out.println(".");
         game.cn.getTextWindow().setCursorPosition(45, 3);
         System.out.print(player.getName().toUpperCase()+ "'s Defense --> ");
-        game.cn.setTextAttributes(new TextAttributes(Color.blue));
+        game.cn.setTextAttributes(new TextAttributes(Color.cyan));
         System.out.print(player.getDefence()); //defans
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
@@ -1516,6 +1622,11 @@ public class GamePlay {
                     if(e.getKeyCode() == KeyEvent.VK_E)
                     {
                         inventoryOpened = true;
+                        infoIsCome = false;
+                    }
+                    if(e.getKeyCode() == KeyEvent.VK_M)
+                    {
+                        isMarketOpened = true;
                         infoIsCome = false;
                     }
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -1740,14 +1851,31 @@ public class GamePlay {
                         }
                     }
                 }
-                if(inventoryOpened)
+                if(inventoryOpened && !isMarketOpened)
                 {
                       if (e.getKeyCode() == KeyEvent.VK_LEFT)
                       {
-                          System.out.println("hello");
+                          System.out.println("helloww");
                       } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                          System.out.println("world");
+                          System.out.println("woruld");
                       }
+                }
+                if(isMarketOpened)
+                {
+                    if (e.getKeyCode() == KeyEvent.VK_LEFT)
+                    {
+                        isMarketMovesLeft = true;
+                        isMarketMovesRight = false;
+                    } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                        isMarketMovesRight = true;
+                        isMarketMovesLeft = false;
+                    } else if(e.getKeyCode() == KeyEvent.VK_Q)
+                    {
+                        setMarketOpened(false);
+                        isBuyActive = false;
+                    } else if (e.getKeyCode() == KeyEvent.VK_B) {
+                        isBuyActive = true;
+                    }
                 }
             }
             public void keyReleased(KeyEvent e) {}
@@ -1889,4 +2017,11 @@ public class GamePlay {
         dungeon.getDungeonMatrix()[vertex.getVertexX()][vertex.getVertexY()] = '●';// ● işareti;
     }
 
+    public boolean isMarketOpened() {
+        return isMarketOpened;
+    }
+
+    public void setMarketOpened(boolean marketOpened) {
+        isMarketOpened = marketOpened;
+    }
 }

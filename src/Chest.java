@@ -36,15 +36,14 @@ public class Chest {
     public void setType(String type) {
         this.type = type;
     }
-    public void randomChest(Random random)
+    public void randomChest1(Random random,int capacity)
     {
         int randomNum = 0;
-        if(type.equals("common")) {
-            items = new String[5];
+            items = new String[capacity];
             for (int i = 0; i < items.length; i++)
             {
-                //100 - 200 para 0
-                //sıradan zırh 1
+                //para 0
+                //zırh 1
                 //xp 2
                 randomNum = random.nextInt(4);
                 if(randomNum == 0)
@@ -119,170 +118,8 @@ public class Chest {
                 }
 
             }
-        } else if (type.equals("rare")) {
-            items = new String[10];
-            for (int i = 0; i < items.length; i++)
-            {
-                //200 - 400 para
-                //ender zırh
-                //xp
-                randomNum = random.nextInt(4);
-                if(randomNum == 0)
-                {
-                    items[i] = "money";
-                }else if(randomNum == 1)
-                {
-                    // 0 kask
-                    // 1 pantolon
-                    // 2 zırh
-                    // 3 kılıç
-                    randomNum = random.nextInt(4);
-                    if(randomNum == 0)
-                    {
-                        items[i] = "helmet"; // helmet defence 500
-                    }
-                    else if (randomNum == 1)
-                    {
-                        items[i] = "chestPlate"; // chestPlate defence 750
-                    }
-                    else if(randomNum == 2)
-                    {
-                        items[i] = "boots"; // boots defence 500
-                    }else
-                    {
-                        //silahlar
-                        // 1 kılıç sword
-                        // 2 yay bow
-                        // 3 mızrak spear
-                        // 4 balta axe
-                        // 5 asa staff
-                        randomNum = random.nextInt(5);
-                        if(randomNum == 0)
-                        {
-                            items[i] = "sword";
-                        }
-                        else if (randomNum == 1)
-                        {
-                            items[i] = "bow";
-                        }
-                        else if (randomNum == 2)
-                        {
-                            items[i] = "spear";
-                        }
-                        else if (randomNum == 3)
-                        {
-                            items[i] = "axe";
-                        }else
-                        {
-                            items[i] = "staff";
-                        }
-
-                    }
-
-                }else if(randomNum == 2)
-                {
-                    items[i] = "xp";
-                }else
-                {
-                    randomNum = random.nextInt(3);
-                    if(randomNum == 0)
-                    {
-                        items[i] = "healthPotion";
-                    }else if(randomNum == 1)
-                    {
-                        items[i] = "defencePotion";
-                    }else
-                    {
-                        items[i] = "attackPotion"; // 2 iksir etkisi x-2x
-                    }
-
-                }
-
-
-            }
-        } else if (type.equals("epic")) {
-            items = new String[15];
-            for (int i = 0; i < items.length; i++)
-            {
-                //400 - 800 para
-                //destansı zırh
-                //xp
-                randomNum = random.nextInt(4);
-                if(randomNum == 0)
-                {
-                    items[i] = "money";
-                }else if(randomNum == 1)
-                {
-                    // 0 kask
-                    // 1 pantolon
-                    // 2 zırh
-                    // 3 kılıç
-                    randomNum = random.nextInt(4);
-                    if(randomNum == 0)
-                    {
-                        items[i] = "helmet"; // helmet defence 250
-                    }
-                    else if (randomNum == 1)
-                    {
-                        items[i] = "chestPlate"; // chestPlate defence 500
-                    }
-                    else if(randomNum == 2)
-                    {
-                        items[i] = "boots"; // boots defence 250
-                    }else
-                    {
-                        //silahlar
-                        // 1 kılıç sword
-                        // 2 yay bow
-                        // 3 mızrak spear
-                        // 4 balta axe
-                        // 5 asa staff
-                        randomNum = random.nextInt(5);
-                        if(randomNum == 0)
-                        {
-                            items[i] = "sword";
-                        }
-                        else if (randomNum == 1)
-                        {
-                            items[i] = "bow";
-                        }
-                        else if (randomNum == 2)
-                        {
-                            items[i] = "spear";
-                        }
-                        else if (randomNum == 3)
-                        {
-                            items[i] = "axe";
-                        }else
-                        {
-                            items[i] = "staff";
-                        }
-
-                    }
-
-                }else if(randomNum == 2)
-                {
-                    items[i] = "xp";
-                }else
-                {
-                    randomNum = random.nextInt(3);
-                    if(randomNum == 0)
-                    {
-                        items[i] = "healthPotion";
-                    }else if(randomNum == 1)
-                    {
-                        items[i] = "defencePotion";
-                    }else
-                    {
-                        items[i] = "attackPotion"; // 3 iksir etkisi 2x-3x
-                    }
-
-                }
-
-            }
-            setItems(items);
         }
-    }
+
 
     public String[] getItems() {
         return items;
