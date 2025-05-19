@@ -2,6 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Player {
+
     //Attributes
     private String name;
     private int score;
@@ -36,6 +37,9 @@ public class Player {
     public String getName()
     {
         return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
     //Score
     public void setScore(int score)

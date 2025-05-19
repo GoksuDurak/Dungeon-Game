@@ -18,7 +18,7 @@ public class Inventory {
         {
             if(items[i] != null)
             {
-                if(items[i].getItemName() == item.getItemName() && items[i].getItemID() == item.getItemID())
+                if(items[i].getItemName().equals(item.getItemName()) && items[i].getItemID() == item.getItemID())
                 {
                     found = true;
                 }
@@ -55,6 +55,9 @@ public class Inventory {
             }
         }
 
+    }
+    public void resetInventory(){
+        items = new Item[capacity];
     }
     public void useItems(Item item, int quantity)
     {

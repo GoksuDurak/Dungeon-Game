@@ -29,7 +29,7 @@ public class Market {
         this.marketProducts = marketProducts;
     }
 
-    public void fillMarketProducts() {
+    public Product[] fillMarketProducts() {
 
         Integer[] randomNumbers = new Integer[marketProducts.length / 8];
         int elementCount = 0;
@@ -44,9 +44,9 @@ public class Market {
         productsList[1] = new Product("defencePotion", 200, quantity, "cheap",27,effect,"Potion"); // 100-200 dp
         effect = rand.nextInt(100)+100;
         productsList[2] = new Product("attackPotion", 200, quantity, "cheap",30,effect,"Potion"); // 100-200 ap
-        productsList[3] = new Product("Helmet", 250, 1, "cheap",6,250,"Armor"); // defence 250
-        productsList[4] = new Product("Chestplate", 500, 1, "cheap",3,500,"Armor"); //defence 500
-        productsList[5] = new Product("Boots", 250, 1, "cheap",0,250,"Armor"); // defence 250
+        productsList[3] = new Product("helmet", 250, 1, "cheap",6,250,"Armor"); // defence 250
+        productsList[4] = new Product("chestplate", 500, 1, "cheap",3,500,"Armor"); //defence 500
+        productsList[5] = new Product("boots", 250, 1, "cheap",0,250,"Armor"); // defence 250
         productsList[6] = new Product("spear", 250, 1, "cheap",21,175,"Weapon"); // attack 175
         productsList[7] = new Product("sword", 275, 1, "cheap",9,200,"Weapon"); // attack 200
         productsList[8] = new Product("staff", 300, 1, "cheap",15,150,"Weapon"); // attack 225
@@ -60,9 +60,9 @@ public class Market {
         productsList[12] = new Product("defencePotion", 350, quantity, "moderate",28,effect,"Potion"); // 200-400 dp
         effect = rand.nextInt(200)+200;
         productsList[13] = new Product("attackPotion", 350, quantity, "moderate",31,effect,"Potion"); // 200-400 ap
-        productsList[14] = new Product("Helmet", 400, 1, "moderate",7,500,"Armor"); // defence 500
-        productsList[15] = new Product("Chestplate", 800, 1, "moderate",4,1000,"Armor"); // defence 1000
-        productsList[16] = new Product("Boots", 400, 1, "moderate",1,500,"Armor"); // defence 500
+        productsList[14] = new Product("helmet", 400, 1, "moderate",7,500,"Armor"); // defence 500
+        productsList[15] = new Product("chestplate", 800, 1, "moderate",4,1000,"Armor"); // defence 1000
+        productsList[16] = new Product("boots", 400, 1, "moderate",1,500,"Armor"); // defence 500
         productsList[17] = new Product("spear", 400, 1, "moderate",22,350,"Weapon"); // attack 350
         productsList[18] = new Product("sword", 450, 1, "moderate",10,400,"Weapon"); // attack 400
         productsList[19] = new Product("staff", 500, 1, "moderate",16,450,"Weapon"); // attack 450
@@ -76,9 +76,9 @@ public class Market {
         productsList[23] = new Product("defencePotion", 450, quantity, "expensive",29,effect,"Potion"); // 400-800 dp
         effect = rand.nextInt(400)+400;
         productsList[24] = new Product("attackPotion", 450, quantity, "expensive",32,effect,"Potion"); // 400-800 ap
-        productsList[25] = new Product("Helmet", 700, 1, "expensive",8,1000,"Armor"); // defence 1000
-        productsList[26] = new Product("Chestplate", 1400, 1, "expensive",5,2000,"Armor"); // defence 2000
-        productsList[27] = new Product("Boots", 700, 1, "expensive",2,1000,"Armor"); // defence 1000
+        productsList[25] = new Product("helmet", 700, 1, "expensive",8,1000,"Armor"); // defence 1000
+        productsList[26] = new Product("chestplate", 1400, 1, "expensive",5,2000,"Armor"); // defence 2000
+        productsList[27] = new Product("boots", 700, 1, "expensive",2,1000,"Armor"); // defence 1000
         productsList[28] = new Product("spear", 700, 1, "expensive",23,700,"Weapon"); //  attack 700
         productsList[29] = new Product("sword", 800, 1, "expensive",11,800,"Weapon"); //  attack 800
         productsList[30] = new Product("staff", 900, 1, "expensive",17,900,"Weapon"); //  attack 900
@@ -92,9 +92,9 @@ public class Market {
         productsList[34] = new Product("defencePotion", 800, quantity, "special",34,effect,"Potion"); // 1000-1500 dp
         effect = rand.nextInt(1000)+500;
         productsList[35] = new Product("attackPotion", 800, quantity, "special",35,effect,"Potion"); // 1000-1500 ap
-        productsList[36] = new Product("Helmet", 2000, 1, "special",36,2500,"Armor"); // defence 2500
-        productsList[37] = new Product("Chestplate", 4000, 1, "special",37,5000,"Armor"); // defence 5000
-        productsList[38] = new Product("Boots", 2000, 1, "special",38,2500,"Armor"); // defence 2500
+        productsList[36] = new Product("helmet", 2000, 1, "special",36,2500,"Armor"); // defence 2500
+        productsList[37] = new Product("chestplate", 4000, 1, "special",37,5000,"Armor"); // defence 5000
+        productsList[38] = new Product("boots", 2000, 1, "special",38,2500,"Armor"); // defence 2500
         productsList[39] = new Product("spear", 2000, 1, "special",43,1750,"Weapon"); //  attack 1750
         productsList[40] = new Product("sword", 2200, 1, "special",39,2000,"Weapon"); //  attack 2000
         productsList[41] = new Product("staff", 2400, 1, "special",41,2500,"Weapon"); //  attack 2250
@@ -185,6 +185,7 @@ public class Market {
         System.out.println(expensiveCount);
         System.out.println(specialCount);
         System.out.println(marketProducts.length);
+        return marketProducts;
     }
     public void marketOpened(Scanner scanner, Game game)
     {
@@ -334,7 +335,7 @@ public class Market {
                     if(GamePlay.isBuyActive){
                         String choice;
                         while (true) {
-                            System.out.println("Do you want to buy item ?");
+                            System.out.println("Do you want to buy item ? Your money : "+gamePlay.getPlayer().getMoney());
                             choice = scanner.nextLine();
                             if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
                                 int x = game.cn.getTextWindow().getCursorX();
@@ -364,14 +365,14 @@ public class Market {
                                                                 while (true) {
                                                                     System.out.println("How many items do you want to buy ?");
                                                                     choice = scanner.nextLine();
-                                                                    if(choice.matches("\\d+")){
+                                                                    if(choice.matches("\\d+") && choice.length() <= 6){
                                                                         break;
                                                                     }
                                                                     gamePlay.clearPart(x,y-2,game,5,70);
                                                                 }
                                                                 gamePlay.clearPart(x,y-2,game,5,70);
                                                                 if (Integer.parseInt(choice) * product.getPrice() > gamePlay.getPlayer().getMoney()) {
-                                                                    System.out.println("Your money isn't enough.");
+                                                                    System.out.println("Total cost : "+(Integer.parseInt(choice) * product.getPrice())+" Your money isn't enough.");
                                                                     try {
                                                                         Thread.sleep(1000);
                                                                     } catch (InterruptedException e) {
@@ -444,6 +445,7 @@ public class Market {
                                             }
                                         }
                                         if(!found){
+                                            gamePlay.clearPart(x,y-2,game,5,70);
                                             System.out.println("Item not found.");
                                             try {
                                                 Thread.sleep(1000);
@@ -618,7 +620,7 @@ public class Market {
                     if(GamePlay.isBuyActive){
                         String choice;
                         while (true) {
-                            System.out.println("Do you want to buy item ?");
+                            System.out.println("Do you want to buy item ? Your money : "+gamePlay.getPlayer().getMoney());
                             choice = scanner.nextLine();
                             if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
                                 int x = game.cn.getTextWindow().getCursorX();
@@ -648,14 +650,14 @@ public class Market {
                                                                 while (true) {
                                                                     System.out.println("How many items do you want to buy ?");
                                                                     choice = scanner.nextLine();
-                                                                    if(choice.matches("\\d+")){
+                                                                    if(choice.matches("\\d+") && choice.length() <= 6){
                                                                         break;
                                                                     }
                                                                     gamePlay.clearPart(x,y-2,game,5,70);
                                                                 }
                                                                 gamePlay.clearPart(x,y-2,game,5,70);
                                                                 if (Integer.parseInt(choice) * product.getPrice() > gamePlay.getPlayer().getMoney()) {
-                                                                    System.out.println("Your money isn't enough.");
+                                                                    System.out.println("Total cost : "+(Integer.parseInt(choice) * product.getPrice())+" Your money isn't enough.");
                                                                     try {
                                                                         Thread.sleep(1000);
                                                                     } catch (InterruptedException e) {
@@ -728,6 +730,7 @@ public class Market {
                                             }
                                         }
                                         if(!found){
+                                            gamePlay.clearPart(x,y-2,game,5,70);
                                             System.out.println("Item not found.");
                                             try {
                                                 Thread.sleep(1000);
@@ -898,7 +901,7 @@ public class Market {
                     if(GamePlay.isBuyActive){
                         String choice;
                         while (true) {
-                            System.out.println("Do you want to buy item ?");
+                            System.out.println("Do you want to buy item ? Your money : "+gamePlay.getPlayer().getMoney());
                             choice = scanner.nextLine();
                             if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
                                 int x = game.cn.getTextWindow().getCursorX();
@@ -928,14 +931,14 @@ public class Market {
                                                                 while (true) {
                                                                     System.out.println("How many items do you want to buy ?");
                                                                     choice = scanner.nextLine();
-                                                                    if(choice.matches("\\d+")){
+                                                                    if(choice.matches("\\d+") && choice.length() <= 6){
                                                                         break;
                                                                     }
                                                                     gamePlay.clearPart(x,y-2,game,5,70);
                                                                 }
                                                                 gamePlay.clearPart(x,y-2,game,5,70);
                                                                 if (Integer.parseInt(choice) * product.getPrice() > gamePlay.getPlayer().getMoney()) {
-                                                                    System.out.println("Your money isn't enough.");
+                                                                    System.out.println("Total cost : "+(Integer.parseInt(choice) * product.getPrice())+" Your money isn't enough.");
                                                                     try {
                                                                         Thread.sleep(1000);
                                                                     } catch (InterruptedException e) {
@@ -1008,6 +1011,7 @@ public class Market {
                                             }
                                         }
                                         if(!found){
+                                            gamePlay.clearPart(x,y-2,game,5,70);
                                             System.out.println("Item not found.");
                                             try {
                                                 Thread.sleep(1000);

@@ -1,4 +1,6 @@
 import enigma.console.TextAttributes;
+import enigma.event.TextMouseEvent;
+import enigma.event.TextMouseListener;
 
 
 import java.awt.*;
@@ -17,10 +19,10 @@ public class GamePlay {
     private int attackElixir = 0;
     private String[] loots;
     private Chest chest;
-    private int enemyX = 0;
+    public static int enemyX = 0;
     private int playerFirstLife =0;
     private int enemyFirstLife =0;
-    private int enemyY = 0;
+    public static int enemyY = 0;
     private Item currentHelmet = null;
     private Item currentChestPLate = null;
     private Item currentBoots = null;
@@ -32,21 +34,23 @@ public class GamePlay {
     private Vertex finalVertex;
     private Vertex vertex;
     private Vertex vertexF;
+    private Setting setting;
+    private boolean gameFinished = false;
     private boolean isMarketOpened = false; // market açıldı mı
     private boolean isWarBegin = false;
     public static boolean inventoryOpened = false;
     private boolean takesInput = true;
-    private boolean helmetUsed = false;
-    private boolean chestPlateUsed = false;
-    private boolean bootsUsed = false;
-    private boolean weaponUsed = false;
+    public static boolean helmetUsed = false;
+    public static  boolean chestPlateUsed = false;
+    public static  boolean bootsUsed = false;
+    public static  boolean weaponUsed = false;
     public static boolean isMarketMovesRight = false;
     public static boolean isMarketMovesLeft = false;
     public static boolean isBuyActive = false;
     private final Scanner scanner = new Scanner(System.in);
     private boolean quit = false;
     private Stack dungeonStack = new Stack(5); // zindanları burda tutacağız
-    private CircularQueue enemyCoordinateQueue = new CircularQueue(2);
+    public static CircularQueue enemyCoordinateQueue = new CircularQueue(2);
     private Vertex enemyCoordinateVertex;
     //private char[][] dungeon;
     private Dungeon dungeon;
@@ -65,13 +69,94 @@ public class GamePlay {
     private Potion potion;
     private Market market = new Market(200,this); // boyutu
     private boolean infoIsCome = true;
-    private int x = 1, y = 1;  // Başlangıç konumu
+    private boolean isSettingOpened = false;
+    private boolean isMousePressedActive = false;
+    private int mouseX = 0;
+    private int mouseY = 0;
+    private int x = 1, y = 1;  // Başlangıç konumu // player coordinate
     private  boolean flag = false;
     GamePlay()
     {
 
     }
 
+    public void setEnemyCoordinateVertex(Vertex enemyCoordinateVertex) {
+        this.enemyCoordinateVertex = enemyCoordinateVertex;
+    }
+
+    public Enemy[] getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(Enemy[] enemies) {
+        this.enemies = enemies;
+    }
+    public Item getCurrentBoots() {
+        return currentBoots;
+    }
+
+    public void setCurrentBoots(Item currentBoots) {
+        this.currentBoots = currentBoots;
+    }
+
+    public Item getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+    public void setCurrentWeapon(Item currentWeapon) {
+        this.currentWeapon = currentWeapon;
+    }
+
+    public Item getCurrentChestPLate() {
+        return currentChestPLate;
+    }
+
+    public void setCurrentChestPLate(Item currentChestPLate) {
+        this.currentChestPLate = currentChestPLate;
+    }
+
+    public Item getCurrentHelmet() {
+        return currentHelmet;
+    }
+
+    public void setCurrentHelmet(Item currentHelmet) {
+        this.currentHelmet = currentHelmet;
+    }
+
+    public Vertex getStartVertex() {
+        return startVertex;
+    }
+
+    public void setStartVertex(Vertex startVertex) {
+        this.startVertex = startVertex;
+    }
+
+    public Vertex getFinalVertex() {
+        return finalVertex;
+    }
+
+    public void setFinalVertex(Vertex finalVertex) {
+        this.finalVertex = finalVertex;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
+    public void setX(int x){
+        this.x = x;
+    }
+    public void setY(int y){
+        this.y = y;
+    }
+    public void setDungeon(Dungeon dungeon) {
+        this.dungeon = dungeon;
+    }
     private int clamp(int x, int min, int max) { // defans atacktan büyükse
         return Math.min(Math.max(x, min), max);
     }
@@ -85,51 +170,11 @@ public class GamePlay {
         System.out.print("Please enter your name : ");
         String name = scanner.nextLine();
         game.Clear();
-        player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
+        player = new Player(name,0,0,2250,200,200,0,22500,150,3,200);
         PlayerHP = player.getHp();
         PlayerDefence = player.getDefence();
         PlayerAttack = player.getAttack();
-        market.fillMarketProducts();
-        /*
-        Armor armor1 = new Armor(250,"helmet");
-        currentHelmet = new Item("helmet",1,6,armor1);
-        player.getInventory().addItem(currentHelmet);
-
-         */
-
-         /*
-        item = new Item("elixir",5,54);
-        player.getInventory().addItem(item);
-        player.getInventory().searchItem(item.getItemName());
-        player.getInventory().addItem(item);
-        player.getInventory().searchItem(item.getItemName());
-
-        player.getInventory().deleteItem("elixir",scanner);
-        player.getInventory().deleteItem("elixir",scanner);
-        player.getInventory().deleteItem("elixir",scanner);
-        item = new Item("money",15,53);
-        player.getInventory().addItem(item);
-        player.getInventory().addItem(item);
-        player.getInventory().addItem(item);
-        player.getInventory().searchItem("money");
-        System.out.println(player.getInventory().size());
-        scanner.nextLine();
-        
-         */
-
-
-        /*
-        Dungeon dungeon = new Dungeon(17,17);
-        dungeon.createRandomDungeon(); // we create matrix for random dungeon
-        createRandomDungeon(dungeon);
-        Stack stack = new Stack(4);
-        stack.push(dungeon);
-        ((Dungeon)stack.peek()).printDungeon();
-        Dungeon dungeon1 = new Dungeon(15,17);// create own dungen manuel
-        dungeon1.getDungeonMatrix();
-        //writeText();
-        readText();
-        */
+        Product[] marketProducts = market.fillMarketProducts();
 
         dungeon = readText(); // we take dungeon here main dungeon
         dungeonStack.push(dungeon);
@@ -149,11 +194,15 @@ public class GamePlay {
         enemy = new Enemy(0,0,0,"",0,0,"",false);
         enemies = enemy.randomEnemy(dungeon);
         dungeon.printDungeon(game);
-
+        setting = new Setting(this,marketProducts);
         game.Clear();
         movement(); //hareket fonksiyonu
+        mouse();
 
         while (true) {
+            if(gameFinished){
+                break;
+            }
             if (infoIsCome) {
                 infoIsCome = false;
                 game.Clear();
@@ -163,6 +212,11 @@ public class GamePlay {
                 while (!takesInput) {
                     game.Clear();
                     System.out.print("You encountered ");
+                    for (int i = 0; i < enemies.length; i++) {
+                        if(x == enemies[i].getX() && y == enemies[i].getY()){
+                            enemy = enemies[i];
+                        }
+                    }
                     game.cn.setTextAttributes(new TextAttributes(Color.cyan));
                     System.out.print(enemy.getType()); //türü
                     game.cn.setTextAttributes(new TextAttributes(Color.white));
@@ -221,6 +275,11 @@ public class GamePlay {
                 while (!takesInput) {
                     game.Clear();
                     System.out.print("You encountered ");
+                    for (int i = 0; i < enemies.length; i++) {
+                        if(x == enemies[i].getX() && y == enemies[i].getY()){
+                            enemy = enemies[i];
+                        }
+                    }
                     game.cn.setTextAttributes(new TextAttributes(Color.cyan));
                     System.out.print(enemy.getType()); //türü
                     game.cn.setTextAttributes(new TextAttributes(Color.white));
@@ -263,9 +322,72 @@ public class GamePlay {
             if (isMarketOpened){
                 market.marketOpened(scanner, game);
             }
-            //Thread.sleep(10);
-        }
+            if (isSettingOpened){
+                while (true) {
+                    game.Clear();
+                    System.out.println("----------");
+                    System.out.println("- Resume -");
+                    System.out.println("----------");
+                    System.out.println("- Save   -");
+                    System.out.println("----------");
+                    System.out.println("- Load   -");
+                    System.out.println("----------");
+                    System.out.println("- Exit   -");
+                    System.out.println("----------");
 
+                    if(mouseY == 1 && mouseX < 8 && mouseX > 2){
+                        //resume
+                        isSettingOpened = false;
+                        infoIsCome = true;
+                        isMousePressedActive = false;
+                        mouseX = 0;
+                        mouseY = 0;
+                        break;
+                    } else if (mouseY == 7 && mouseX > 2 && mouseX < 6) {
+                        //exit
+                        gameFinished = true;
+                        isSettingOpened = false;
+                        isMousePressedActive = false;
+                        mouseX = 0;
+                        mouseY = 0;
+                        break;
+                    } else if (mouseY == 3 && mouseX > 2 && mouseX < 6) {
+                        //Save
+                        //save player ınfo
+                        //save dungeon
+                        //save ınventory
+                        //save market products
+                        setting.saveFile(dungeon);
+                        isSettingOpened = false;
+                        infoIsCome = true;
+                        isMousePressedActive = false;
+                        mouseX = 0;
+                        mouseY = 0;
+                        break;
+                    } else if (mouseY == 5 && mouseX > 2 && mouseX < 6) {
+                        //Load
+                        //load all save datas
+                        setting.loadFile();
+                        isSettingOpened = false;
+                        infoIsCome = true;
+                        isMousePressedActive = false;
+                        mouseX = 0;
+                        mouseY = 0;
+                        break;
+                    }
+                    Thread.sleep(100);
+                    //Save
+                    //Load
+                    //Exit
+                    //Resume
+                    //String choice = scanner.nextLine();
+                }
+
+            }
+            //sleep(1000);
+        }
+        System.out.println("game finished");
+        System.exit(0);
 
         //player moves then we write '●' instead of 'P'
     }
@@ -288,7 +410,6 @@ public class GamePlay {
         {
             game.Clear();
             System.out.println("inventory opened");
-
             game.cn.getTextWindow().setCursorPosition(0, 1);
             if (player.getInventory().size() == 0) {
                 game.cn.setTextAttributes(new TextAttributes(Color.yellow));
@@ -418,8 +539,12 @@ public class GamePlay {
                                         if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
                                             // eskisinin sayısı azalt
                                             helmetUsed = true; // kask giyildi
-                                            currentHelmet.setQuantity(currentHelmet.getQuantity() + 1);
-                                            player.getInventory().addItem(currentHelmet);
+                                            if(currentHelmet.getQuantity() > 0) {
+                                                currentHelmet.setQuantity(currentHelmet.getQuantity() + 1);
+                                            }else {
+                                                currentHelmet.setQuantity(1);
+                                                player.getInventory().addItem(currentHelmet);
+                                            }
                                             player.setDefence(player.getDefence() - helmetDefence);
                                             helmetDefence = 0;
                                             currentHelmet = item; // yeni kask
@@ -454,8 +579,12 @@ public class GamePlay {
                                         if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
                                             // eskisinin sayısı azlat
                                             chestPlateUsed = true;
-                                            currentChestPLate.setQuantity(currentChestPLate.getQuantity() + 1); // kullanırken 1 azalttık çıkaarıken 1 artırcaz eklemeden
-                                            player.getInventory().addItem(currentChestPLate);
+                                            if (currentChestPLate.getQuantity() > 0) {
+                                                currentChestPLate.setQuantity(currentChestPLate.getQuantity() + 1);// kullanırken 1 azalttık çıkaarıken 1 artırcaz eklemeden
+                                            } else {
+                                                currentChestPLate.setQuantity(1);
+                                                player.getInventory().addItem(currentChestPLate);
+                                            }
                                             player.setDefence(player.getDefence() - chestplateDefence);
                                             chestplateDefence = 0;
                                             currentChestPLate = item; // yeni chestPLate
@@ -483,6 +612,7 @@ public class GamePlay {
                                     player.setDefence(PlayerDefence + bootsDefence);
                                     currentBoots = item;
                                     player.getInventory().useItems(currentBoots,1);
+                                    System.out.println("currentBoots");
                                 }else
                                 {
                                     while (true) { // item varsa
@@ -491,8 +621,12 @@ public class GamePlay {
                                         if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
                                             // eskisinin sayısı geri ekle(eskisi al ve ekle)
                                             bootsUsed = true;
-                                            currentBoots.setQuantity(currentBoots.getQuantity() + 1);
-                                            player.getInventory().addItem(currentBoots); // mevcut olanı envantere al
+                                            if(currentBoots.getQuantity() > 0) {
+                                                currentBoots.setQuantity(currentBoots.getQuantity() + 1);
+                                            } else {
+                                                currentBoots.setQuantity(1);
+                                                player.getInventory().addItem(currentBoots); // mevcut olanı envantere al
+                                            }
                                             player.setDefence(player.getDefence() - bootsDefence);
                                             bootsDefence = 0;
                                             currentBoots = item; // itemi al
@@ -560,8 +694,13 @@ public class GamePlay {
 
                         if(currentHelmet != null) {
                             if (choice.equalsIgnoreCase(currentHelmet.getItemName())) {
-                                currentHelmet.setQuantity(currentHelmet.getQuantity() + 1);
-                                player.getInventory().addItem(currentHelmet); // kask ekle envantere
+                                if(currentHelmet.getQuantity() > 0) {
+                                    currentHelmet.setQuantity(currentHelmet.getQuantity() + 1);
+                                    // kask ekle envantere
+                                }else{
+                                    currentHelmet.setQuantity(1);
+                                    player.getInventory().addItem(currentHelmet);
+                                }
                                 player.setDefence(player.getDefence() - helmetDefence);
                                 helmetDefence = 0;
                                 currentHelmet = null;
@@ -570,19 +709,32 @@ public class GamePlay {
                         }
                         if (currentChestPLate != null) {
                             if (choice.equalsIgnoreCase(currentChestPLate.getItemName())) {
-                                currentChestPLate.setQuantity(currentChestPLate.getQuantity() + 1);
-                                player.getInventory().addItem(currentChestPLate);
+                                if(currentChestPLate.getQuantity() > 0){
+                                    // birden çok eleman varken
+                                    currentChestPLate.setQuantity(currentChestPLate.getQuantity() + 1);
+                                }else{
+                                    // 1 eleman varken
+                                    currentChestPLate.setQuantity(1);
+                                    player.getInventory().addItem(currentChestPLate);
+                                }
                                 player.setDefence(player.getDefence() - chestplateDefence);
                                 chestplateDefence = 0;
                                 currentChestPLate = null;
                                 break;
+
                             }
                         }
                         if (currentBoots != null)
                         {
                             if (choice.equalsIgnoreCase(currentBoots.getItemName())) {
-                                currentBoots.setQuantity(currentBoots.getQuantity() + 1);
-                                player.getInventory().addItem(currentBoots);
+                                if(currentBoots.getQuantity() > 0){
+                                    // birden çok eleman varken
+                                    currentBoots.setQuantity(currentBoots.getQuantity() + 1);
+                                }else{
+                                    // 1 eleman varken
+                                    currentBoots.setQuantity(1);
+                                    player.getInventory().addItem(currentBoots);
+                                }
                                 player.setDefence(player.getDefence() - bootsDefence);
                                 bootsDefence = 0;
                                 currentBoots = null;
@@ -720,8 +872,13 @@ public class GamePlay {
                                     if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y"))
                                     {
                                         weaponUsed = true;
-                                        currentWeapon.setQuantity(currentWeapon.getQuantity() + 1); // silahı envanter ekle
-                                        player.getInventory().addItem(currentWeapon);
+                                        if(currentWeapon.getQuantity() > 0) {
+                                            currentWeapon.setQuantity(currentWeapon.getQuantity() + 1); // silahı envanter ekle
+
+                                        }else {
+                                            currentWeapon.setQuantity(1);
+                                            player.getInventory().addItem(currentWeapon);
+                                        }
                                         player.setAttack(player.getAttack() - weaponAttack);
                                         weaponAttack = 0;
                                         currentWeapon = item;
@@ -786,8 +943,13 @@ public class GamePlay {
                         }
                         if(currentWeapon != null) {
                             if (choice.equalsIgnoreCase(currentWeapon.getItemName())) {
-                                currentWeapon.setQuantity(currentWeapon.getQuantity() + 1); // envanter al
-                                player.getInventory().addItem(currentWeapon); //silah ekle envantere
+                                if(currentWeapon.getQuantity() > 0) {
+                                    //silah ekle envantere
+                                    currentWeapon.setQuantity(currentWeapon.getQuantity() + 1); // envanter al
+                                }else{
+                                    currentWeapon.setQuantity(1);
+                                    player.getInventory().addItem(currentWeapon);
+                                }
                                 player.setAttack(player.getAttack() - weaponAttack);
                                 weaponAttack = 0;
                                 currentWeapon = null;
@@ -1605,7 +1767,22 @@ public class GamePlay {
         System.out.println(".");
     }
     //Player movement
+    public void mouse() throws Exception {
+        Game game = new Game();
+        game.tmlis = new TextMouseListener() {
+            public void mouseClicked(TextMouseEvent arg0) {}
 
+            public void mousePressed(TextMouseEvent arg0) {
+                if(isMousePressedActive) {
+                    mouseX = arg0.getX();
+                    mouseY = arg0.getY();
+                }
+            }
+            public void mouseReleased(TextMouseEvent arg0) {}
+        };
+        game.cn.getTextWindow().addTextMouseListener(game.tmlis);
+
+    }
     public void movement() throws Exception
     {
 
@@ -1618,6 +1795,11 @@ public class GamePlay {
                     if (game.keypr == 0) {
                         game.keypr = 1;
                         game.rkey = e.getKeyCode();
+                    }
+                    if(e.getKeyCode() == KeyEvent.VK_S){
+                        isSettingOpened=true;
+                        infoIsCome = false;
+                        isMousePressedActive=true;
                     }
                     if(e.getKeyCode() == KeyEvent.VK_E)
                     {
@@ -1657,7 +1839,6 @@ public class GamePlay {
                                 player.setMoney(player.getMoney() + 1);
                             }
                             dungeon.getDungeonMatrix()[x][y] = 'P'; //konumu x ve y //ilerledik
-
                             if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
                                 dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
                             }
@@ -1710,7 +1891,6 @@ public class GamePlay {
                                 player.setMoney(player.getMoney() + 1);
                             }
                             dungeon.getDungeonMatrix()[x][y] = 'P';
-
                             if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
                                 dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
                             }
@@ -1763,7 +1943,6 @@ public class GamePlay {
                                 player.setMoney(player.getMoney() + 1);
                             }
                             dungeon.getDungeonMatrix()[x][y] = 'P';
-
                             if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
                                 dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
                             }
@@ -1792,7 +1971,7 @@ public class GamePlay {
                         if (dungeon.getDungeonMatrix()[x][y - 1] != '+' && dungeon.getDungeonMatrix()[x][y - 1] != '|') {
 
                             dungeon.getDungeonMatrix()[x][y] = ' ';
-                            if(dungeon.getDungeonMatrix()[x][y - 1] == 'E') // yukarısı E ise
+                            if(dungeon.getDungeonMatrix()[x][y - 1] == 'E') // solda E ise
                             {
                                 enemyX = x;
                                 enemyY = y - 1;
@@ -1816,7 +1995,6 @@ public class GamePlay {
                                 player.setMoney(player.getMoney() + 1);
                             }
                             dungeon.getDungeonMatrix()[x][y] = 'P';
-
                             if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) { // buarda düşman yaşıyo
                                 dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
                             }
@@ -2024,4 +2202,6 @@ public class GamePlay {
     public void setMarketOpened(boolean marketOpened) {
         isMarketOpened = marketOpened;
     }
+
+
 }
