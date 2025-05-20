@@ -7,6 +7,7 @@ class GameTest {
         Game game = new Game();
         GamePlay gamePlay = new GamePlay();
         gamePlay.Start();
+        //gamePlay.Start();
     }
 }
 //TODO List

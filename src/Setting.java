@@ -267,8 +267,8 @@ public class Setting {
                 gamePlay.getCurrentBoots().setQuantity(0); // kullanılmış olması lazım
                 GamePlay.bootsUsed = true;
             }else if(datas3[0].equalsIgnoreCase("w")){
-                Armor armor = new Armor(Integer.parseInt(datas3[5]),datas3[6]);
-                Item item = new Item(datas3[1],Integer.parseInt(datas3[2]),Integer.parseInt(datas3[3]),armor);
+                Weapon weapon = new Weapon(datas3[5],Integer.parseInt(datas3[6]));
+                Item item = new Item(datas3[1],Integer.parseInt(datas3[2]),Integer.parseInt(datas3[3]),weapon);
                 gamePlay.setCurrentWeapon(item);
                 gamePlay.getCurrentWeapon().setQuantity(0); // kullanılmış olması lazım
                 GamePlay.weaponUsed = true;

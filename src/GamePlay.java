@@ -161,16 +161,59 @@ public class GamePlay {
         return Math.min(Math.max(x, min), max);
     }
 
+
+    public void startScreen() throws IOException {
+        isMousePressedActive = true;
+        while (true) {
+            Game.Clear();
+            System.out.println("Welcome to the Dungeon");
+            System.out.println("----------------");
+            System.out.println("--- New Game ---");
+            System.out.println("----------------");
+            System.out.println("--- Load     ---");
+            System.out.println("----------------");
+            System.out.println("--- Exit     ---");
+            System.out.println("----------------");
+            if(mouseY == 4 && mouseX > 3 && mouseX < 8) {
+                //Load
+                setting.loadFile();
+                break;
+            } else if (mouseY == 6 && mouseX > 3 && mouseX < 8) {
+                //Exit
+                gameFinished = true;
+                isSettingOpened = false;
+                isMousePressedActive = false;
+                mouseX = 0;
+                mouseY = 0;
+                break;
+            } else if (mouseY == 2 && mouseX > 3 && mouseX < 12) {
+                isMousePressedActive = false;
+                Game.Clear();
+                System.out.println("Welcome to the Dungeon Warrior ");
+                System.out.print("Please enter your name : ");
+                String name = scanner.nextLine();
+                player.setName(name);
+                break;
+            }
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        isMousePressedActive = false;
+
+    }
     public void Start() throws Exception//Oyun buarada başlıyacak
     {
         Game game = new Game();
 
         //Oyun başladı önce oyuncu oluşur
-        System.out.println("Welcome to the Dungeon Warrior ");
-        System.out.print("Please enter your name : ");
-        String name = scanner.nextLine();
-        game.Clear();
-        player = new Player(name,0,0,2250,200,200,0,22500,150,3,200);
+
+        String name = "";
+
+        player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
         PlayerHP = player.getHp();
         PlayerDefence = player.getDefence();
         PlayerAttack = player.getAttack();
@@ -198,15 +241,17 @@ public class GamePlay {
         game.Clear();
         movement(); //hareket fonksiyonu
         mouse();
-
-        while (true) {
+        startScreen();
+        isSettingOpened = false;
+        inventoryOpened = false;
+        while (true) { // new game loop
             if(gameFinished){
                 break;
             }
             if (infoIsCome) {
                 infoIsCome = false;
                 game.Clear();
-                dungeon.printDungeon(game);
+                dungeon.printDungeon(game); // print dungeon
                 game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY() + 1, 0);
                 printStatics(game, player); // parayı yazdır
                 while (!takesInput) {
@@ -937,6 +982,12 @@ public class GamePlay {
                                 break;
                             } else if (choice.equalsIgnoreCase("st")|| choice.equalsIgnoreCase("staff")) {
                                 choice = "staff";
+                                break;
+                            } else if (choice.equalsIgnoreCase("axe")) {
+                                choice = "axe";
+                                break;
+                            } else if (choice.equalsIgnoreCase("bow")) {
+                                choice = "bow";
                                 break;
                             }
                             clearPart(x,y,game,7,70);

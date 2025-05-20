@@ -415,31 +415,39 @@ public class Market {
                                                                         gamePlay.getPlayer().getInventory().addItem(item);
                                                                     }
                                                                     gamePlay.clearPart(x,y-2,game,5,70);
-                                                                    marketProducts[i].setQuantity(marketProducts[i].getQuantity() - Integer.parseInt(choice));
-                                                                    if(marketProducts[i].getQuantity()==0){
+                                                                    if(marketProducts[i].getQuantity() - Integer.parseInt(choice) == 0){
                                                                         if(marketProducts[i].getName().equalsIgnoreCase(product.getName()) && marketProducts[i].getCostType().equalsIgnoreCase(product.getCostType())){
                                                                             //we find product
+                                                                            Product product1 = new Product("",0,0,"",0,0,"");
                                                                             if(product.getCostType().equalsIgnoreCase("cheap")){
                                                                                 int random = rand.nextInt(11);
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("moderate")) {
                                                                                 int random = rand.nextInt(11) + 11;
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("expensive")) {
                                                                                 int random = rand.nextInt(11) + 22;
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("special")) {
-                                                                                marketProducts[i] = productsList[rand.nextInt(11)];
+                                                                                product1 = productsList[rand.nextInt(11)];
                                                                             }
+                                                                            marketProducts[i].setName(product1.getName());
+                                                                            marketProducts[i].setType(product1.getType());
+                                                                            marketProducts[i].setCostType(product1.getCostType());
+                                                                            marketProducts[i].setQuantity(product1.getQuantity());
+                                                                            marketProducts[i].setPrice(product1.getPrice());
+                                                                            marketProducts[i].setId(product1.getId());
+                                                                            marketProducts[i].setEffect(product1.getEffect());
+                                                                            break;
                                                                         }
                                                                     }
-                                                                    break;
                                                                 }
                                                             }else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
                                                                 break;
                                                             }
                                                             gamePlay.clearPart(x,y-2,game,5,70);
                                                         }
+                                                        break;
                                                     }
                                                 }
                                             }
@@ -700,31 +708,39 @@ public class Market {
                                                                         gamePlay.getPlayer().getInventory().addItem(item);
                                                                     }
                                                                     gamePlay.clearPart(x,y-2,game,5,70);
-                                                                    marketProducts[i].setQuantity(marketProducts[i].getQuantity() - Integer.parseInt(choice));
-                                                                    if(marketProducts[i].getQuantity()==0){
+                                                                    if(marketProducts[i].getQuantity() - Integer.parseInt(choice) == 0){
                                                                         if(marketProducts[i].getName().equalsIgnoreCase(product.getName()) && marketProducts[i].getCostType().equalsIgnoreCase(product.getCostType())){
                                                                             //we find product
+                                                                            Product product1 = new Product("",0,0,"",0,0,"");
                                                                             if(product.getCostType().equalsIgnoreCase("cheap")){
                                                                                 int random = rand.nextInt(11);
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("moderate")) {
                                                                                 int random = rand.nextInt(11) + 11;
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("expensive")) {
                                                                                 int random = rand.nextInt(11) + 22;
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("special")) {
-                                                                                marketProducts[i] = productsList[rand.nextInt(11)];
+                                                                                product1 = productsList[rand.nextInt(11)];
                                                                             }
+                                                                            marketProducts[i].setName(product1.getName());
+                                                                            marketProducts[i].setType(product1.getType());
+                                                                            marketProducts[i].setCostType(product1.getCostType());
+                                                                            marketProducts[i].setQuantity(product1.getQuantity());
+                                                                            marketProducts[i].setPrice(product1.getPrice());
+                                                                            marketProducts[i].setId(product1.getId());
+                                                                            marketProducts[i].setEffect(product1.getEffect());
+                                                                            break;
                                                                         }
                                                                     }
-                                                                    break;
                                                                 }
                                                             }else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
                                                                 break;
                                                             }
                                                             gamePlay.clearPart(x,y-2,game,5,70);
                                                         }
+                                                        break;
                                                     }
                                                 }
                                             }
@@ -981,31 +997,39 @@ public class Market {
                                                                         gamePlay.getPlayer().getInventory().addItem(item);
                                                                     }
                                                                     gamePlay.clearPart(x,y-2,game,5,70);
-                                                                    marketProducts[i].setQuantity(marketProducts[i].getQuantity() - Integer.parseInt(choice));
-                                                                    if(marketProducts[i].getQuantity()==0){
+                                                                    if(marketProducts[i].getQuantity() -Integer.parseInt(choice) == 0){
                                                                         if(marketProducts[i].getName().equalsIgnoreCase(product.getName()) && marketProducts[i].getCostType().equalsIgnoreCase(product.getCostType())){
                                                                             //we find product
+                                                                            Product product1 = new Product("",0,0,"",0,0,"");
                                                                             if(product.getCostType().equalsIgnoreCase("cheap")){
                                                                                 int random = rand.nextInt(11);
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("moderate")) {
                                                                                 int random = rand.nextInt(11) + 11;
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("expensive")) {
                                                                                 int random = rand.nextInt(11) + 22;
-                                                                                marketProducts[i] = productsList[random];
+                                                                                product1 = productsList[random];
                                                                             } else if (product.getCostType().equalsIgnoreCase("special")) {
-                                                                                marketProducts[i] = productsList[rand.nextInt(11)];
+                                                                                product1 = productsList[rand.nextInt(11)];
                                                                             }
+                                                                            marketProducts[i].setName(product1.getName());
+                                                                            marketProducts[i].setType(product1.getType());
+                                                                            marketProducts[i].setCostType(product1.getCostType());
+                                                                            marketProducts[i].setQuantity(product1.getQuantity());
+                                                                            marketProducts[i].setPrice(product1.getPrice());
+                                                                            marketProducts[i].setId(product1.getId());
+                                                                            marketProducts[i].setEffect(product1.getEffect());
+                                                                            break;
                                                                         }
                                                                     }
-                                                                    break;
                                                                 }
                                                             }else if (choice.equalsIgnoreCase("no") || choice.equalsIgnoreCase("n")) {
                                                                 break;
                                                             }
                                                             gamePlay.clearPart(x,y-2,game,5,70);
                                                         }
+                                                        break;
                                                     }
                                                 }
                                             }
