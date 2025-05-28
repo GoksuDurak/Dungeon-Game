@@ -22,4 +22,11 @@ public class Vertex {
     {
         this.y = y;
     }
+    public boolean equals(Vertex point) {
+        if (this.x == point.x && this.y == point.y) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

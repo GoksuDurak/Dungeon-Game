@@ -1,12 +1,28 @@
+import java.util.Random;
+import java.util.Scanner;
+
 public class NPC {
     private String name;
     private String job;
     private String message;
-    NPC(String name, String job, String message)
-    {
+    private String gender;
+    private Object quest;
+    private MultiLinkedList npcs;
+    private MultiLinkedList npcNames;
+    private Random rand = new Random();
+    private GamePlay gamePlay;
+    private int x ;
+    private int y ;
+    private Vertex NPCVertex;
+    NPC(String name, String job, String message, Object quest, String gender, Vertex NPCVertex, GamePlay gamePlay) {
         this.name = name;
         this.job = job;
         this.message = message;
+        this.quest = quest;
+        this.gender = gender;
+        npcNames = new MultiLinkedList();
+        this.NPCVertex = NPCVertex;
+        this.gamePlay = gamePlay;
     }
     public void setName(String name)
     {
@@ -31,5 +47,228 @@ public class NPC {
     public String getMessage()
     {
         return message;
+    }
+    public MultiLinkedList getNpcNames() {
+        return npcNames;
+    }
+
+    public void setNpcNames(MultiLinkedList npcNames) {
+        this.npcNames = npcNames;
+    }
+    public Object getQuest() {
+        return quest;
+    }
+
+    public void setQuest(Object quest) {
+        this.quest = quest;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public void addLumberJacks() {
+        npcNames.addCategory("Lumberjacks");
+        for(int i = 0;i < 5;i++) {
+            do {
+                x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+                y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+            gamePlay.getDungeon().getDungeonMatrix()[x][y] = 'N';
+        }
+        Vertex npcVertex = new Vertex(x, y);
+        // --------------------woman--------------------
+        String npcName = "Elra Treehewer";
+        String npcGender = "Girl";
+        String npcJob = "Lumberjack";
+        String npcMessage = "Quiet but strong.Her axe does not stop even in winter!!!";
+        int width = rand.nextInt(15) + 25;
+        int height = rand.nextInt(15) + 25;
+        Object npcQuest = new Forest(width, height); // buraya görev gelecek
+        NPC npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender,npcVertex,gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Mira Ironbark";
+        npcMessage = "She became a legend with her axe.Villagers respect her.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Thalia Woodsmile";
+        npcMessage = "A gentle girl with a singing voice and a shiny axe. The forest knows her name and calls out to her --> Thalia.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Brynn Oakram";
+        npcMessage = "She draws her strength from her arms and carries heavy logs all by herself.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Sera Axewind";
+        npcMessage = "She is known for her swift axe, trees fall as if they bow to her.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Velda Timberjaw";
+        npcMessage = "Brave, a former soldier who was used by others and had wielded an axe in battle.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Lira Logcutter";
+        npcMessage = "She lives alone in the forest, immersed in nature.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Ysolde Barkcloak";
+        npcMessage = "She wears a cloak made of leaves, a mysterious person.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Maren Pinewhisper";
+        npcMessage = "She is quiet and careful,prays to every tree first.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Freya Branchbreaker";
+        npcMessage = "A large-built woman, a woodswoman known for her legendary strength.";
+        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        // --------------------man--------------------
+        npcGender = "Boy";
+        npcName = "Garruk Woodsplitter";
+        npcMessage = "Muscular, stern-faced, the strongest man in the village.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Thorne Axeblade";
+        npcMessage = "A woodsman who expertly swings his enchanted axe.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks",npc);
+
+        npcName = "Bram Ironlog";
+        npcMessage = "Calm and patient, teaches young woodsmen.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks", npc);
+
+        npcName = "Kael Timberfist";
+        npcMessage = "A fierce man; it wouldn’t be surprising if he could knock down a tree with his fist.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks", npc);
+
+        npcName = "Borin Pinecleaver";
+        npcMessage = "Cheerful, an old woodsman who constantly tells stories.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks", npc);
+
+        npcName = "Ulric Barkskin";
+        npcMessage = "His face is as tough as tree bark, he lives in very ancient forests.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks", npc);
+
+        npcName = "Darnel Axehand";
+        npcMessage = "Lost one arm but replaced it with an axe-hand.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks", npc);
+
+        npcName = "Varek Oakhew";
+        npcMessage = "Serious, disciplined, and dedicated to duty.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks", npc);
+
+        npcName = "Rurik Woodmaul";
+        npcMessage = "Prefers to fell trees not with an axe but with a giant hammer.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks", npc);
+
+        npcName = "Fenric Logsplitter";
+        npcMessage = "Sells firewood to caravans, turning woodsman skills into trade.";
+        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npcNames.addItem("Lumberjacks", npc);
+        
+    }
+    public void displayNpc(Object category,MultiLinkedList mll) {
+        MultiLinkedList.CategoryNode categoryNode = mll.getHead();
+        if (categoryNode == null) {
+            System.out.println("No category found");
+        } else {
+            System.out.println("Category: " + categoryNode.getData());
+            while (categoryNode != null && !categoryNode.getData().equals(category)) {
+                categoryNode = categoryNode.getDown();
+            }
+            if (categoryNode == null) {
+                System.out.println("No category found");
+                return;
+            }
+            MultiLinkedList.ItemNode itemNode = categoryNode.getRight();
+            if (itemNode == null) {
+                System.out.println("No NPC found");
+            } else {
+                while (itemNode != null) {
+                    System.out.print("NPC : ");
+                    NPC npc = (NPC) itemNode.getData();
+                    System.out.print(" Name "+npc.getName());
+                    System.out.print(" Job "+npc.getJob());
+                    System.out.print(" Message "+npc.getMessage());
+                    System.out.print(" Quest "+npc.getQuest());
+                    System.out.print(" Gender "+npc.getGender());
+                    itemNode = itemNode.getNext();
+                    System.out.println();
+                }
+            }
+        }
+    }
+    public NPC selectRandomNPC(Object category,MultiLinkedList mll,int minInterval ,int maxInterval) {
+        MultiLinkedList.CategoryNode categoryNode = mll.getHead();
+        if (categoryNode == null) {
+            System.out.println("No category found");
+            return null;
+        } else {
+            while (categoryNode != null && !categoryNode.getData().equals(category)) {
+                categoryNode = categoryNode.getDown();
+            }
+            if (categoryNode == null) {
+                System.out.println("No category found");
+                return null;
+            }
+            MultiLinkedList.ItemNode itemNode = categoryNode.getRight();
+            if (itemNode == null) {
+                System.out.println("No NPC found");
+                return null;
+            } else {
+                int randomNum = rand.nextInt(maxInterval - minInterval + 1) + minInterval;  // min ile max arası sayı
+                while (randomNum > 0) {
+                    itemNode = itemNode.getNext();
+                    randomNum--;
+                }
+                return (NPC) itemNode.getData();
+            }
+        }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public Vertex getNPCVertex() {
+        return NPCVertex;
+    }
+
+    public void setNPCVertex(Vertex NPCVertex) {
+        this.NPCVertex = NPCVertex;
     }
 }
