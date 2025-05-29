@@ -86,4 +86,38 @@ public class CircularSingleLinkedList {
         }
     }
 
+    public Object getData(int index) {
+        if (head == null) {
+            System.out.println("List is empty");
+            return null;
+        } else {
+
+            Node temp = head;
+            int count = 0;
+
+            if (temp.getLink() == head) {
+                if(index == count) {
+                    return temp.getData();
+                } else {
+                    return null;
+                }
+            }
+
+            while (temp.getLink() != head) {
+                if(count == index) {
+                    return temp.getData();
+                }
+                count++;
+                temp = temp.getLink();
+            }
+
+            if (temp.getLink() == head) {
+                if(index == count) {
+                    return temp.getData();
+                }
+            }
+            return null;
+        }
+    }
+
 }

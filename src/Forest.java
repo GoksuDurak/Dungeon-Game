@@ -8,9 +8,14 @@ public class Forest {
     public class Computer {
         private int computerX = 0;
         private int computerY = 0;
-
+        private int firstComputerX = 0;
+        private int firstComputerY = 0;
+        private int treasureX = 0;
+        private int treasureY = 0;
+        private boolean isRandomMove = false;
         private boolean isTargetFound = false;
         private Stack targetPath;
+
         public Computer() {}
 
         public int getComputerX() {
@@ -30,20 +35,33 @@ public class Forest {
         }
 
         public void pathFindingRobot() {
-            do {
-                computerX = rand.nextInt(forestMatrix[0].length - 1);
-                computerY = rand.nextInt(forestMatrix.length - 1);
-            } while (forestMatrix[computerY][computerX] != ' ');
-            forestMatrix[computerY][computerX] = 'C';
 
-            int row;
-            int col;
-            do {
-                row = rand.nextInt(forestMatrix.length);
-                col = rand.nextInt(forestMatrix[0].length);
-            } while (forestMatrix[row][col] != ' ');
-            forestMatrix[row][col] = 'T';
-            Vertex targetVertex = new Vertex(col, row);
+            if ((treasureX == 0 && treasureY == 0 && computerX == 0 && computerY == 0) || isRandomMove) {
+                //start
+                do {
+                    treasureY = rand.nextInt(forestMatrix.length);
+                    treasureX = rand.nextInt(forestMatrix[0].length);
+                } while (forestMatrix[treasureY][treasureX] != ' ');
+                //forestMatrix[treasureY][treasureX] = 'T';
+
+                do {
+                    computerX = rand.nextInt(forestMatrix[0].length - 1);
+                    computerY = rand.nextInt(forestMatrix.length - 1);
+                } while (forestMatrix[computerY][computerX] != ' ');
+                forestMatrix[computerY][computerX] = 'C';
+                firstComputerX = computerX;
+                firstComputerY = computerY;
+            } else {
+                computerX = treasureX;
+                computerY = treasureY;
+                treasureX = firstComputerX;
+                treasureY = firstComputerY;
+                //forestMatrix[treasureY][treasureX] = 'T';
+                forestMatrix[computerY][computerX] = 'C';
+                firstComputerX = computerX;
+                firstComputerY = computerY;
+            }
+            Vertex targetVertex = new Vertex(treasureX, treasureY);
             boolean[][] visitedPoints = new boolean[forestMatrix.length][forestMatrix[0].length];
             for (int i = 0; i < forestMatrix.length; i++) {
                 for (int j = 0; j < forestMatrix[0].length; j++) {
@@ -83,14 +101,15 @@ public class Forest {
             while (!way.isEmpty()) {
                 Vertex lastVertex = (Vertex) way.pop();
                 if (!lastVertex.equals(computerVertex) && forestMatrix[lastVertex.getVertexY()][lastVertex.getVertexX()] == ' ') {
-                    forestMatrix[lastVertex.getVertexY()][lastVertex.getVertexX()] = '.';
+                    //forestMatrix[lastVertex.getVertexY()][lastVertex.getVertexX()] = '.';
                 }
                 targetPath.push(lastVertex);
             }
             targetPath.pop();
 
         }
-        public void moveRobot() {
+        public void moveRobotRandom(boolean flag) {
+            isRandomMove = flag;
             while (!isTargetFound) {
                 pathFindingRobot();
                 isTargetFound = true;
@@ -160,6 +179,24 @@ public class Forest {
         }
 
     }
+    public class inputList {
+        private CircularSingleLinkedList woodList = new CircularSingleLinkedList();
+        public inputList() {}
+        public void fillInputList(int count) {
+            for (int i = 0; i < count; i++) {
+                woodList.add("\\");
+            }
+        }
+        public void addWoodToForest() {
+            int x = 0;
+            int y = 0;
+            do {
+                x = rand.nextInt(forestMatrix.length - 1);
+                y = rand.nextInt(forestMatrix[0].length - 1);
+            } while (forestMatrix[x][y] != ' ');
+            forestMatrix[x][y] = '\\';
+        }
+    }
     private int x;
     private int y;
     private char[][] forestMatrix;
@@ -199,17 +236,24 @@ public class Forest {
     }
     public void startGame() {
         creatForestMatrix();
+        inputList inputList = new inputList();
+        inputList.fillInputList(20);
+
         Computer computer = new Computer();
+        Computer computer1 = new Computer();
+        Computer computer2 = new Computer();
         int randomNum = rand.nextInt((forestMatrix.length -1) * (forestMatrix[0].length -1) - forestMatrix[0].length / 4) + (forestMatrix.length -1) * (forestMatrix[0].length -1) / 4;
         randomNum = randomNum / 8;
         fillForestMatrix(rand,randomNum);
         while (true) {
             Game.Clear();
-            computer.moveRobot();
+            computer.moveRobotRandom(true);
+            computer1.moveRobotRandom(false);
+            computer2.moveRobotRandom(true);
             printForestMatrix();
             move();
             time++;
-
+            inputList.addWoodToForest();
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
