@@ -261,7 +261,7 @@ public class GamePlay {
         isSettingOpened = false;
         inventoryOpened = false;
         //---------NPC------------
-        npcs = new NPC("","","","","",null,this);
+        npcs = new NPC(false,"","","","","",null,this);
         npcs.addLumberJacks();
         while (true) { // new game loop
             if(gameFinished){
@@ -517,12 +517,18 @@ public class GamePlay {
                 game.Clear();
                 System.out.println(commentSecond);
                 // burada oyunu çağıracağız ve başlayacak
-                takesInput = true;
+                takesInput = false;
                 forestMazeActive = true;
                 forest.startGame();
+                if (!forest.isGameWin()) {
+                    npc.setQuestFinished(false);
+                } else {
+                    System.out.println("You have finished the game");
+                    scanner.nextLine();
+                    npc.setQuestFinished(true);
+                }
                 forestMazeActive = false;
-                takesInput = false;
-                scanner.nextLine();
+                takesInput = true;
                 break;
             } else if (choice.equalsIgnoreCase("n") || choice.equalsIgnoreCase("no")) {
                 break;
@@ -1953,7 +1959,6 @@ public class GamePlay {
     }
     public void movement() throws Exception
     {
-
         Game game = new Game();
         game.klis=new KeyListener() {
             public void keyTyped(KeyEvent e) {}
@@ -2025,7 +2030,7 @@ public class GamePlay {
                             if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
                                 dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
 
-                            } else if (dungeon.getDungeonMatrix()[NPCX][NPCY] == ' ') {
+                            } else if (dungeon.getDungeonMatrix()[NPCX][NPCY] == ' ' && !npc.isQuestFinished()) {
                                 dungeon.getDungeonMatrix()[NPCX][NPCY] = 'N';
                             }
 
@@ -2047,7 +2052,7 @@ public class GamePlay {
                                     dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] = 'E';
                                 }
                             } else if (!NPCCoordinateQueue.isEmpty() && NPCCoordinateQueue.peek() != null) {
-                                if(dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] == ' ') {
+                                if(dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] == ' ' && !secondNPC.isQuestFinished()) {
                                    dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] = 'N';
                                 }
                             }
@@ -2103,7 +2108,7 @@ public class GamePlay {
 
                             if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
                                 dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
-                            } else if (dungeon.getDungeonMatrix()[NPCX][NPCY] == ' ') {
+                            } else if (dungeon.getDungeonMatrix()[NPCX][NPCY] == ' ' && !npc.isQuestFinished()) {
                                 dungeon.getDungeonMatrix()[NPCX][NPCY] = 'N';
                             }
 
@@ -2125,7 +2130,7 @@ public class GamePlay {
                                     dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] = 'E';
                                 }
                             } else if (!NPCCoordinateQueue.isEmpty() && NPCCoordinateQueue.peek() != null) {
-                                if(dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] == ' ') {
+                                if(dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] == ' ' && !secondNPC.isQuestFinished()) {
                                     dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] = 'N';
                                 }
                             }
@@ -2178,7 +2183,7 @@ public class GamePlay {
                             dungeon.getDungeonMatrix()[x][y] = 'P';
                             if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) {
                                 dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
-                            } else if (dungeon.getDungeonMatrix()[NPCX][NPCY] == ' ') {
+                            } else if (dungeon.getDungeonMatrix()[NPCX][NPCY] == ' ' && !npc.isQuestFinished()) {
                                 dungeon.getDungeonMatrix()[NPCX][NPCY] = 'N';
                             }
 
@@ -2198,7 +2203,7 @@ public class GamePlay {
                                     dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] = 'E';
                                 }
                             } else if (!NPCCoordinateQueue.isEmpty() && NPCCoordinateQueue.peek() != null) {
-                                if(dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] == ' ') {
+                                if(dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] == ' ' && !secondNPC.isQuestFinished()) {
                                     dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] = 'N';
                                 }
                             }
@@ -2251,7 +2256,7 @@ public class GamePlay {
                             dungeon.getDungeonMatrix()[x][y] = 'P';
                             if (dungeon.getDungeonMatrix()[enemyX][enemyY] == ' ' && !enemy.isDead()) { // buarda düşman yaşıyo
                                 dungeon.getDungeonMatrix()[enemyX][enemyY] = 'E';
-                            } else if (dungeon.getDungeonMatrix()[NPCX][NPCY] == ' ') {
+                            } else if (dungeon.getDungeonMatrix()[NPCX][NPCY] == ' ' && !npc.isQuestFinished()) {
                                 dungeon.getDungeonMatrix()[NPCX][NPCY] = 'N';
                             }
 
@@ -2271,7 +2276,7 @@ public class GamePlay {
                                     dungeon.getDungeonMatrix()[((Vertex) enemyCoordinateQueue.peek()).getVertexX()][((Vertex) enemyCoordinateQueue.peek()).getVertexY()] = 'E';
                                 }
                             } else if (!NPCCoordinateQueue.isEmpty() && NPCCoordinateQueue.peek() != null) {
-                                if (dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] == ' ') {
+                                if (dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] == ' ' && !secondNPC.isQuestFinished()) {
                                     dungeon.getDungeonMatrix()[((Vertex) NPCCoordinateQueue.peek()).getVertexX()][((Vertex) NPCCoordinateQueue.peek()).getVertexY()] = 'N';
                                 }
                             }

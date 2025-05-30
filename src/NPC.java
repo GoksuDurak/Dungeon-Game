@@ -14,7 +14,8 @@ public class NPC {
     private int x ;
     private int y ;
     private Vertex NPCVertex;
-    NPC(String name, String job, String message, Object quest, String gender, Vertex NPCVertex, GamePlay gamePlay) {
+    private boolean isQuestFinished;
+    NPC(boolean isQuestFinished, String name, String job, String message, Object quest, String gender, Vertex NPCVertex, GamePlay gamePlay) {
         this.name = name;
         this.job = job;
         this.message = message;
@@ -23,7 +24,17 @@ public class NPC {
         npcNames = new MultiLinkedList();
         this.NPCVertex = NPCVertex;
         this.gamePlay = gamePlay;
+        this.isQuestFinished = isQuestFinished;
     }
+
+    public boolean isQuestFinished() {
+        return isQuestFinished;
+    }
+
+    public void setQuestFinished(boolean questFinished) {
+        isQuestFinished = questFinished;
+    }
+
     public void setName(String name)
     {
         this.name = name;
@@ -85,107 +96,125 @@ public class NPC {
         String npcGender = "Girl";
         String npcJob = "Lumberjack";
         String npcMessage = "Quiet but strong.Her axe does not stop even in winter!!!";
-        int width = rand.nextInt(15) + 25;
-        int height = rand.nextInt(15) + 25;
-        Object npcQuest = new Forest(width, height); // buraya görev gelecek
-        NPC npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender,npcVertex,gamePlay);
+
+        Object npcQuest = new Forest(); // buraya görev gelecek
+        NPC npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender,npcVertex,gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Mira Ironbark";
         npcMessage = "She became a legend with her axe.Villagers respect her.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Thalia Woodsmile";
         npcMessage = "A gentle girl with a singing voice and a shiny axe. The forest knows her name and calls out to her --> Thalia.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Brynn Oakram";
         npcMessage = "She draws her strength from her arms and carries heavy logs all by herself.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Sera Axewind";
         npcMessage = "She is known for her swift axe, trees fall as if they bow to her.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Velda Timberjaw";
         npcMessage = "Brave, a former soldier who was used by others and had wielded an axe in battle.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Lira Logcutter";
         npcMessage = "She lives alone in the forest, immersed in nature.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Ysolde Barkcloak";
         npcMessage = "She wears a cloak made of leaves, a mysterious person.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Maren Pinewhisper";
         npcMessage = "She is quiet and careful,prays to every tree first.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Freya Branchbreaker";
         npcMessage = "A large-built woman, a woodswoman known for her legendary strength.";
-        npc = new NPC(npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
         // --------------------man--------------------
+        npcQuest = new Forest();
         npcGender = "Boy";
         npcName = "Garruk Woodsplitter";
         npcMessage = "Muscular, stern-faced, the strongest man in the village.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Thorne Axeblade";
         npcMessage = "A woodsman who expertly swings his enchanted axe.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        npcQuest = new Forest();
         npcName = "Bram Ironlog";
         npcMessage = "Calm and patient, teaches young woodsmen.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        npcQuest = new Forest();
         npcName = "Kael Timberfist";
         npcMessage = "A fierce man; it wouldn’t be surprising if he could knock down a tree with his fist.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        npcQuest = new Forest();
         npcName = "Borin Pinecleaver";
         npcMessage = "Cheerful, an old woodsman who constantly tells stories.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        npcQuest = new Forest();
         npcName = "Ulric Barkskin";
         npcMessage = "His face is as tough as tree bark, he lives in very ancient forests.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        npcQuest = new Forest();
         npcName = "Darnel Axehand";
         npcMessage = "Lost one arm but replaced it with an axe-hand.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        npcQuest = new Forest();
         npcName = "Varek Oakhew";
         npcMessage = "Serious, disciplined, and dedicated to duty.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        npcQuest = new Forest();
         npcName = "Rurik Woodmaul";
         npcMessage = "Prefers to fell trees not with an axe but with a giant hammer.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        npcQuest = new Forest();
         npcName = "Fenric Logsplitter";
         npcMessage = "Sells firewood to caravans, turning woodsman skills into trade.";
-        npc = new NPC(npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
+        npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
         
     }
