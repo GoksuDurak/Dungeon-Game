@@ -10,11 +10,12 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../IDE/Enigma-Edited2.jar!/" />
+          <root url="jar://$USER_HOME$/IDE/Enigma-Edited2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Enigma-Edited2" level="project" />
   </component>
 </module>
