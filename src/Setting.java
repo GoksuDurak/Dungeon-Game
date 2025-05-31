@@ -33,6 +33,37 @@ public class Setting {
             enemyCount++;
         }
         bfWriterE.close();
+
+        BufferedWriter bfWriterN = new BufferedWriter(new FileWriter("Npc.txt"));
+        MultiLinkedList mll = gamePlay.getNpcs().getNpcNames();
+        MultiLinkedList.CategoryNode tempCategoryNode = mll.getHead();
+        while (tempCategoryNode != null) {
+            MultiLinkedList.ItemNode itemNode = tempCategoryNode.getRight();
+            bfWriterN.write((String) tempCategoryNode.getData());
+            bfWriterN.write("\n");
+            while (itemNode != null) {
+                NPC npc = (NPC) itemNode.getData();
+                if (npc.isQuestFinished()) {
+                    bfWriterN.write("true _");
+                } else {
+                    bfWriterN.write("false _");
+                }
+                bfWriterN.write(npc.getName() + "_" );
+                bfWriterN.write(npc.getJob() + "_" );
+                bfWriterN.write(npc.getMessage() + "_");
+                if (npc.getJob().equals("Lumberjack")) {
+                    bfWriterN.write("forest_");
+                }
+                bfWriterN.write(npc.getGender() + "_" );
+                Vertex vertex = npc.getNPCVertex();
+                bfWriterN.write(vertex.getVertexX() + "_" + vertex.getVertexY() + "_" );
+                bfWriterN.write("gamePlay");
+                bfWriterN.write("\n");
+                itemNode = itemNode.getNext();
+            }
+            tempCategoryNode = tempCategoryNode.getDown();
+        }
+        bfWriterN.close();
         BufferedWriter bfWriter = new BufferedWriter(new FileWriter("Player.txt"));
         bfWriter.write(gamePlay.getPlayer().getName()+",");
         bfWriter.write(gamePlay.getPlayer().getScore()+",");
@@ -327,6 +358,52 @@ public class Setting {
             a++;
         }
         bufferedReader4.close();
+
+        BufferedReader bufferedReader5 = new BufferedReader(new FileReader("Npc.txt"));
+        GamePlay.NPCX = 0;
+        GamePlay.NPCY = 0;
+        gamePlay.setNPCCoordinateVertex(null);
+        while (!GamePlay.NPCCoordinateQueue.isEmpty()) {
+            GamePlay.NPCCoordinateQueue.dequeue();
+            GamePlay.NPCCoordinateQueue.dequeue();
+        }
+        String line5;
+        String[] datas5;
+        a = 0;
+        MultiLinkedList.CategoryNode categoryNode = gamePlay.getNpcs().getNpcNames().getHead();
+        MultiLinkedList.ItemNode itemNode = null;
+        while ((line5 = bufferedReader5.readLine()) != null) {
+            datas5 = line5.split("_");
+            if (a % 21 == 0) {
+                categoryNode.setData(datas5[0]);
+                itemNode = categoryNode.getRight();
+            } else {
+                boolean flag;
+                if (datas5[0].equals("true")) {
+                    flag = true;
+                } else {
+                    flag = false;
+                }
+                Object data = null;
+                NPC npc = new NPC(false,"","","",null,"",null,null);
+                if (datas5[4].equals("forest")) {
+                    Forest forest = new Forest();
+                    Vertex vertex = new Vertex(Integer.parseInt(datas5[6]),Integer.parseInt(datas5[7]));
+                    npc.setQuestFinished(flag);
+                    npc.setName(datas5[1]);
+                    npc.setJob(datas5[2]);
+                    npc.setMessage(datas5[3]);
+                    npc.setQuest(forest);
+                    npc.setGender(datas5[5]);
+                    npc.setNPCVertex(vertex);
+                    npc.setGamePlay(gamePlay);
+                }
+                itemNode.setData(npc);
+                itemNode = itemNode.getNext();
+            }
+            a++;
+        }
+        bufferedReader5.close();
     }
 
 }

@@ -354,7 +354,7 @@ public class Forest {
         Computer computer2 = new Computer();
         int randomNum = rand.nextInt((forestMatrix.length - 1) * (forestMatrix[0].length - 1));
         randomNum = randomNum / 8;
-        if (randomNum > 25) {
+        if (randomNum > 21) {
             randomNum = rand.nextInt(25);
         }
         fillForestMatrix(rand,randomNum);
@@ -492,8 +492,8 @@ public class Forest {
         System.out.print("Time : ");
         System.out.println(currentDisplayTime);
         Game.cn.getTextWindow().setCursorPosition(forestMatrix[0].length + 1 , 1);
-        System.out.print("Wood count : ");
-        System.out.println(woodenCount);
+        System.out.print("Your wood count : ");
+        System.out.println(woodenCount + " Target wood count : 256");
         Game.cn.getTextWindow().setCursorPosition(forestMatrix[0].length + 1 , 2);
         System.out.print("Wood list : ");
         int woodenSize = woodList.size();
@@ -603,7 +603,7 @@ public class Forest {
                                 woodenCount += 8;
                             }
                             //---------------win condition------------
-                            if (woodenCount > 256) {
+                            if (woodenCount > 0) {
                                 isGameFinished = true;
                                 isGameWin = true;
                             }

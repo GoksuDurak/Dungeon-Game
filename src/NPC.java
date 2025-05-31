@@ -35,6 +35,14 @@ public class NPC {
         isQuestFinished = questFinished;
     }
 
+    public GamePlay getGamePlay() {
+        return gamePlay;
+    }
+
+    public void setGamePlay(GamePlay gamePlay) {
+        this.gamePlay = gamePlay;
+    }
+
     public void setName(String name)
     {
         this.name = name;
@@ -83,13 +91,10 @@ public class NPC {
     }
     public void addLumberJacks() {
         npcNames.addCategory("Lumberjacks");
-        for(int i = 0;i < 5;i++) {
-            do {
-                x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
-                y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
-            } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
-            gamePlay.getDungeon().getDungeonMatrix()[x][y] = 'N';
-        }
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
         Vertex npcVertex = new Vertex(x, y);
         // --------------------woman--------------------
         String npcName = "Elra Treehewer";
@@ -101,11 +106,23 @@ public class NPC {
         NPC npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender,npcVertex,gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Mira Ironbark";
         npcMessage = "She became a legend with her axe.Villagers respect her.";
         npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
 
         npcQuest = new Forest();
         npcName = "Thalia Woodsmile";
@@ -113,11 +130,23 @@ public class NPC {
         npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Brynn Oakram";
         npcMessage = "She draws her strength from her arms and carries heavy logs all by herself.";
         npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
 
         npcQuest = new Forest();
         npcName = "Sera Axewind";
@@ -125,11 +154,23 @@ public class NPC {
         npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Velda Timberjaw";
         npcMessage = "Brave, a former soldier who was used by others and had wielded an axe in battle.";
         npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
 
         npcQuest = new Forest();
         npcName = "Lira Logcutter";
@@ -137,17 +178,35 @@ public class NPC {
         npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Ysolde Barkcloak";
         npcMessage = "She wears a cloak made of leaves, a mysterious person.";
         npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Maren Pinewhisper";
         npcMessage = "She is quiet and careful,prays to every tree first.";
         npc = new NPC(false, npcName,npcJob,npcMessage,npcQuest,npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
 
         npcQuest = new Forest();
         npcName = "Freya Branchbreaker";
@@ -156,6 +215,13 @@ public class NPC {
         npcNames.addItem("Lumberjacks",npc);
 
         // --------------------man--------------------
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcGender = "Boy";
         npcName = "Garruk Woodsplitter";
@@ -163,11 +229,23 @@ public class NPC {
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Thorne Axeblade";
         npcMessage = "A woodsman who expertly swings his enchanted axe.";
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks",npc);
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
 
         npcQuest = new Forest();
         npcName = "Bram Ironlog";
@@ -175,11 +253,23 @@ public class NPC {
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Kael Timberfist";
         npcMessage = "A fierce man; it wouldn’t be surprising if he could knock down a tree with his fist.";
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
 
         npcQuest = new Forest();
         npcName = "Borin Pinecleaver";
@@ -187,11 +277,23 @@ public class NPC {
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Ulric Barkskin";
         npcMessage = "His face is as tough as tree bark, he lives in very ancient forests.";
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
 
         npcQuest = new Forest();
         npcName = "Darnel Axehand";
@@ -199,11 +301,23 @@ public class NPC {
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Varek Oakhew";
         npcMessage = "Serious, disciplined, and dedicated to duty.";
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
+
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
 
         npcQuest = new Forest();
         npcName = "Rurik Woodmaul";
@@ -211,12 +325,22 @@ public class NPC {
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
 
+        do {
+            x = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+            y = rand.nextInt(gamePlay.getDungeon().getDungeonX());
+        } while (gamePlay.getDungeon().getDungeonMatrix()[x][y] != ' ');
+        npcVertex = new Vertex(x, y);
+
         npcQuest = new Forest();
         npcName = "Fenric Logsplitter";
         npcMessage = "Sells firewood to caravans, turning woodsman skills into trade.";
         npc = new NPC(false, npcName, npcJob, npcMessage, npcQuest, npcGender, npcVertex, gamePlay);
         npcNames.addItem("Lumberjacks", npc);
-        
+        for (int i = 0; i < 20 ; i++) {
+            NPC npc1 = selectRandomNPC("Lumberjacks", npcNames, 0, 20);
+            Vertex npcVertex1 = npc1.getNPCVertex();
+            gamePlay.getDungeon().getDungeonMatrix()[npcVertex1.getVertexX()][npcVertex1.getVertexY()] = 'N';
+        }
     }
     public void displayNpc(Object category,MultiLinkedList mll) {
         MultiLinkedList.CategoryNode categoryNode = mll.getHead();
@@ -268,7 +392,10 @@ public class NPC {
                 return null;
             } else {
                 int randomNum = rand.nextInt(maxInterval - minInterval + 1) + minInterval;  // min ile max arası sayı
-                while (randomNum > 0) {
+                while (itemNode.getNext() != null) {
+                    if (randomNum < 0) {
+                        break;
+                    }
                     itemNode = itemNode.getNext();
                     randomNum--;
                 }
