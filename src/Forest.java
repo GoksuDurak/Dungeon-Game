@@ -603,7 +603,7 @@ public class Forest {
                                 woodenCount += 8;
                             }
                             //---------------win condition------------
-                            if (woodenCount > 0) {
+                            if (woodenCount > 256) {
                                 isGameFinished = true;
                                 isGameWin = true;
                             }
