@@ -96,7 +96,6 @@ public class GamePlay {
     private LinkedStack nextVertexStack = new LinkedStack();
     private int stacksSize = 0;
     private boolean randomStackActive = false;
-    private boolean stackPushOneTime = false;
     public static boolean forestIsRigthPressed = false;
     public static boolean forestIsLeftPressed = false;
     public static boolean forestIsUpPressed = false;
@@ -104,6 +103,71 @@ public class GamePlay {
 
     GamePlay() {}
 
+
+
+    public LinkedStack getMazeStack() {
+        return mazeStack;
+    }
+
+    public void setMazeStack(LinkedStack mazeStack) {
+        this.mazeStack = mazeStack;
+    }
+
+    public LinkedStack getEnemyStack() {
+        return enemyStack;
+    }
+
+    public void setEnemyStack(LinkedStack enemyStack) {
+        this.enemyStack = enemyStack;
+    }
+
+    public LinkedStack getNpcStack() {
+        return npcStack;
+    }
+
+    public void setNpcStack(LinkedStack npcStack) {
+        this.npcStack = npcStack;
+    }
+
+    public LinkedStack getVertexStack() {
+        return vertexStack;
+    }
+
+    public void setVertexStack(LinkedStack vertexStack) {
+        this.vertexStack = vertexStack;
+    }
+
+    public LinkedStack getNextMazeStack() {
+        return nextMazeStack;
+    }
+
+    public void setNextMazeStack(LinkedStack nextMazeStack) {
+        this.nextMazeStack = nextMazeStack;
+    }
+
+    public LinkedStack getNextEnemyStack() {
+        return nextEnemyStack;
+    }
+
+    public void setNextEnemyStack(LinkedStack nextEnemyStack) {
+        this.nextEnemyStack = nextEnemyStack;
+    }
+
+    public LinkedStack getNextNpcStack() {
+        return nextNpcStack;
+    }
+
+    public void setNextNpcStack(LinkedStack nextNpcStack) {
+        this.nextNpcStack = nextNpcStack;
+    }
+
+    public LinkedStack getNextVertexStack() {
+        return nextVertexStack;
+    }
+
+    public void setNextVertexStack(LinkedStack nextVertexStack) {
+        this.nextVertexStack = nextVertexStack;
+    }
 
     public NPC getNpcs() {
         return npcs;

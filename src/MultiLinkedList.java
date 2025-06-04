@@ -239,4 +239,22 @@ public class MultiLinkedList {
             }
         }
     }
+    public int size() {
+        if (head == null) {
+            System.out.println("The list is empty");
+            return -1;
+        } else {
+            CategoryNode temp = head;
+            int count = 0;
+            while (temp != null) {
+                ItemNode tempItem = temp.getRight();
+                while (tempItem != null) {
+                    count++;
+                    tempItem = tempItem.getNext();
+                }
+                temp = temp.getDown();
+            }
+            return count;
+        }
+    }
 }

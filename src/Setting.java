@@ -13,7 +13,209 @@ public class Setting {
         this.dungeon = gamePlay.getDungeon();
     }
     public void saveFile(Dungeon dungeon) throws IOException {
-        //we create player  txt
+        //we create player  txt,
+        //------------------------ MAZES TEXT ------------------------
+        BufferedWriter bfWriterMazes = new BufferedWriter(new FileWriter("mazes.txt"));
+        //sırayla her biri için
+        int mazesSize = gamePlay.getMazeStack().size();
+        LinkedStack tempMazeStack = gamePlay.getMazeStack();
+        LinkedStack tempEnemyStack = gamePlay.getEnemyStack();
+        LinkedStack tempNpcStack = gamePlay.getNpcStack();
+        LinkedStack tempVertexStack = gamePlay.getVertexStack();
+        for (int a = 0; a < mazesSize; a++) {
+            if (!gamePlay.getMazeStack().isEmpty()) {
+                bfWriterMazes.write("\n");
+                Dungeon dungeonMaze = (Dungeon) tempMazeStack.pop();
+                int dungeonX = dungeonMaze.getDungeonX();
+                bfWriterMazes.write(String.valueOf(dungeonX));
+                bfWriterMazes.write("\n");
+                int dungeonY = dungeonMaze.getDungeonY();
+                bfWriterMazes.write(String.valueOf(dungeonY));
+                bfWriterMazes.write("\n");
+                for (int i = 0; i < dungeonMaze.getDungeonMatrix().length; i++) {
+                    for (int j = 0; j < dungeonMaze.getDungeonMatrix()[i].length; j++) {
+                        bfWriterMazes.write(dungeonMaze.getDungeonMatrix()[i][j] + ",");
+                    }
+                    bfWriterMazes.write("\n");
+                }
+                bfWriterMazes.write("\n");
+            }
+            if (!gamePlay.getEnemyStack().isEmpty()) {
+                Enemy[] tempEnemies = (Enemy[]) tempEnemyStack.pop();
+                int size = tempEnemies.length;
+                bfWriterMazes.write(String.valueOf(size));
+                bfWriterMazes.write("\n");
+                for (int i = 0; i < tempEnemies.length; i++) {
+                    Enemy tempEnemy = tempEnemies[i];
+                    bfWriterMazes.write(tempEnemy.getHealth() + ",");
+                    bfWriterMazes.write(tempEnemy.getAttack() + ",");
+                    bfWriterMazes.write(tempEnemy.getDefence() + ",");
+                    bfWriterMazes.write(tempEnemy.getType() + ",");
+                    bfWriterMazes.write(tempEnemy.getX() + ",");
+                    bfWriterMazes.write(tempEnemy.getY() + ",");
+                    bfWriterMazes.write(tempEnemy.getComment() + ",");
+                    if (tempEnemy.isDead()) {
+                        bfWriterMazes.write("true,");
+                    } else {
+                        bfWriterMazes.write("false,");
+                    }
+                    bfWriterMazes.write("\n");
+                }
+                bfWriterMazes.write("\n");
+            }
+            //-----------------------------Linked NPC--------------------
+            if (!gamePlay.getNpcStack().isEmpty()) {
+                NPC tempNpc = (NPC) tempNpcStack.pop();
+                int npcSize = tempNpc.getNpcNames().size();
+                bfWriterMazes.write(String.valueOf(npcSize));
+                bfWriterMazes.write("\n");
+                MultiLinkedList mll = tempNpc.getNpcNames();
+                MultiLinkedList.CategoryNode tempCategoryNode = mll.getHead();
+                while (tempCategoryNode != null) {
+                    bfWriterMazes.write((String) tempCategoryNode.getData());
+                    bfWriterMazes.write("\n");
+                    MultiLinkedList.ItemNode tempItemNode = tempCategoryNode.getRight();
+                    while (tempItemNode != null) {
+                        NPC npc = (NPC) tempItemNode.getData();
+                        String isQuestFinished = "false";
+                        if (npc.isQuestFinished()) {
+                            isQuestFinished = "true";
+                        }
+                        bfWriterMazes.write(isQuestFinished +"_");
+                        bfWriterMazes.write(npc.getName() + "_");
+                        bfWriterMazes.write(npc.getJob() + "_");
+                        bfWriterMazes.write(npc.getMessage() + "_");
+                        if (npc.getJob().equals("Lumberjack")) {
+                            bfWriterMazes.write("forest_");
+                        }
+                        bfWriterMazes.write(npc.getGender() + "_");
+                        Vertex tempVertex = npc.getNPCVertex();
+                        bfWriterMazes.write(tempVertex.getVertexX() + "_" + tempVertex.getVertexY() + "_");
+                        bfWriterMazes.write("gamePlay");
+                        bfWriterMazes.write("\n");
+                        tempItemNode = tempItemNode.getNext();
+                    }
+                    tempCategoryNode = tempCategoryNode.getDown();
+                }
+            }
+            if (!gamePlay.getVertexStack().isEmpty()) {
+                // first one player vertex
+                // second one in final vertex
+                // last one in start vertex
+                bfWriterMazes.write("\n");
+                Vertex tempVertex = (Vertex) tempVertexStack.pop();
+                bfWriterMazes.write(tempVertex.getVertexX() + "," + tempVertex.getVertexY() + ",");
+                bfWriterMazes.write("\n");
+                tempVertex = (Vertex) tempVertexStack.pop();
+                bfWriterMazes.write(tempVertex.getVertexX() + "," + tempVertex.getVertexY() + ",");
+                bfWriterMazes.write("\n");
+                tempVertex = (Vertex) tempVertexStack.pop();
+                bfWriterMazes.write(tempVertex.getVertexX() + "," + tempVertex.getVertexY() + ",");
+                bfWriterMazes.write("\n");
+            }
+        }
+        bfWriterMazes.close();
+
+        //----------------------------- MAZES NEXT TEXT ---------------
+        BufferedWriter bfWriterNextMazes = new BufferedWriter(new FileWriter("mazesNext.txt"));
+        int NextMazeSize = gamePlay.getNextMazeStack().size();
+        LinkedStack tempMazeStack1 = gamePlay.getNextMazeStack();
+        LinkedStack tempEnemyStack1 = gamePlay.getNextEnemyStack();
+        LinkedStack tempNpcStack1 = gamePlay.getNextNpcStack();
+        LinkedStack tempVertexStack1 = gamePlay.getNextVertexStack();
+        for (int a = 0; a < NextMazeSize; a++) {
+            if (!gamePlay.getNextMazeStack().isEmpty()) {
+                bfWriterNextMazes.write("\n");
+                Dungeon dungeonMaze = (Dungeon) tempMazeStack1.pop();
+                int dungeonX = dungeonMaze.getDungeonX();
+                bfWriterNextMazes.write(String.valueOf(dungeonX));
+                bfWriterNextMazes.write("\n");
+                int dungeonY = dungeonMaze.getDungeonY();
+                bfWriterNextMazes.write(String.valueOf(dungeonY));
+                bfWriterNextMazes.write("\n");
+                for (int i = 0; i < dungeonMaze.getDungeonMatrix().length; i++) {
+                    for (int j = 0; j < dungeonMaze.getDungeonMatrix()[i].length; j++) {
+                        bfWriterNextMazes.write(dungeonMaze.getDungeonMatrix()[i][j] + ",");
+                    }
+                    bfWriterNextMazes.write("\n");
+                }
+                bfWriterNextMazes.write("\n");
+            }
+            if (!gamePlay.getNextEnemyStack().isEmpty()) {
+                Enemy[] tempEnemies = (Enemy[]) tempEnemyStack1.pop();
+                int size = tempEnemies.length;
+                bfWriterNextMazes.write(String.valueOf(size));
+                bfWriterNextMazes.write("\n");
+                for (int i = 0; i < tempEnemies.length; i++) {
+                    Enemy tempEnemy = tempEnemies[i];
+                    bfWriterNextMazes.write(tempEnemy.getHealth() + ",");
+                    bfWriterNextMazes.write(tempEnemy.getAttack() + ",");
+                    bfWriterNextMazes.write(tempEnemy.getDefence() + ",");
+                    bfWriterNextMazes.write(tempEnemy.getType() + ",");
+                    bfWriterNextMazes.write(tempEnemy.getX() + ",");
+                    bfWriterNextMazes.write(tempEnemy.getY() + ",");
+                    bfWriterNextMazes.write(tempEnemy.getComment() + ",");
+                    if (tempEnemy.isDead()) {
+                        bfWriterNextMazes.write("false,");
+                    } else {
+                        bfWriterNextMazes.write("true,");
+                    }
+                    bfWriterNextMazes.write("\n");
+                }
+                bfWriterNextMazes.write("\n");
+            }
+            if (!gamePlay.getNextNpcStack().isEmpty()) {
+                NPC tempNpc = (NPC) tempNpcStack1.pop();
+                int npcSize = tempNpc.getNpcNames().size();
+                bfWriterNextMazes.write(String.valueOf(npcSize));
+                bfWriterNextMazes.write("\n");
+                MultiLinkedList mll = tempNpc.getNpcNames();
+                MultiLinkedList.CategoryNode tempCategoryNode = mll.getHead();
+                while (tempCategoryNode != null) {
+                    bfWriterNextMazes.write((String) tempCategoryNode.getData());
+                    bfWriterNextMazes.write("\n");
+                    MultiLinkedList.ItemNode tempItemNode = tempCategoryNode.getRight();
+                    while (tempItemNode != null) {
+                        NPC npc = (NPC) tempItemNode.getData();
+                        String isQuestFinished = "false";
+                        if (npc.isQuestFinished()) {
+                            isQuestFinished = "true";
+                        }
+                        bfWriterNextMazes.write(isQuestFinished + "_");
+                        bfWriterNextMazes.write(npc.getName() + "_");
+                        bfWriterNextMazes.write(npc.getJob() + "_");
+                        bfWriterNextMazes.write(npc.getMessage() + "_");
+                        if (npc.getJob().equals("Lumberjack")) {
+                            bfWriterNextMazes.write("forest_");
+                        }
+                        bfWriterNextMazes.write(npc.getGender() + "_");
+                        Vertex tempVertex = npc.getNPCVertex();
+                        bfWriterNextMazes.write(tempVertex.getVertexX() + "_" + tempVertex.getVertexY() + "_");
+                        bfWriterNextMazes.write("gamePlay");
+                        bfWriterNextMazes.write("\n");
+                        tempItemNode = tempItemNode.getNext();
+                    }
+                    tempCategoryNode = tempCategoryNode.getDown();
+                }
+            }
+            if (!gamePlay.getNextVertexStack().isEmpty()) {
+                // first one player vertex
+                // second one in final vertex
+                // last one in start vertex
+                bfWriterNextMazes.write("\n");
+                Vertex tempVertex = (Vertex) tempVertexStack1.pop();
+                bfWriterNextMazes.write(tempVertex.getVertexX() + "," + tempVertex.getVertexY() + ",");
+                bfWriterNextMazes.write("\n");
+                tempVertex = (Vertex) tempVertexStack1.pop();
+                bfWriterNextMazes.write(tempVertex.getVertexX() + "," + tempVertex.getVertexY() + ",");
+                bfWriterNextMazes.write("\n");
+                tempVertex = (Vertex) tempVertexStack1.pop();
+                bfWriterNextMazes.write(tempVertex.getVertexX() + "," + tempVertex.getVertexY() + ",");
+                bfWriterNextMazes.write("\n");
+            }
+        }
+        bfWriterNextMazes.close();
+        //----------------------------- ENEMY TEXT ---------------
         BufferedWriter bfWriterE = new BufferedWriter(new FileWriter("Enemy.txt"));
         Enemy[] enemies = gamePlay.getEnemies();
         for (int i = 0; i < enemies.length; i++) {
@@ -193,6 +395,7 @@ public class Setting {
 
     }
     public void loadFile() throws IOException {
+        //---------------------Player file load--------------------------
         BufferedReader bufferedReader = new BufferedReader(new  FileReader("Player.txt"));
         String line = bufferedReader.readLine();
         String[] playerInfo = line.split(",");
@@ -212,6 +415,7 @@ public class Setting {
         gamePlay.setX(Integer.parseInt(playerInfo[10]));
         gamePlay.setY(Integer.parseInt(playerInfo[11]));
         bufferedReader.close();
+        //---------------------Dungeon file load--------------------------
         BufferedReader bufferedReader1Length = new BufferedReader(new  FileReader("dungeonSave.txt"));
         String lineRead1;
         String[] datasRead;
@@ -223,6 +427,7 @@ public class Setting {
             row++;
         }
         bufferedReader1Length.close();
+        //---------------------Dungeon Save file load--------------------------
         BufferedReader bufferedReader1 = new BufferedReader(new  FileReader("dungeonSave.txt"));
         String line1;
         String[] datas;
@@ -255,6 +460,7 @@ public class Setting {
         gamePlay.getDungeon().setDungeonY(col);
         gamePlay.getDungeon().setDungeonMatrix(dungeonMatrix);
         bufferedReader1.close();
+        //---------------------Market file load--------------------------
         BufferedReader bufferedReader2 = new BufferedReader(new  FileReader("market.txt"));
         String line2;
         String[] datas2;
@@ -271,6 +477,7 @@ public class Setting {
             a++;
         }
         bufferedReader2.close();
+        //---------------------Inventory file load--------------------------
         BufferedReader bufferedReader3 = new BufferedReader(new  FileReader("inventory.txt"));
         String line3;
         String[] datas3;
@@ -328,7 +535,7 @@ public class Setting {
             }
         }
 
-
+        //---------------------Enemy file load--------------------------
         bufferedReader3.close();
         BufferedReader bufferedReader4 = new BufferedReader(new  FileReader("Enemy.txt"));
         // this part changed 4 row
@@ -359,6 +566,7 @@ public class Setting {
         }
         bufferedReader4.close();
 
+        //---------------------NPC file load--------------------------
         BufferedReader bufferedReader5 = new BufferedReader(new FileReader("Npc.txt"));
         GamePlay.NPCX = 0;
         GamePlay.NPCY = 0;
@@ -404,6 +612,200 @@ public class Setting {
             a++;
         }
         bufferedReader5.close();
+        //---------------------MAZES file load--------------------------
+        BufferedReader mazeReader = new BufferedReader(new FileReader("mazes.txt"));
+        String lineMaze = "";
+        int counterSpaces = 0;
+        while ((lineMaze = mazeReader.readLine()) != null){
+            if (lineMaze.trim().isEmpty()) {
+                if (counterSpaces == 0) {
+                    //-------------- maze oku ------------------
+                    lineMaze = mazeReader.readLine();
+                    int mazeX = Integer.parseInt(lineMaze);
+                    lineMaze = mazeReader.readLine();
+                    int mazeY = Integer.parseInt(lineMaze);
+                    Dungeon dungeon = new Dungeon(mazeX, mazeY);
+                    for (int i = 0; i < mazeX; i++) {
+                        lineMaze = mazeReader.readLine();
+                        String[] dataDungeon = lineMaze.split(",");
+                        for (int j = 0; j < mazeY; j++) {
+                            dungeon.getDungeonMatrix()[i][j] = dataDungeon[j].charAt(0);
+                        }
+                    }
+                    gamePlay.getMazeStack().push(dungeon);
+                } else if (counterSpaces == 1) {
+                    //enemy oku
+                    lineMaze = mazeReader.readLine();
+                    int sizeEnemyStack = Integer.parseInt(lineMaze);
+                    Enemy[] enemies = new Enemy[sizeEnemyStack];
+                    for (int enemyCount = 0; enemyCount < sizeEnemyStack; enemyCount++){
+                        lineMaze = mazeReader.readLine();
+                        String[] dataEnemy = lineMaze.split(",");
+                        boolean isDead = false;
+                        if (dataEnemy[7].equalsIgnoreCase("false")) {
+                            isDead = true;
+                        }
+                        Enemy enemy = new Enemy(Integer.parseInt(dataEnemy[0]),Integer.parseInt(dataEnemy[1]),Integer.parseInt(dataEnemy[2]),dataEnemy[3],Integer.parseInt(dataEnemy[4]),Integer.parseInt(dataEnemy[5]),dataEnemy[6],isDead);
+                        enemies[enemyCount] = enemy;
+                    }
+                    gamePlay.getEnemyStack().push(enemies);
+                } else if (counterSpaces == 2) {
+                    //--------------npc oku-------------- // buradayım
+                    lineMaze = mazeReader.readLine();
+                    int size = Integer.parseInt(lineMaze);
+                    lineMaze = mazeReader.readLine(); // bu Lumberjacks türü
+                    NPC tempNPC = new NPC(false,"","","",null,"",null,null);
+
+                    MultiLinkedList multiLinkedListNPC = new MultiLinkedList();
+                    String categoryString = lineMaze;
+                    multiLinkedListNPC.addCategory(categoryString);
+                    for (int i = 0; i < size; i++) {
+                        lineMaze = mazeReader.readLine();
+                        String[] npcData = lineMaze.split("_");
+                        boolean isQuestFinished = false;
+                        if (npcData[0].equals("true")) {
+                            isQuestFinished = true;
+                        }
+                        Vertex npcVertex = new Vertex(Integer.parseInt(npcData[6]),Integer.parseInt(npcData[7]));
+                        Forest forest = null;
+                        if (npcData[4].equals("forest")) {
+                            forest = new Forest();
+                        }
+                        NPC npc = new NPC(isQuestFinished, npcData[1], npcData[2], npcData[3], forest, npcData[5],npcVertex,gamePlay);
+                        multiLinkedListNPC.addItem(categoryString,npc);
+                        //npc.getNpcNames()
+                    }
+                    tempNPC.setNpcNames(multiLinkedListNPC);
+                    gamePlay.getNpcStack().push(tempNPC);
+                } else if (counterSpaces == 3) {
+                    //--------------vertex oku---------------
+                    lineMaze = mazeReader.readLine();
+                    String[] dataVertex = lineMaze.split(",");
+                    Vertex PlayerVertex = new Vertex(Integer.parseInt(dataVertex[0]),Integer.parseInt(dataVertex[1]));
+
+                    lineMaze = mazeReader.readLine();
+                    dataVertex = lineMaze.split(",");
+                    Vertex FinalVertex = new Vertex(Integer.parseInt(dataVertex[0]),Integer.parseInt(dataVertex[1]));
+
+                    lineMaze = mazeReader.readLine();
+                    dataVertex = lineMaze.split(",");
+                    Vertex StartVertex = new Vertex(Integer.parseInt(dataVertex[0]),Integer.parseInt(dataVertex[1]));
+                    //lineMaze = lineMaze.replaceAll(" ", "");
+                    gamePlay.getVertexStack().push(PlayerVertex);
+                    gamePlay.getVertexStack().push(FinalVertex);
+                    gamePlay.getVertexStack().push(StartVertex);
+
+                }
+                counterSpaces++;
+                if (counterSpaces == 4) { counterSpaces = 0;}
+            }
+        }
+        System.out.println(counterSpaces);
+        gamePlay.setMazeStack(reverseStack(gamePlay.getMazeStack()));
+        gamePlay.setEnemyStack(reverseStack(gamePlay.getEnemyStack()));
+        gamePlay.setNpcStack(reverseStack(gamePlay.getNpcStack()));
+        gamePlay.setVertexStack(reverseStack(gamePlay.getVertexStack()));
+        mazeReader.close();
+        //---------------------MAZES NEXT file load--------------------------
+        BufferedReader mazeNextReader = new BufferedReader(new FileReader("mazesNext.txt"));
+        String lineMaze1 = "";
+        int counterSpaces1 = 0;
+        while ((lineMaze1 = mazeNextReader.readLine()) != null){
+            if (lineMaze1.trim().isEmpty()) {
+                if (counterSpaces1 == 0) {
+                    //-------------- maze oku ------------------
+                    lineMaze1 = mazeNextReader.readLine();
+                    int mazeX = Integer.parseInt(lineMaze1);
+                    lineMaze1 = mazeNextReader.readLine();
+                    int mazeY = Integer.parseInt(lineMaze1);
+                    Dungeon dungeon = new Dungeon(mazeX, mazeY);
+                    for (int i = 0; i < mazeX; i++) {
+                        lineMaze1 = mazeNextReader.readLine();
+                        String[] dataDungeon = lineMaze1.split(",");
+                        for (int j = 0; j < mazeY; j++) {
+                            dungeon.getDungeonMatrix()[i][j] = dataDungeon[j].charAt(0);
+                        }
+                    }
+                    gamePlay.getNextMazeStack().push(dungeon);
+                } else if (counterSpaces1 == 1) {
+                    //----------enemy oku------------
+                    lineMaze1 = mazeNextReader.readLine();
+                    int sizeEnemyStack = Integer.parseInt(lineMaze1);
+                    Enemy[] enemies = new Enemy[sizeEnemyStack];
+                    for (int enemyCount = 0; enemyCount < sizeEnemyStack; enemyCount++){
+                        lineMaze1 = mazeNextReader.readLine();
+                        String[] dataEnemy = lineMaze1.split(",");
+                        boolean isDead = false;
+                        if (dataEnemy[7].equalsIgnoreCase("false")) {
+                            isDead = true;
+                        }
+                        Enemy enemy = new Enemy(Integer.parseInt(dataEnemy[0]),Integer.parseInt(dataEnemy[1]),Integer.parseInt(dataEnemy[2]),dataEnemy[3],Integer.parseInt(dataEnemy[4]),Integer.parseInt(dataEnemy[5]),dataEnemy[6],isDead);
+                        enemies[enemyCount] = enemy;
+                    }
+                    gamePlay.getNextEnemyStack().push(enemies);
+                } else if (counterSpaces1 == 2) {
+                    //--------------npc oku-------------- // buradayım
+                    lineMaze1 = mazeNextReader.readLine();
+                    int size = Integer.parseInt(lineMaze1);
+                    lineMaze1 = mazeNextReader.readLine(); // bu Lumberjacks türü
+                    NPC tempNPC = new NPC(false,"","","",null,"",null,null);
+
+                    MultiLinkedList multiLinkedListNPC = new MultiLinkedList();
+                    String categoryString = lineMaze1;
+                    multiLinkedListNPC.addCategory(categoryString);
+                    for (int i = 0; i < size; i++) {
+                        lineMaze1 = mazeNextReader.readLine();
+                        String[] npcData = lineMaze1.split("_");
+                        boolean isQuestFinished = false;
+                        if (npcData[0].equals("true")) {
+                            isQuestFinished = true;
+                        }
+                        Vertex npcVertex = new Vertex(Integer.parseInt(npcData[6]),Integer.parseInt(npcData[7]));
+                        Forest forest = null;
+                        if (npcData[4].equals("forest")) {
+                            forest = new Forest();
+                        }
+                        NPC npc = new NPC(isQuestFinished, npcData[1], npcData[2], npcData[3], forest, npcData[5],npcVertex,gamePlay);
+                        multiLinkedListNPC.addItem(categoryString,npc);
+                        //npc.getNpcNames()
+                    }
+                   tempNPC.setNpcNames(multiLinkedListNPC);
+                   gamePlay.getNextNpcStack().push(tempNPC);
+                } else if (counterSpaces1 == 3) {
+                    //--------------vertex oku---------------
+                    lineMaze1 = mazeNextReader.readLine();
+                    String[] dataVertex = lineMaze1.split(",");
+                    Vertex PlayerVertex = new Vertex(Integer.parseInt(dataVertex[0]),Integer.parseInt(dataVertex[1]));
+
+                    lineMaze1 = mazeNextReader.readLine();
+                    dataVertex = lineMaze1.split(",");
+                    Vertex FinalVertex = new Vertex(Integer.parseInt(dataVertex[0]),Integer.parseInt(dataVertex[1]));
+
+                    lineMaze1 = mazeNextReader.readLine();
+                    dataVertex = lineMaze1.split(",");
+                    Vertex StartVertex = new Vertex(Integer.parseInt(dataVertex[0]),Integer.parseInt(dataVertex[1]));
+                    //lineMaze = lineMaze.replaceAll(" ", "");
+                    gamePlay.getNextVertexStack().push(StartVertex);
+                    gamePlay.getNextVertexStack().push(FinalVertex);
+                    gamePlay.getNextVertexStack().push(PlayerVertex);
+                }
+                counterSpaces1++;
+                if (counterSpaces1 == 4) { counterSpaces1 = 0;}
+            }
+        }
+        System.out.println(counterSpaces1);
+        gamePlay.setNextMazeStack(reverseStack(gamePlay.getNextMazeStack()));
+        gamePlay.setNextEnemyStack(reverseStack(gamePlay.getNextEnemyStack()));
+        gamePlay.setNextNpcStack(reverseStack(gamePlay.getNextNpcStack()));
+        gamePlay.setNextVertexStack(reverseStack(gamePlay.getNextVertexStack()));
+        mazeNextReader.close();
+    }
+    public LinkedStack reverseStack(LinkedStack stackToBeReversed) {
+        LinkedStack reversedStack = new LinkedStack();
+        while (!stackToBeReversed.isEmpty()) {
+            reversedStack.push(stackToBeReversed.pop());
+        }
+        return reversedStack;
     }
 
 }
