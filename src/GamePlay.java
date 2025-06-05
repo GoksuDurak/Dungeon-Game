@@ -419,8 +419,14 @@ public class GamePlay {
                     System.out.print(enemy.getType()); //türü
                     game.cn.setTextAttributes(new TextAttributes(Color.white));
                     System.out.println(".");
+                    game.cn.setTextAttributes(new TextAttributes(Color.pink));
+                    System.out.println(enemy.getComment());
+                    game.cn.setTextAttributes(new TextAttributes(Color.WHITE));
+                    scanner.nextLine();
+                    game.Clear();
                     printEnemy(enemy, game);
                     printPlayer(game);
+                    System.out.println();
                     System.out.print("Do you want to fight? (y/n) : ");
                     String choice = scanner.nextLine();
                     choice = choice.toLowerCase();
@@ -1628,9 +1634,6 @@ public class GamePlay {
         }
         while (player.getHp() > 0 && enemy.getHealth() > 0) { // biri ölene kadar
             game.Clear();
-            game.cn.setTextAttributes(new TextAttributes(Color.yellow));
-            System.out.println(enemy.getType());
-            game.cn.setTextAttributes(new TextAttributes(Color.white));
             printEnemy(enemy,game);
             printPlayer(game);
             game.cn.getTextWindow().setCursorPosition(45, 4);
@@ -1720,15 +1723,13 @@ public class GamePlay {
                         }
                     }
                     game.cn.getTextWindow().setCursorPosition(x, y);
-                    for(int i = 0; i < 20; i++)
-                    {
-                        for(int j = 0; j < 50; j++)
-                        {
+                    for(int i = 0; i < 20; i++) {
+                        for(int j = 0; j < 70; j++) {
                             System.out.print(" ");
                         }
                         System.out.println();
                     }
-                    game.cn.getTextWindow().setCursorPosition(x, y);
+                    game.cn.getTextWindow().setCursorPosition(x, y-1);
                 }
                 System.out.println(player.getName()+ " hit " +enemy.getType()+" "+ damage);
                 Thread.sleep(1000);
@@ -2047,17 +2048,20 @@ public class GamePlay {
     }
     public void printEnemy(Enemy enemy,Game game)
     {
-        System.out.print(enemy.getType().toUpperCase()+ "'s Health --> ");
+        game.cn.setTextAttributes(new TextAttributes(Color.YELLOW));
+        System.out.println(enemy.getType());
+        game.cn.setTextAttributes(new TextAttributes(Color.WHITE));
+        System.out.print(enemy.getType()+ "'s Health --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.red));
         System.out.print(enemy.getHealth()); //canı
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
-        System.out.print(enemy.getType().toUpperCase()+ "'s Attack --> ");
+        System.out.print(enemy.getType()+ "'s Attack --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.green));
         System.out.print(enemy.getAttack()); //attack
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println(".");
-        System.out.print(enemy.getType().toUpperCase()+ "'s Defense --> ");
+        System.out.print(enemy.getType()+ "'s Defense --> ");
         game.cn.setTextAttributes(new TextAttributes(Color.cyan));
         System.out.print(enemy.getDefence()); //defans
         game.cn.setTextAttributes(new TextAttributes(Color.white));
