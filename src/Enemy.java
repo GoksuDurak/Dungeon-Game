@@ -8,9 +8,10 @@ public class Enemy {
     private int x;
     private int y;
     private String comment;
+    private String gender;
     private Random rand = new Random();
     private boolean dead; // düşam öldü mü
-    Enemy(int health, int attack, int defence, String type, int x, int y,String comment,boolean dead) {
+    Enemy(int health, int attack, int defence, String type, int x, int y,String comment,boolean dead,String gender) {
         this.health = health;
         this.attack = attack;
         this.defence = defence;
@@ -19,7 +20,17 @@ public class Enemy {
         this.y = y;
         this.comment = comment;
         this.dead = dead;
+        this.gender = gender;
     }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
 
     public void setHealth(int health) {
         this.health = health;
@@ -84,6 +95,7 @@ public class Enemy {
         int attack = 0;
         int defense = 0;
         String comment = "";
+        String gender = "";
         int randomNum = 0;
         int x = 0;
         int y = 0;
@@ -124,51 +136,370 @@ public class Enemy {
             comment = "You encountered hero";
         }
         dungeon.getDungeonMatrix()[x][y] = 'E';
-        enemies[10] = new Enemy(health,attack,defense,type,x,y,comment,false);
-        for (int i = 0; i < 10; i++)
-        {
-             type = " ";
-             health = 0;
-             attack = 0;
-             defense = 0;
-             comment = "";
-             randomNum = 0;
-             x = 0;
-             y = 0;
-            do {
-                x = rand.nextInt(dungeon.getDungeonX());
-                y = rand.nextInt(dungeon.getDungeonY());
-            }while (dungeon.getDungeonMatrix()[x][y] != ' ');
-            randomNum = rand.nextInt(4);
-            if (randomNum == 0)
-            {
-                type = "orc";
-                health = 3000;
-                attack = 175;
-                defense = 100;
-            }else if (randomNum == 1)
-            {
-                type = "goblin";
-                health = 1500;
-                attack = 250;
-                defense = 100;
-            }else if(randomNum == 2)
-            {
-                type = "skeleton";
-                health = 1250;
-                attack = 225;
-                defense = 100;
+        enemies[10] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
+        if (dungeon.getBiomeType().equals(BiomeTypes.FOREST)) {
+            for (int i = 0; i < 10; i++) {
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Orc";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                    comment = "I will show no mercy mortal.Prepare to be crushed.";
+                    gender = "Male";
+                }else if (randomNum == 1) {
+                    type = "Goblin";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                    comment = "AHAHAHA !!!There is no way that mortal like you can beat me you are easy prey for me.";
+                    gender = "Male";
+                }else if(randomNum == 2) {
+                    type = "Wicked Dryads";
+                    health = 1700;
+                    attack = 200;
+                    defense = 200;
+                    comment = "I have been protecting this forest for years.And I won't allow you to enter this forest.";
+                    gender = "Female";
+                }
+                else {
+                    type = "Fog Wraiths";
+                    health = 1600;
+                    attack = 250;
+                    defense = 200;
+                    comment = "I have been protecting this forest for years.And I won't allow you to enter this forest.";
+                    gender = "Female";
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
             }
-            else
-            {
-                type = "undead";
-                health = 1750;
-                attack = 200;
-                defense = 75;
+        } else if (dungeon.getBiomeType().equals(BiomeTypes.PLAINS)) {
+            for (int i = 0; i < 10; i++) {
+                type = " ";
+                health = 0;
+                attack = 0;
+                defense = 0;
+                comment = "";
+                randomNum = 0;
+                x = 0;
+                y = 0;
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Wandering Husk";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                }else if (randomNum == 1) {
+                    type = "Skyrazor Flock";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                    gender = "Female";
+                }else if(randomNum == 2) {
+                    type = "Earthhorn Bull";
+                    health = 1250;
+                    attack = 225;
+                    defense = 100;
+                }
+                else {
+                    type = "Grassfiend";
+                    health = 1750;
+                    attack = 200;
+                    defense = 75;
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
             }
-            dungeon.getDungeonMatrix()[x][y] = 'E';
-            enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false);
+        } else if (dungeon.getBiomeType().equals(BiomeTypes.SWAMP)) {
+            for (int i = 0; i < 10; i++) {
+                type = " ";
+                health = 0;
+                attack = 0;
+                defense = 0;
+                comment = "";
+                randomNum = 0;
+                x = 0;
+                y = 0;
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Swamp Ghoul";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                }else if (randomNum == 1) {
+                    type = "Reed Witch";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                }else if(randomNum == 2) {
+                    type = "Drowned Spirit";
+                    health = 1250;
+                    attack = 225;
+                    defense = 100;
+                }
+                else {
+                    type = "Undead";
+                    health = 1750;
+                    attack = 200;
+                    defense = 75;
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
+            }
+        } else if (dungeon.getBiomeType().equals(BiomeTypes.DESERT)) {
+            for (int i = 0; i < 10; i++) {
+                type = " ";
+                health = 0;
+                attack = 0;
+                defense = 0;
+                comment = "";
+                randomNum = 0;
+                x = 0;
+                y = 0;
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Sand Wraith";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                }else if (randomNum == 1) {
+                    type = "Cursed Mummy";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                }else if(randomNum == 2) {
+                    type = "Ancient Sentinel";
+                    health = 1250;
+                    attack = 225;
+                    defense = 100;
+                }
+                else {
+                    type = "Dust Elemental";
+                    health = 1750;
+                    attack = 200;
+                    defense = 75;
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
+            }
+        } else if (dungeon.getBiomeType().equals(BiomeTypes.VOLCANIC)) {
+            for (int i = 0; i < 10; i++) {
+                type = " ";
+                health = 0;
+                attack = 0;
+                defense = 0;
+                comment = "";
+                randomNum = 0;
+                x = 0;
+                y = 0;
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Fire Wolves";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                }else if (randomNum == 1) {
+                    type = "Scorch Golem";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                }else if(randomNum == 2) {
+                    type = "Lava Wisp";
+                    health = 1250;
+                    attack = 225;
+                    defense = 100;
+                }
+                else {
+                    type = "Fire Elemental";
+                    health = 1750;
+                    attack = 200;
+                    defense = 75;
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
+            }
+        } else if (dungeon.getBiomeType().equals(BiomeTypes.SAVANNA)) {
+            for (int i = 0; i < 10; i++) {
+                type = " ";
+                health = 0;
+                attack = 0;
+                defense = 0;
+                comment = "";
+                randomNum = 0;
+                x = 0;
+                y = 0;
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Shadowmane";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                }else if (randomNum == 1) {
+                    type = "Earthcleaver";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                }else if(randomNum == 2) {
+                    type = "Totemic Wraiths";
+                    health = 1250;
+                    attack = 225;
+                    defense = 100;
+                }
+                else {
+                    type = "Drywind Spirits";
+                    health = 1750;
+                    attack = 200;
+                    defense = 75;
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
+            }
+        } else if (dungeon.getBiomeType().equals(BiomeTypes.TUNDRA)) {
+            for (int i = 0; i < 10; i++) {
+                type = " ";
+                health = 0;
+                attack = 0;
+                defense = 0;
+                comment = "";
+                randomNum = 0;
+                x = 0;
+                y = 0;
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Glacier Wolf";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                }else if (randomNum == 1) {
+                    type = "Frost Wraith";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                }else if(randomNum == 2) {
+                    type = "Icebound Shaman";
+                    health = 1250;
+                    attack = 225;
+                    defense = 100;
+                }
+                else {
+                    type = "Shard Bears";
+                    health = 1750;
+                    attack = 200;
+                    defense = 75;
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
+            }
+        } else if (dungeon.getBiomeType().equals(BiomeTypes.ICE_SPIKES)) {
+            for (int i = 0; i < 10; i++) {
+                type = " ";
+                health = 0;
+                attack = 0;
+                defense = 0;
+                comment = "";
+                randomNum = 0;
+                x = 0;
+                y = 0;
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Spikewind Wraiths";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                }else if (randomNum == 1) {
+                    type = "Blizzard Stalker";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                }else if(randomNum == 2) {
+                    type = "Cryomancer’s Remnant";
+                    health = 1250;
+                    attack = 225;
+                    defense = 100;
+                }
+                else {
+                    type = "Icicle Bats";
+                    health = 1750;
+                    attack = 200;
+                    defense = 75;
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
+            }
+        } else if (dungeon.getBiomeType().equals(BiomeTypes.POLAR)) {
+            for (int i = 0; i < 10; i++) {
+                type = " ";
+                health = 0;
+                attack = 0;
+                defense = 0;
+                comment = "";
+                randomNum = 0;
+                x = 0;
+                y = 0;
+                do {
+                    x = rand.nextInt(dungeon.getDungeonX());
+                    y = rand.nextInt(dungeon.getDungeonY());
+                }while (dungeon.getDungeonMatrix()[x][y] != ' ');
+                randomNum = rand.nextInt(4);
+                if (randomNum == 0) {
+                    type = "Polar Leviathan";
+                    health = 3000;
+                    attack = 175;
+                    defense = 100;
+                }else if (randomNum == 1) {
+                    type = "Frosthorn Herd";
+                    health = 1500;
+                    attack = 250;
+                    defense = 100;
+                }else if(randomNum == 2) {
+                    type = "Lightfang Wolf";
+                    health = 1250;
+                    attack = 225;
+                    defense = 100;
+                }
+                else {
+                    type = "Moonfur Bear";
+                    health = 1750;
+                    attack = 200;
+                    defense = 75;
+                }
+                dungeon.getDungeonMatrix()[x][y] = 'E';
+                enemies[i] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
+            }
         }
+
         return enemies;
     }
 

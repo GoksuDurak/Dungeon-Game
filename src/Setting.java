@@ -62,6 +62,7 @@ public class Setting {
                     bfWriterMazes.write(tempEnemy.getX() + ",");
                     bfWriterMazes.write(tempEnemy.getY() + ",");
                     bfWriterMazes.write(tempEnemy.getComment() + ",");
+                    bfWriterMazes.write(tempEnemy.getGender() + ",");
                     if (tempEnemy.isDead()) {
                         bfWriterMazes.write("true,");
                     } else {
@@ -170,6 +171,7 @@ public class Setting {
                     bfWriterNextMazes.write(tempEnemy.getX() + ",");
                     bfWriterNextMazes.write(tempEnemy.getY() + ",");
                     bfWriterNextMazes.write(tempEnemy.getComment() + ",");
+                    bfWriterNextMazes.write(tempEnemy.getGender() + ",");
                     if (tempEnemy.isDead()) {
                         bfWriterNextMazes.write("false,");
                     } else {
@@ -241,6 +243,7 @@ public class Setting {
             bfWriterE.write(enemies[i].getX()+",");
             bfWriterE.write(enemies[i].getY()+",");
             bfWriterE.write(enemies[i].getComment()+",");
+            bfWriterE.write(enemies[i].getGender()+",");
             if(enemies[i].isDead()){
                 bfWriterE.write("true");
             }else{
@@ -612,7 +615,8 @@ public class Setting {
             gamePlay.getEnemies()[a].setX(Integer.parseInt(datas4[4]));
             gamePlay.getEnemies()[a].setY(Integer.parseInt(datas4[5]));
             gamePlay.getEnemies()[a].setComment(datas4[6]);
-            if(datas4[6].equals("true")){
+            gamePlay.getEnemies()[a].setGender(datas4[7]);
+            if(datas4[8].equals("true")){
                 gamePlay.getEnemies()[a].setDead(true);
             }else {
                 gamePlay.getEnemies()[a].setDead(false);
@@ -729,10 +733,10 @@ public class Setting {
                         lineMaze = mazeReader.readLine();
                         String[] dataEnemy = lineMaze.split(",");
                         boolean isDead = false;
-                        if (dataEnemy[7].equalsIgnoreCase("false")) {
+                        if (dataEnemy[8].equalsIgnoreCase("false")) {
                             isDead = true;
                         }
-                        Enemy enemy = new Enemy(Integer.parseInt(dataEnemy[0]),Integer.parseInt(dataEnemy[1]),Integer.parseInt(dataEnemy[2]),dataEnemy[3],Integer.parseInt(dataEnemy[4]),Integer.parseInt(dataEnemy[5]),dataEnemy[6],isDead);
+                        Enemy enemy = new Enemy(Integer.parseInt(dataEnemy[0]),Integer.parseInt(dataEnemy[1]),Integer.parseInt(dataEnemy[2]),dataEnemy[3],Integer.parseInt(dataEnemy[4]),Integer.parseInt(dataEnemy[5]),dataEnemy[6],isDead,dataEnemy[7]);
                         enemies[enemyCount] = enemy;
                     }
                     gamePlay.getEnemyStack().push(enemies);
@@ -778,9 +782,11 @@ public class Setting {
                     dataVertex = lineMaze.split(",");
                     Vertex StartVertex = new Vertex(Integer.parseInt(dataVertex[0]),Integer.parseInt(dataVertex[1]));
                     //lineMaze = lineMaze.replaceAll(" ", "");
+
                     gamePlay.getVertexStack().push(PlayerVertex);
                     gamePlay.getVertexStack().push(FinalVertex);
                     gamePlay.getVertexStack().push(StartVertex);
+
 
                 }
                 counterSpaces++;
@@ -855,10 +861,10 @@ public class Setting {
                         lineMaze1 = mazeNextReader.readLine();
                         String[] dataEnemy = lineMaze1.split(",");
                         boolean isDead = false;
-                        if (dataEnemy[7].equalsIgnoreCase("false")) {
+                        if (dataEnemy[8].equalsIgnoreCase("false")) {
                             isDead = true;
                         }
-                        Enemy enemy = new Enemy(Integer.parseInt(dataEnemy[0]),Integer.parseInt(dataEnemy[1]),Integer.parseInt(dataEnemy[2]),dataEnemy[3],Integer.parseInt(dataEnemy[4]),Integer.parseInt(dataEnemy[5]),dataEnemy[6],isDead);
+                        Enemy enemy = new Enemy(Integer.parseInt(dataEnemy[0]),Integer.parseInt(dataEnemy[1]),Integer.parseInt(dataEnemy[2]),dataEnemy[3],Integer.parseInt(dataEnemy[4]),Integer.parseInt(dataEnemy[5]),dataEnemy[6],isDead,dataEnemy[7]);
                         enemies[enemyCount] = enemy;
                     }
                     gamePlay.getNextEnemyStack().push(enemies);
@@ -904,9 +910,15 @@ public class Setting {
                     dataVertex = lineMaze1.split(",");
                     Vertex StartVertex = new Vertex(Integer.parseInt(dataVertex[0]),Integer.parseInt(dataVertex[1]));
                     //lineMaze = lineMaze.replaceAll(" ", "");
+                    /*
                     gamePlay.getNextVertexStack().push(StartVertex);
                     gamePlay.getNextVertexStack().push(FinalVertex);
                     gamePlay.getNextVertexStack().push(PlayerVertex);
+
+                     */
+                    gamePlay.getNextVertexStack().push(PlayerVertex);
+                    gamePlay.getNextVertexStack().push(FinalVertex);
+                    gamePlay.getNextVertexStack().push(StartVertex);
                 }
                 counterSpaces1++;
                 if (counterSpaces1 == 4) { counterSpaces1 = 0;}

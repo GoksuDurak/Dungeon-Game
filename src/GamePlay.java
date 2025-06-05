@@ -373,18 +373,19 @@ public class GamePlay {
             }
         }
         dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] = 'P';
+        biomes = Biomes.COLD;
+        biomeTypes = biomes.next();
+        biomes = biomeTypes.getBiome();
+        dungeon.setBiome(biomes);
+        dungeon.setBiomeType(biomeTypes);
         //dungeon.printDungeon(game);
         dungeon = dungeon.randomMoney(dungeon); // burda mevcut zindanı parayla döndür
-        enemy = new Enemy(0,0,0,"",0,0,"",false);
+        enemy = new Enemy(0,0,0,"",0,0,"",false,"");
         enemies = enemy.randomEnemy(dungeon);
 
         //---------NPC------------
         npcs = new NPC(false,"","","","","",null,this);
-        npcs.addLumberJacks();
-        biomes = Biomes.COLD;
-        dungeon.setBiome(biomes);
-        biomeTypes = biomes.next();
-        dungeon.setBiomeType(biomeTypes);
+        npcs.addLumberJacks(dungeon);
         dungeon.printDungeon(game);
 
         setting = new Setting(this,marketProducts);
@@ -475,13 +476,15 @@ public class GamePlay {
                     finalVertex = vertexF;
                     dungeon = dungeon1;
                     biomes = Biomes.COLD;
-                    dungeon.setBiome(biomes);
                     biomeTypes = biomes.next();
+                    biomes = biomeTypes.getBiome();
+                    dungeon.setBiome(biomes);
                     dungeon.setBiomeType(biomeTypes);
                     dungeon = dungeon.randomMoney(dungeon); // burda mevcut zindanı parayla döndür
+                    enemy = new Enemy(0,0,0,"",0,0,"",false,"");
                     enemies = enemy.randomEnemy(dungeon);
                     npcs = new NPC(false, "", "", "", "", "", null, this);
-                    npcs.addLumberJacks();
+                    npcs.addLumberJacks(dungeon);
                     randomStackActive = false;
                 }
                 quit = false;
@@ -1553,29 +1556,32 @@ public class GamePlay {
         this.player = player;
     }
 
-    public void printStatics(Game game,Player player)
-    {
-
+    public void printStatics(Game game,Player player) {
         game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 0);
-        System.out.println(player.getName());
+        System.out.print("Current Biome : ");
+        dungeon.setBiomeColor(game);
+        System.out.println(dungeon.getBiomeType());
+        game.cn.setTextAttributes(new TextAttributes(Color.WHITE));
         game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 1);
-        System.out.println("Level : " + player.getLevel());
+        System.out.println(player.getName());
         game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 2);
-        System.out.println("Xp    : " + player.getXp());
+        System.out.println("Level : " + player.getLevel());
         game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 3);
+        System.out.println("Xp    : " + player.getXp());
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 4);
         System.out.println("Money : " + player.getMoney());
         game.cn.setTextAttributes(new TextAttributes(Color.red));
-        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 1);
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 2);
         System.out.print("HP      ");
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println( " : " +player.getHp());
         game.cn.setTextAttributes(new TextAttributes(Color.cyan));
-        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 2);
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 3);
         System.out.print("Attack  ");
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println( " : " +player.getAttack());
         game.cn.setTextAttributes(new TextAttributes(Color.green));
-        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 3);
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+20, 4);
         System.out.print("Defence ");
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println( " : " +player.getDefence());
@@ -2444,6 +2450,20 @@ public class GamePlay {
                             quit = true;
                         }
                         if (x == finalVertex.getVertexX() && y == finalVertex.getVertexY()) { //x çıkış  noktasındaysa
+                            enemy = null;
+                            npc = null;
+                            secondNPC = null;
+                            secondEnemy = null;
+                            enemyX = 0;
+                            enemyY = 0;
+                            NPCX = 0;
+                            NPCY = 0;
+                            while (!enemyCoordinateQueue.isEmpty()) {
+                                enemyCoordinateQueue.dequeue();
+                            }
+                            while (!NPCCoordinateQueue.isEmpty()) {
+                                NPCCoordinateQueue.dequeue();
+                            }
                             //-------we push current data----------
                             if (nextMazeStack.isEmpty()) {
                                 randomStackActive = true;
@@ -2521,8 +2541,10 @@ public class GamePlay {
                                     //----- we set variables
                                     x = playerVertex.getVertexX();
                                     y = playerVertex.getVertexY();
-                                    enemies = enemies1;
-                                    npcs = npcs1;
+                                    for (int i = 0; i < enemies1.length; i++) {
+                                        enemies[i] = enemies1[i];
+                                    }
+                                    npcs.setNpcNames(npcs1.getNpcNames());
                                     finalVertex = finalVertex1;
                                     startVertex = startVertex1;
                                     dungeon.setDungeonX(dungeon1.getDungeonX());
@@ -2541,6 +2563,20 @@ public class GamePlay {
                         } else if (x ==  startVertex.getVertexX() && y == startVertex.getVertexY()) {
                             if (!mazeStack.isEmpty()) {
                                 //---- we take stack datas
+                                enemy = null;
+                                npc = null;
+                                secondNPC = null;
+                                secondEnemy = null;
+                                enemyX = 0;
+                                enemyY = 0;
+                                NPCX = 0;
+                                NPCY = 0;
+                                while (!enemyCoordinateQueue.isEmpty()) {
+                                    enemyCoordinateQueue.dequeue();
+                                }
+                                while (!NPCCoordinateQueue.isEmpty()) {
+                                    NPCCoordinateQueue.dequeue();
+                                }
                                 Dungeon dungeon1 = (Dungeon) mazeStack.pop();
                                 Vertex playerVertex = (Vertex) vertexStack.pop();
                                 Enemy[] enemies1 = (Enemy[]) enemyStack.pop();
@@ -2586,8 +2622,10 @@ public class GamePlay {
                                 //----- we set variables
                                 x = playerVertex.getVertexX();
                                 y = playerVertex.getVertexY();
-                                enemies = enemies1;
-                                npcs = npcs1;
+                                for (int i = 0; i < enemies1.length; i++) {
+                                    enemies[i] = enemies1[i];
+                                }
+                                npcs.setNpcNames(npcs1.getNpcNames());
                                 finalVertex = finalVertex1;
                                 startVertex = startVertex1;
                                 dungeon.setDungeonX(dungeon1.getDungeonX());
