@@ -1,11 +1,11 @@
-3000,175,100,orc,22,19,,false
-1500,250,100,goblin,9,25,,false
-1500,250,100,goblin,25,16,,false
-3000,175,100,orc,15,13,,false
-1750,200,75,undead,13,19,,false
-3000,175,100,orc,21,17,,false
-1250,225,100,skeleton,17,14,,false
-3000,175,100,orc,19,6,,false
-1250,225,100,skeleton,22,11,,false
-1750,200,75,undead,3,26,,false
-10000,1750,500,hero,23,13,You encountered hero,false
+1250,225,100,skeleton,21,29,,false
+1250,225,100,skeleton,11,34,,false
+3000,175,100,orc,23,9,,false
+1500,250,100,goblin,15,2,,false
+1750,200,75,undead,29,32,,false
+1750,200,75,undead,3,28,,false
+1500,250,100,goblin,3,10,,false
+1250,225,100,skeleton,6,11,,false
+1750,200,75,undead,11,7,,false
+1250,225,100,skeleton,30,33,,false
+7500,2000,400,skeleton king,13,25,You encountered the skeleton king,false

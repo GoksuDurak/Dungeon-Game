@@ -9,6 +9,8 @@ public class Dungeon {
     private int x; // maris boyu i
     private int y; // matris genişliği j
     private Random rand = new Random();
+    private Biomes biome;
+    private BiomeTypes biomeType;
     //Constructor
     public Dungeon(int x, int y)
     {
@@ -44,15 +46,47 @@ public class Dungeon {
     {
         this.y = y;
     }
-    public void printDungeon(Game game)
-    {
-        for (int i = 0; i < getDungeonX(); i++)
-        {
-            for (int j = 0; j < getDungeonY(); j++)
-            {
-                if(dungeon[i][j] == '¤')
-                {
+    public BiomeTypes getBiomeType() {
+        return biomeType;
+    }
+
+    public void setBiomeType(BiomeTypes biomeType) {
+        this.biomeType = biomeType;
+    }
+
+    public Biomes getBiome() {
+        return biome;
+    }
+
+    public void setBiome(Biomes biome) {
+        this.biome = biome;
+    }
+
+    public void printDungeon(Game game) {
+        for (int i = 0; i < getDungeonX(); i++) {
+            for (int j = 0; j < getDungeonY(); j++) {
+                if (dungeon[i][j] == '¤') {
                     game.cn.setTextAttributes(new TextAttributes(Color.orange));
+                } else if (dungeon[i][j] == '-' || dungeon[i][j] == '+' || dungeon[i][j] == '|') {
+                    if (biomeType.equals(BiomeTypes.VOLCANIC)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color(255, 0, 0)));
+                    } else if (biomeType.equals(BiomeTypes.DESERT)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color(250, 213, 165)));
+                    } else if (biomeType.equals(BiomeTypes.SAVANNA)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color( 189, 183, 107)));
+                    } else if (biomeType.equals(BiomeTypes.POLAR)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color(240, 248, 255)));
+                    } else if (biomeType.equals(BiomeTypes.ICE_SPIKES)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color(173, 216, 230)));
+                    } else if (biomeType.equals(BiomeTypes.TUNDRA)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color(176, 196, 222)));
+                    } else if (biomeType.equals(BiomeTypes.FOREST)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color(34, 139, 34)));
+                    } else if (biomeType.equals(BiomeTypes.PLAINS)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color( 124, 252, 0)));
+                    } else if (biomeType.equals(BiomeTypes.SWAMP)) {
+                        game.cn.setTextAttributes(new TextAttributes(new Color( 85, 107, 47)));
+                    }
                 }
                 System.out.print(dungeon[i][j]);
                 game.cn.setTextAttributes(new TextAttributes(Color.white));

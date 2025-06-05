@@ -90,21 +90,55 @@ public class GamePlay {
     private LinkedStack enemyStack = new LinkedStack();
     private LinkedStack npcStack = new LinkedStack();
     private LinkedStack vertexStack = new LinkedStack();
+    private LinkedStack biomesStack = new LinkedStack();
     private LinkedStack nextMazeStack = new LinkedStack();
     private LinkedStack nextEnemyStack = new LinkedStack();
     private LinkedStack nextNpcStack = new LinkedStack();
     private LinkedStack nextVertexStack = new LinkedStack();
+    private LinkedStack nextBiomesStack = new LinkedStack();
     private int stacksSize = 0;
     private boolean randomStackActive = false;
     public static boolean forestIsRigthPressed = false;
     public static boolean forestIsLeftPressed = false;
     public static boolean forestIsUpPressed = false;
     public static boolean forestIsDownPressed = false;
-
+    private Biomes biomes;
+    private BiomeTypes biomeTypes;
     GamePlay() {}
 
 
+    public LinkedStack getNextBiomesStack() {
+        return nextBiomesStack;
+    }
 
+    public void setNextBiomesStack(LinkedStack nextBiomesStack) {
+        this.nextBiomesStack = nextBiomesStack;
+    }
+
+    public LinkedStack getBiomesStack() {
+        return biomesStack;
+    }
+
+    public void setBiomesStack(LinkedStack biomesStack) {
+        this.biomesStack = biomesStack;
+    }
+
+
+    public Biomes getBiomes() {
+        return biomes;
+    }
+
+    public void setBiomes(Biomes biomes) {
+        this.biomes = biomes;
+    }
+
+    public BiomeTypes getBiomeTypes() {
+        return biomeTypes;
+    }
+
+    public void setBiomeTypes(BiomeTypes biomeTypes) {
+        this.biomeTypes = biomeTypes;
+    }
     public LinkedStack getMazeStack() {
         return mazeStack;
     }
@@ -347,8 +381,12 @@ public class GamePlay {
         //---------NPC------------
         npcs = new NPC(false,"","","","","",null,this);
         npcs.addLumberJacks();
-
+        biomes = Biomes.COLD;
+        dungeon.setBiome(biomes);
+        biomeTypes = biomes.next();
+        dungeon.setBiomeType(biomeTypes);
         dungeon.printDungeon(game);
+
         setting = new Setting(this,marketProducts);
         game.Clear();
         movement(); //hareket fonksiyonu
@@ -436,6 +474,10 @@ public class GamePlay {
                     y = startVertex.getVertexY();
                     finalVertex = vertexF;
                     dungeon = dungeon1;
+                    biomes = Biomes.COLD;
+                    dungeon.setBiome(biomes);
+                    biomeTypes = biomes.next();
+                    dungeon.setBiomeType(biomeTypes);
                     dungeon = dungeon.randomMoney(dungeon); // burda mevcut zindanı parayla döndür
                     enemies = enemy.randomEnemy(dungeon);
                     npcs = new NPC(false, "", "", "", "", "", null, this);
@@ -2406,6 +2448,7 @@ public class GamePlay {
                             if (nextMazeStack.isEmpty()) {
                                 randomStackActive = true;
                                 //-------------push to stack---------------------
+
                                 Dungeon dungeon1 = new Dungeon(dungeon.getDungeonX(),dungeon.getDungeonY());
                                 for (int i = 0; i < dungeon1.getDungeonMatrix().length; i++) {
                                     for (int j = 0; j < dungeon1.getDungeonMatrix()[i].length; j++) {
@@ -2416,6 +2459,11 @@ public class GamePlay {
                                 NPC npcs1 = npcs;
                                 Vertex finalVertex1 = finalVertex;
                                 Vertex startVertex1 = startVertex;
+                                Biomes tempBiomes = biomes;
+                                BiomeTypes tempBiomeTypes = biomeTypes;
+
+                                biomesStack.push(tempBiomes);
+                                biomesStack.push(tempBiomeTypes);
                                 mazeStack.push(dungeon1);
                                 enemyStack.push(enemies1);
                                 npcStack.push(npcs1);
@@ -2434,6 +2482,8 @@ public class GamePlay {
                                     NPC npcs1 = (NPC) nextNpcStack.pop();
                                     Vertex finalVertex1 = (Vertex) nextVertexStack.pop();
                                     Vertex startVertex1 = (Vertex) nextVertexStack.pop();
+                                    BiomeTypes biomeTypes1 = (BiomeTypes) nextBiomesStack.pop();
+                                    Biomes biomes1 = (Biomes) nextBiomesStack.pop();
 
                                     //------ we push current stack data------------
                                     Dungeon tempDungeon = new Dungeon(dungeon.getDungeonX(),dungeon.getDungeonY());
@@ -2451,7 +2501,11 @@ public class GamePlay {
                                     NPC tempNpc = npcs;
                                     Vertex tempStartVertex = startVertex;
                                     Vertex tempFinalVertex = finalVertex;
+                                    Biomes tempBiomes = biomes;
+                                    BiomeTypes tempBiomeTypes = biomeTypes;
 
+                                    biomesStack.push(tempBiomes);
+                                    biomesStack.push(tempBiomeTypes);
                                     mazeStack.push(tempDungeon);
                                     enemyStack.push(tempEnemies);
                                     npcStack.push(tempNpc);
@@ -2476,6 +2530,10 @@ public class GamePlay {
                                     dungeon.setDungeonMatrix(dungeon1.getDungeonMatrix());
                                     dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] = '●';
                                     dungeon.getDungeonMatrix()[finalVertex.getVertexX()][finalVertex.getVertexY()] = 'x';
+                                    biomes = biomes1;
+                                    biomeTypes = biomeTypes1;
+                                    dungeon.setBiome(biomes);
+                                    dungeon.setBiomeType(biomeTypes);
                                     quit = true;
                                 }
                             }
@@ -2489,7 +2547,8 @@ public class GamePlay {
                                 NPC npcs1 = (NPC) npcStack.pop();
                                 Vertex finalVertex1 = (Vertex) vertexStack.pop();
                                 Vertex startVertex1 = (Vertex) vertexStack.pop();
-
+                                BiomeTypes biomeTypes1 = (BiomeTypes) biomesStack.pop();
+                                Biomes biomes1 = (Biomes) biomesStack.pop();
                                 //------ we push current stack data------------
                                 Dungeon tempDungeon = new Dungeon(dungeon.getDungeonX(),dungeon.getDungeonY());
                                 for (int i = 0; i < tempDungeon.getDungeonMatrix().length; i++) {
@@ -2506,7 +2565,11 @@ public class GamePlay {
                                 NPC tempNpc = npcs;
                                 Vertex tempStartVertex = startVertex;
                                 Vertex tempFinalVertex = finalVertex;
+                                Biomes tempBiomes = biomes;
+                                BiomeTypes tempBiomeTypes = biomeTypes;
 
+                                nextBiomesStack.push(tempBiomes);
+                                nextBiomesStack.push(tempBiomeTypes);
                                 nextMazeStack.push(tempDungeon);
                                 nextEnemyStack.push(tempEnemies);
                                 nextNpcStack.push(tempNpc);
@@ -2532,6 +2595,10 @@ public class GamePlay {
                                 dungeon.setDungeonMatrix(dungeon1.getDungeonMatrix());
                                 dungeon.getDungeonMatrix()[startVertex.getVertexX()][startVertex.getVertexY()] = '●';
                                 dungeon.getDungeonMatrix()[finalVertex.getVertexX()][finalVertex.getVertexY()] = 'x';
+                                biomes = biomes1;
+                                biomeTypes = biomeTypes1;
+                                dungeon.setBiome(biomes);
+                                dungeon.setBiomeType(biomeTypes);
                                 quit = true;
                             }
                         }

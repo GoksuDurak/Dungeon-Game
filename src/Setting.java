@@ -22,8 +22,16 @@ public class Setting {
         LinkedStack tempEnemyStack = gamePlay.getEnemyStack();
         LinkedStack tempNpcStack = gamePlay.getNpcStack();
         LinkedStack tempVertexStack = gamePlay.getVertexStack();
+        LinkedStack tempBiomesStack = gamePlay.getBiomesStack();
         for (int a = 0; a < mazesSize; a++) {
             if (!gamePlay.getMazeStack().isEmpty()) {
+                //---------------Write biomes-----------
+                bfWriterMazes.write("\n");
+                BiomeTypes biomeTypes = (BiomeTypes) gamePlay.getBiomesStack().pop();
+                bfWriterMazes.write(biomeTypes.toString());
+                bfWriterMazes.write("\n");
+                Biomes biomes = (Biomes) gamePlay.getBiomesStack().pop();
+                bfWriterMazes.write(biomes.toString());
                 bfWriterMazes.write("\n");
                 Dungeon dungeonMaze = (Dungeon) tempMazeStack.pop();
                 int dungeonX = dungeonMaze.getDungeonX();
@@ -125,6 +133,13 @@ public class Setting {
         LinkedStack tempVertexStack1 = gamePlay.getNextVertexStack();
         for (int a = 0; a < NextMazeSize; a++) {
             if (!gamePlay.getNextMazeStack().isEmpty()) {
+                //----------WRİTE BİOMES----------------
+                bfWriterNextMazes.write("\n");
+                BiomeTypes biomeTypes = (BiomeTypes) gamePlay.getNextBiomesStack().pop();
+                bfWriterNextMazes.write(biomeTypes.toString());
+                bfWriterNextMazes.write("\n");
+                Biomes biomes = (Biomes) gamePlay.getNextBiomesStack().pop();
+                bfWriterNextMazes.write(biomes.toString());
                 bfWriterNextMazes.write("\n");
                 Dungeon dungeonMaze = (Dungeon) tempMazeStack1.pop();
                 int dungeonX = dungeonMaze.getDungeonX();
@@ -378,7 +393,15 @@ public class Setting {
 
         bfWriter3.close();
         BufferedWriter bfWriter4 = new BufferedWriter(new FileWriter("dungeonSave.txt"));
+        Biomes biomes = gamePlay.getBiomes();
+        BiomeTypes biomeTypes = gamePlay.getBiomeTypes();
+        bfWriter4.write(gamePlay.getDungeon().getDungeonX()+","+gamePlay.getDungeon().getDungeonY());
+        bfWriter4.write("\n");
         Vertex vertex = gamePlay.getStartVertex();
+        bfWriter4.write(biomes.toString());
+        bfWriter4.write("\n");
+        bfWriter4.write(biomeTypes.toString());
+        bfWriter4.write("\n");
         bfWriter4.write(vertex.getVertexX()+","+vertex.getVertexY());
         bfWriter4.write("\n");
         vertex = gamePlay.getFinalVertex();
@@ -415,26 +438,58 @@ public class Setting {
         gamePlay.setX(Integer.parseInt(playerInfo[10]));
         gamePlay.setY(Integer.parseInt(playerInfo[11]));
         bufferedReader.close();
-        //---------------------Dungeon file load--------------------------
-        BufferedReader bufferedReader1Length = new BufferedReader(new  FileReader("dungeonSave.txt"));
-        String lineRead1;
-        String[] datasRead;
-        int row = 0;
-        int col = 0;
-        while ((lineRead1 = bufferedReader1Length.readLine()) != null) {
-            datasRead = lineRead1.split(",");
-            col = datasRead.length;
-            row++;
-        }
-        bufferedReader1Length.close();
+
         //---------------------Dungeon Save file load--------------------------
         BufferedReader bufferedReader1 = new BufferedReader(new  FileReader("dungeonSave.txt"));
         String line1;
         String[] datas;
+        line1 = bufferedReader1.readLine();
+        datas = line1.split(",");
+        int row = Integer.parseInt(datas[0]);
+        int col = Integer.parseInt(datas[1]);
         char[][] dungeonMatrix = new char[row][col];
+        line1 = bufferedReader1.readLine();
+        if (line1.equals("HOT")) {
+            gamePlay.getDungeon().setBiome(Biomes.HOT);
+            gamePlay.setBiomes(Biomes.HOT);
+        } else if (line1.equals("COLD")) {
+            gamePlay.getDungeon().setBiome(Biomes.COLD);
+            gamePlay.setBiomes(Biomes.COLD);
+        } else {
+            gamePlay.getDungeon().setBiome(Biomes.WARM);
+            gamePlay.setBiomes(Biomes.WARM);
+        }
+        line1 = bufferedReader1.readLine();
+        if (line1.equals("ICE_SPIKES")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.ICE_SPIKES);
+            gamePlay.setBiomeTypes(BiomeTypes.ICE_SPIKES);
+        } else if (line1.equals("DESERT")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.DESERT);
+            gamePlay.setBiomeTypes(BiomeTypes.DESERT);
+        } else if (line1.equals("FOREST")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.FOREST);
+            gamePlay.setBiomeTypes(BiomeTypes.FOREST);
+        } else if (line1.equals("PLAINS")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.PLAINS);
+            gamePlay.setBiomeTypes(BiomeTypes.PLAINS);
+        } else if (line1.equals("SWAMP")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.SWAMP);
+            gamePlay.setBiomeTypes(BiomeTypes.SWAMP);
+        } else if (line1.equals("POLAR")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.POLAR);
+            gamePlay.setBiomeTypes(BiomeTypes.POLAR);
+        } else if (line1.equals("VOLCANIC")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.VOLCANIC);
+            gamePlay.setBiomeTypes(BiomeTypes.VOLCANIC);
+        } else if (line1.equals("SAVANNA")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.SAVANNA);
+            gamePlay.setBiomeTypes(BiomeTypes.SAVANNA);
+        } else if (line1.equals("TUNDRA")) {
+            gamePlay.getDungeon().setBiomeType(BiomeTypes.TUNDRA);
+            gamePlay.setBiomeTypes(BiomeTypes.TUNDRA);
+        }
         int a = 0;
         int b = 0;
-        row -= 2;// we added 2 row
         String lineVertex = bufferedReader1.readLine();
         String[] lineVertex1 = lineVertex.split(",");
         Vertex startVertex = new Vertex(0,0);
@@ -621,6 +676,38 @@ public class Setting {
                 if (counterSpaces == 0) {
                     //-------------- maze oku ------------------
                     lineMaze = mazeReader.readLine();
+                    Biomes biome = null;
+                    BiomeTypes biomeType = null;
+                    if (lineMaze.equals("ICE_SPIKES")) {
+                        biomeType = BiomeTypes.ICE_SPIKES;
+                    } else if (lineMaze.equals("DESERT")) {
+                        biomeType = BiomeTypes.DESERT;
+                    } else if (lineMaze.equals("FOREST")) {
+                        biomeType = BiomeTypes.FOREST;
+                    } else if (lineMaze.equals("PLAINS")) {
+                        biomeType = BiomeTypes.PLAINS;
+                    } else if (lineMaze.equals("SWAMP")) {
+                        biomeType = BiomeTypes.SWAMP;
+                    } else if (lineMaze.equals("POLAR")) {
+                        biomeType = BiomeTypes.POLAR;
+                    } else if (lineMaze.equals("VOLCANIC")) {
+                        biomeType = BiomeTypes.VOLCANIC;
+                    } else if (lineMaze.equals("SAVANNA")) {
+                        biomeType = BiomeTypes.SAVANNA;
+                    } else if (lineMaze.equals("TUNDRA")) {
+                        biomeType = BiomeTypes.TUNDRA;
+                    }
+                    lineMaze = mazeReader.readLine();
+                    if (lineMaze.equals("HOT")) {
+                        biome = Biomes.HOT;
+                    } else if (lineMaze.equals("COLD")) {
+                        biome = Biomes.COLD;
+                    } else {
+                        biome = Biomes.WARM;
+                    }
+                    gamePlay.getBiomesStack().push(biome);
+                    gamePlay.getBiomesStack().push(biomeType);
+                    lineMaze = mazeReader.readLine();
                     int mazeX = Integer.parseInt(lineMaze);
                     lineMaze = mazeReader.readLine();
                     int mazeY = Integer.parseInt(lineMaze);
@@ -714,6 +801,38 @@ public class Setting {
             if (lineMaze1.trim().isEmpty()) {
                 if (counterSpaces1 == 0) {
                     //-------------- maze oku ------------------
+                    Biomes biome = null;
+                    BiomeTypes biomeType = null;
+                    lineMaze1 = mazeNextReader.readLine();
+                    if (lineMaze1.equals("ICE_SPIKES")) {
+                        biomeType = BiomeTypes.ICE_SPIKES;
+                    } else if (lineMaze1.equals("DESERT")) {
+                        biomeType = BiomeTypes.DESERT;
+                    } else if (lineMaze1.equals("FOREST")) {
+                        biomeType = BiomeTypes.FOREST;
+                    } else if (lineMaze1.equals("PLAINS")) {
+                        biomeType = BiomeTypes.PLAINS;
+                    } else if (lineMaze1.equals("SWAMP")) {
+                        biomeType = BiomeTypes.SWAMP;
+                    } else if (lineMaze1.equals("POLAR")) {
+                        biomeType = BiomeTypes.POLAR;
+                    } else if (lineMaze1.equals("VOLCANIC")) {
+                        biomeType = BiomeTypes.VOLCANIC;
+                    } else if (lineMaze1.equals("SAVANNA")) {
+                        biomeType = BiomeTypes.SAVANNA;
+                    } else if (lineMaze1.equals("TUNDRA")) {
+                        biomeType = BiomeTypes.TUNDRA;
+                    }
+                    lineMaze1 = mazeNextReader.readLine();
+                    if (lineMaze1.equals("HOT")) {
+                        biome = Biomes.HOT;
+                    } else if (lineMaze1.equals("COLD")) {
+                        biome = Biomes.COLD;
+                    } else {
+                        biome = Biomes.WARM;
+                    }
+                    gamePlay.getNextBiomesStack().push(biome);
+                    gamePlay.getNextBiomesStack().push(biomeType);
                     lineMaze1 = mazeNextReader.readLine();
                     int mazeX = Integer.parseInt(lineMaze1);
                     lineMaze1 = mazeNextReader.readLine();
