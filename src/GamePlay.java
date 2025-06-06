@@ -91,11 +91,13 @@ public class GamePlay {
     private LinkedStack npcStack = new LinkedStack();
     private LinkedStack vertexStack = new LinkedStack();
     private LinkedStack biomesStack = new LinkedStack();
+    private LinkedStack hiddenDungeonStack = new LinkedStack();
     private LinkedStack nextMazeStack = new LinkedStack();
     private LinkedStack nextEnemyStack = new LinkedStack();
     private LinkedStack nextNpcStack = new LinkedStack();
     private LinkedStack nextVertexStack = new LinkedStack();
     private LinkedStack nextBiomesStack = new LinkedStack();
+    private LinkedStack nextHiddenDungeonStack = new LinkedStack();
     private int stacksSize = 0;
     private boolean randomStackActive = false;
     public static boolean forestIsRigthPressed = false;
@@ -104,8 +106,25 @@ public class GamePlay {
     public static boolean forestIsDownPressed = false;
     private Biomes biomes;
     private BiomeTypes biomeTypes;
+    private boolean isTranformHidden = false;
     GamePlay() {}
 
+
+    public LinkedStack getHiddenDungeonStack() {
+        return hiddenDungeonStack;
+    }
+
+    public void setHiddenDungeonStack(LinkedStack hiddenDungeonStack) {
+        this.hiddenDungeonStack = hiddenDungeonStack;
+    }
+
+    public LinkedStack getNextHiddenDungeonStack() {
+        return nextHiddenDungeonStack;
+    }
+
+    public void setNextHiddenDungeonStack(LinkedStack nextHiddenDungeonStack) {
+        this.nextHiddenDungeonStack = nextHiddenDungeonStack;
+    }
 
     public LinkedStack getNextBiomesStack() {
         return nextBiomesStack;
@@ -387,7 +406,7 @@ public class GamePlay {
         npcs = new NPC(false,"","","","","",null,this);
         npcs.addLumberJacks(dungeon);
         dungeon.printDungeon(game);
-
+        dungeon.addHiddenDoor();
         setting = new Setting(this,marketProducts);
         game.Clear();
         movement(); //hareket fonksiyonu
@@ -462,6 +481,11 @@ public class GamePlay {
                 }
 
             }
+            //---------------HİDDEN DUNGEON--------
+            if (isTranformHidden) {
+                hiddenDugeon(game);
+                infoIsCome = true;
+            }
             //-------------------NPC-------------
             if (isNPCEncountered) {
                 game.Clear();
@@ -487,6 +511,7 @@ public class GamePlay {
                     dungeon.setBiome(biomes);
                     dungeon.setBiomeType(biomeTypes);
                     dungeon = dungeon.randomMoney(dungeon); // burda mevcut zindanı parayla döndür
+                    dungeon.addHiddenDoor();
                     enemy = new Enemy(0,0,0,"",0,0,"",false,"");
                     enemies = enemy.randomEnemy(dungeon);
                     npcs = new NPC(false, "", "", "", "", "", null, this);
@@ -495,6 +520,7 @@ public class GamePlay {
                 }
                 quit = false;
                 infoIsCome = true;
+                game.Clear();
                 dungeon.printDungeon(game);
                 while (!takesInput) {
                     game.Clear();
@@ -1591,6 +1617,11 @@ public class GamePlay {
         System.out.print("Defence ");
         game.cn.setTextAttributes(new TextAttributes(Color.white));
         System.out.println( " : " +player.getDefence());
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 5);
+        System.out.println("Hidden Dungeon Exist : "+ dungeon.isHiddenDungeonExcist());
+        game.cn.getTextWindow().setCursorPosition(dungeon.getDungeonY()+1, 6);
+        System.out.println("Hidden Dungeon : "+ dungeon.getHiddeDoorX() + "," + dungeon.getHiddeDoorY());
+        game.cn.getTextWindow().setCursorPosition(0, 0);
     }
     public int lengthNumbers(int x) // sayı uzunluk alıyo
     {
@@ -2137,6 +2168,13 @@ public class GamePlay {
                         infoIsCome = false;
                     }
                     if (e.getKeyCode() == KeyEvent.VK_UP) {
+                        if (dungeon.isHiddenDungeonExcist()) {
+                            if (dungeon.getHiddeDoorX() == (x - 1) && dungeon.getHiddeDoorY() == y) {
+                                //hidden are unlocked
+                                isTranformHidden = true;
+                                infoIsCome = false;
+                            }
+                        }
                         if (dungeon.getDungeonMatrix()[x - 1][y] != '+' && dungeon.getDungeonMatrix()[x - 1][y] != '-') {
                             dungeon.getDungeonMatrix()[x][y] = ' ';
                             if (dungeon.getDungeonMatrix()[x-1][y] == 'E') {// yukarısı E ise
@@ -2214,8 +2252,14 @@ public class GamePlay {
 
                         }
                     } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                        if (dungeon.isHiddenDungeonExcist()) {
+                            if (dungeon.getHiddeDoorX() == (x + 1) && dungeon.getHiddeDoorY() == y) {
+                                //hidden are unlocked
+                                isTranformHidden = true;
+                                infoIsCome = false;
+                            }
+                        }
                         if (dungeon.getDungeonMatrix()[x + 1][y] != '+' && dungeon.getDungeonMatrix()[x + 1][y] != '-') {
-
                             dungeon.getDungeonMatrix()[x][y] = ' ';
                             if(dungeon.getDungeonMatrix()[x+1][y] == 'E') // aşağısı E ise
                             {
@@ -2292,8 +2336,14 @@ public class GamePlay {
 
                         }
                     } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                        if (dungeon.isHiddenDungeonExcist()) {
+                            if (dungeon.getHiddeDoorX() == x && dungeon.getHiddeDoorY() == (y + 1)) {
+                                //hidden are unlocked
+                                isTranformHidden = true;
+                                infoIsCome = false;
+                            }
+                        }
                         if (dungeon.getDungeonMatrix()[x][y + 1] != '+' && dungeon.getDungeonMatrix()[x][y + 1] != '|') {
-
                             dungeon.getDungeonMatrix()[x][y] = ' ';
                             if(dungeon.getDungeonMatrix()[x][y + 1] == 'E') // sağında E ise
                             {
@@ -2367,8 +2417,14 @@ public class GamePlay {
 
                         }
                     } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                        if (dungeon.isHiddenDungeonExcist()) {
+                            if (dungeon.getHiddeDoorX() == x && dungeon.getHiddeDoorY() == (y - 1)) {
+                                //hidden are unlocked
+                                isTranformHidden = true;
+                                infoIsCome = false;
+                            }
+                        }
                         if (dungeon.getDungeonMatrix()[x][y - 1] != '+' && dungeon.getDungeonMatrix()[x][y - 1] != '|') {
-
                             dungeon.getDungeonMatrix()[x][y] = ' ';
                             if(dungeon.getDungeonMatrix()[x][y - 1] == 'E') // solda E ise
                             {
@@ -2485,6 +2541,9 @@ public class GamePlay {
                                 Vertex startVertex1 = startVertex;
                                 Biomes tempBiomes = biomes;
                                 BiomeTypes tempBiomeTypes = biomeTypes;
+                                boolean tempIsHiddenDungeonExcist = dungeon.isHiddenDungeonExcist();
+                                int tempDoorX = dungeon.getHiddeDoorX();
+                                int tempDoorY = dungeon.getHiddeDoorY();
 
                                 biomesStack.push(tempBiomes);
                                 biomesStack.push(tempBiomeTypes);
@@ -2496,6 +2555,9 @@ public class GamePlay {
                                 Vertex playerVertex1 = new Vertex(x,y);
                                 vertexStack.push(playerVertex1);
                                 quit = true;
+                                hiddenDungeonStack.push(tempDoorY);
+                                hiddenDungeonStack.push(tempDoorX);
+                                hiddenDungeonStack.push(tempIsHiddenDungeonExcist);
                                 stacksSize++;
                             } else {
                                 if (!nextMazeStack.isEmpty()) {
@@ -2508,7 +2570,9 @@ public class GamePlay {
                                     Vertex startVertex1 = (Vertex) nextVertexStack.pop();
                                     BiomeTypes biomeTypes1 = (BiomeTypes) nextBiomesStack.pop();
                                     Biomes biomes1 = (Biomes) nextBiomesStack.pop();
-
+                                    boolean isHiddenDungeonExcist1 = (boolean) nextHiddenDungeonStack.pop();
+                                    int doorX1 = (int)nextHiddenDungeonStack.pop();
+                                    int doorY1 = (int)nextHiddenDungeonStack.pop();
                                     //------ we push current stack data------------
                                     Dungeon tempDungeon = new Dungeon(dungeon.getDungeonX(),dungeon.getDungeonY());
                                     for (int i = 0; i < tempDungeon.getDungeonMatrix().length; i++) {
@@ -2527,6 +2591,9 @@ public class GamePlay {
                                     Vertex tempFinalVertex = finalVertex;
                                     Biomes tempBiomes = biomes;
                                     BiomeTypes tempBiomeTypes = biomeTypes;
+                                    boolean tempIsHiddenDungeonExcist = dungeon.isHiddenDungeonExcist();
+                                    int tempDoorX = dungeon.getHiddeDoorX();
+                                    int tempDoorY = dungeon.getHiddeDoorY();
 
                                     biomesStack.push(tempBiomes);
                                     biomesStack.push(tempBiomeTypes);
@@ -2535,6 +2602,9 @@ public class GamePlay {
                                     npcStack.push(tempNpc);
                                     vertexStack.push(tempStartVertex);
                                     vertexStack.push(tempFinalVertex);
+                                    hiddenDungeonStack.push(tempDoorY);
+                                    hiddenDungeonStack.push(tempDoorX);
+                                    hiddenDungeonStack.push(tempIsHiddenDungeonExcist);
 
                                     Vertex playerVertex1 = new Vertex(x,y);
                                     vertexStack.push(playerVertex1);
@@ -2560,6 +2630,9 @@ public class GamePlay {
                                     biomeTypes = biomeTypes1;
                                     dungeon.setBiome(biomes);
                                     dungeon.setBiomeType(biomeTypes);
+                                    dungeon.setHiddeDoorX(doorX1);
+                                    dungeon.setHiddeDoorY(doorY1);
+                                    dungeon.setHiddenDungeonExcist(isHiddenDungeonExcist1);
                                     quit = true;
                                 }
                             }
@@ -2589,6 +2662,10 @@ public class GamePlay {
                                 Vertex startVertex1 = (Vertex) vertexStack.pop();
                                 BiomeTypes biomeTypes1 = (BiomeTypes) biomesStack.pop();
                                 Biomes biomes1 = (Biomes) biomesStack.pop();
+                                boolean isHiddenDungeonExcist1 = (boolean) hiddenDungeonStack.pop();
+                                int doorX1 = (int)hiddenDungeonStack.pop();
+                                int doorY1 = (int)hiddenDungeonStack.pop();
+
                                 //------ we push current stack data------------
                                 Dungeon tempDungeon = new Dungeon(dungeon.getDungeonX(),dungeon.getDungeonY());
                                 for (int i = 0; i < tempDungeon.getDungeonMatrix().length; i++) {
@@ -2607,6 +2684,9 @@ public class GamePlay {
                                 Vertex tempFinalVertex = finalVertex;
                                 Biomes tempBiomes = biomes;
                                 BiomeTypes tempBiomeTypes = biomeTypes;
+                                boolean tempIsHiddenDungeonExcist = dungeon.isHiddenDungeonExcist();
+                                int tempDoorX = dungeon.getHiddeDoorX();
+                                int tempDoorY = dungeon.getHiddeDoorY();
 
                                 nextBiomesStack.push(tempBiomes);
                                 nextBiomesStack.push(tempBiomeTypes);
@@ -2615,7 +2695,9 @@ public class GamePlay {
                                 nextNpcStack.push(tempNpc);
                                 nextVertexStack.push(tempStartVertex);
                                 nextVertexStack.push(tempFinalVertex);
-
+                                nextHiddenDungeonStack.push(tempDoorY);
+                                nextHiddenDungeonStack.push(tempDoorX);
+                                nextHiddenDungeonStack.push(tempIsHiddenDungeonExcist);
                                 Vertex playerVertex1 = new Vertex(x,y);
                                 nextVertexStack.push(playerVertex1);
 
@@ -2641,6 +2723,9 @@ public class GamePlay {
                                 biomeTypes = biomeTypes1;
                                 dungeon.setBiome(biomes);
                                 dungeon.setBiomeType(biomeTypes);
+                                dungeon.setHiddeDoorX(doorX1);
+                                dungeon.setHiddeDoorY(doorY1);
+                                dungeon.setHiddenDungeonExcist(isHiddenDungeonExcist1);
                                 quit = true;
                             }
                         }
@@ -2717,6 +2802,15 @@ public class GamePlay {
            }
            return selectedNPC;
        }
+    }
+    public void hiddenDugeon(Game game) {
+        while (true) {
+            game.Clear();
+            System.out.println("aaaa");
+            scanner.nextLine();
+            break;
+        }
+        isTranformHidden = false;
     }
 
     public Dungeon readText() throws IOException

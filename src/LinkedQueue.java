@@ -1,3 +1,4 @@
+/*
 public class LinkedQueue {
     public class Node {
         private Object data;
@@ -96,3 +97,100 @@ public class LinkedQueue {
         }
     }
 }
+
+ */
+
+public class LinkedQueue {
+    public class Node {
+        private Object data;
+        private Node link;
+
+        public Object getData() {
+            return data;
+        }
+
+        public void setData(Object data) {
+            this.data = data;
+        }
+
+        public Node getLink() {
+            return link;
+        }
+
+        public void setLink(Node link) {
+            this.link = link;
+        }
+
+        public Node(Object data) {
+            this.data = data;
+            link = null;
+        }
+    }
+    private Node rear;
+    private Node front;
+    public LinkedQueue() {
+        rear = null;
+        front = null;
+    }
+    public void enqueue(Object data) {
+        if (front == null) {
+            rear = new Node(data);
+            front = rear;
+        } else {
+            Node temp = front;
+            while (temp.link != null) {
+                temp = temp.link;
+            }
+            Node newNode = new Node(data);
+            temp.link = newNode;
+            rear = newNode;
+        }
+    }
+    public Object dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+            return null;
+        } else {
+            Object data = front.getData();
+            front = front.getLink();
+            return data;
+        }
+    }
+    public Object peek() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+            return null;
+        }
+        return front.getData();
+    }
+    public boolean isEmpty() {
+        return front == null;
+    }
+    public int size() {
+        if (isEmpty()) {
+            return -1;
+        } else {
+            Node temp = front;
+            int count = 0;
+            while (temp != null) {
+                count++;
+                temp = temp.getLink();
+            }
+            return count;
+        }
+    }
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+        } else {
+            Node temp = front;
+            while (temp != null) {
+                System.out.print(temp.getData() + " ");
+                temp = temp.getLink();
+            }
+            System.out.println();
+        }
+    }
+}
+
+

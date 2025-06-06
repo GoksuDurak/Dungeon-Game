@@ -11,6 +11,9 @@ public class Dungeon {
     private Random rand = new Random();
     private Biomes biome;
     private BiomeTypes biomeType;
+    private boolean isHiddenDungeonExcist = false;
+    private int hiddenDoorX = 0;
+    private int hiddenDoorY = 0;
     //Constructor
     public Dungeon(int x, int y)
     {
@@ -20,6 +23,32 @@ public class Dungeon {
     }
     //Get-Set
     //Matrix
+
+    public int getHiddeDoorX() {
+        return hiddenDoorX;
+    }
+
+    public void setHiddeDoorX(int hiddeDoorX) {
+        this.hiddenDoorX = hiddeDoorX;
+    }
+
+    public int getHiddeDoorY() {
+        return hiddenDoorY;
+    }
+
+    public void setHiddeDoorY(int hiddeDoorY) {
+        this.hiddenDoorY = hiddeDoorY;
+    }
+
+    public boolean isHiddenDungeonExcist() {
+        return isHiddenDungeonExcist;
+    }
+
+    public void setHiddenDungeonExcist(boolean hiddenDungeonExcist) {
+        isHiddenDungeonExcist = hiddenDungeonExcist;
+    }
+
+
     public char[][] getDungeonMatrix()
     {
         return dungeon;
@@ -96,21 +125,31 @@ public class Dungeon {
             System.out.println();
         }
     }
-    public void createRandomDungeon()
-    {
-        for (int i = 0; i < getDungeonX(); i++)
-        {
-            for (int j = 0; j < getDungeonY(); j++)
-            {
-                if(i % 2 == 0 && j % 2 == 0)
-                {
+    public void addHiddenDoor() {
+        int randomNum = rand.nextInt(100);
+        if (randomNum % 2 == 0) {
+            // yüzde elli ihtimalle aktif olacak
+            isHiddenDungeonExcist = true;
+            int doorX = 0;
+            int doorY = 0;
+            do {
+                doorX = rand.nextInt(getDungeonX());
+                doorY = rand.nextInt(getDungeonY());
+            } while (dungeon[doorX][doorY] != '|' && dungeon[doorX][doorY] != '-');
+            hiddenDoorX = doorX;
+            hiddenDoorY = doorY;
+        }
+    }
+    public void createRandomDungeon() {
+        for (int i = 0; i < getDungeonX(); i++) {
+            for (int j = 0; j < getDungeonY(); j++) {
+                if(i % 2 == 0 && j % 2 == 0) {
                     dungeon[i][j] = '+';
                 } else if (i % 2 == 1 && j % 2 == 0) {
                     dungeon[i][j] = '|';
                 } else if (i % 2 == 0 && j % 2 == 1) {
                     dungeon[i][j] = '-';
-                }else
-                {
+                } else {
                     dungeon[i][j] = '.';
                 }
             }

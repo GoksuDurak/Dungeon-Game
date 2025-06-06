@@ -26,28 +26,28 @@ public class LinkedStack {
             this.link = null;
         }
     }
-    private Node head;
+    private Node top;
     public void push(Object data) {
-        if (head == null) {
-            head = new Node(data);
+        if (top == null) {
+            top = new Node(data);
         } else {
             Node temp = new Node(data);
-            temp.setLink(head);
-            head = temp;
+            temp.setLink(top);
+            top = temp;
         }
     }
     public Object pop() {
-        if (head == null) {
+        if (top == null) {
             System.out.println("Stack is empty");
             return null;
         } else {
-            Node temp = head;
-            head = temp.getLink();
+            Node temp = top;
+            top = temp.getLink();
             return temp.getData();
         }
     }
     public Object peek() {
-        Node temp = head;
+        Node temp = top;
         if (temp == null) {
             System.out.println("Stack is empty");
             return null;
@@ -56,16 +56,16 @@ public class LinkedStack {
         }
     }
     public boolean isEmpty() {
-        if (head == null) {
+        if (top == null) {
             return true;
         }
         return false;
     }
     public int size() {
-        if (head == null) {
+        if (top == null) {
             return -1;
         } else {
-            Node temp = head;
+            Node temp = top;
             int count = 0;
             while (temp != null) {
                 count++;
@@ -75,11 +75,11 @@ public class LinkedStack {
         }
     }
     public void display() {
-        if (head == null) {
+        if (top == null) {
             System.out.println("Stack is empty");
             return;
         }
-        Node temp = head;
+        Node temp = top;
         while (temp != null) {
             System.out.print(temp.getData());
             temp = temp.getLink();

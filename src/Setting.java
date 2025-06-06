@@ -23,14 +23,23 @@ public class Setting {
         LinkedStack tempNpcStack = gamePlay.getNpcStack();
         LinkedStack tempVertexStack = gamePlay.getVertexStack();
         LinkedStack tempBiomesStack = gamePlay.getBiomesStack();
+        LinkedStack tempHiddenDungeonStack = gamePlay.getHiddenDungeonStack();
         for (int a = 0; a < mazesSize; a++) {
             if (!gamePlay.getMazeStack().isEmpty()) {
-                //---------------Write biomes-----------
+                //---------------Write hidden dungeon-----------
                 bfWriterMazes.write("\n");
-                BiomeTypes biomeTypes = (BiomeTypes) gamePlay.getBiomesStack().pop();
+                boolean isHiddenDungeonExcist = (boolean)tempHiddenDungeonStack.pop();
+                bfWriterMazes.write(isHiddenDungeonExcist ? "1" : "0");
+                bfWriterMazes.write("\n");
+                int doorX = (int)tempHiddenDungeonStack.pop();
+                int doorY = (int)tempHiddenDungeonStack.pop();
+                bfWriterMazes.write(doorX + "," + doorY);
+                bfWriterMazes.write("\n");
+                //---------------Write biomes-----------
+                BiomeTypes biomeTypes = (BiomeTypes) tempBiomesStack.pop();
                 bfWriterMazes.write(biomeTypes.toString());
                 bfWriterMazes.write("\n");
-                Biomes biomes = (Biomes) gamePlay.getBiomesStack().pop();
+                Biomes biomes = (Biomes) tempBiomesStack.pop();
                 bfWriterMazes.write(biomes.toString());
                 bfWriterMazes.write("\n");
                 Dungeon dungeonMaze = (Dungeon) tempMazeStack.pop();
@@ -132,14 +141,24 @@ public class Setting {
         LinkedStack tempEnemyStack1 = gamePlay.getNextEnemyStack();
         LinkedStack tempNpcStack1 = gamePlay.getNextNpcStack();
         LinkedStack tempVertexStack1 = gamePlay.getNextVertexStack();
+        LinkedStack tempBiomesStack1 = gamePlay.getNextBiomesStack();
+        LinkedStack tempHiddenDungeonStack1 = gamePlay.getNextHiddenDungeonStack();
         for (int a = 0; a < NextMazeSize; a++) {
             if (!gamePlay.getNextMazeStack().isEmpty()) {
-                //----------WRİTE BİOMES----------------
+                //---------------Write hidden dungeon-----------
                 bfWriterNextMazes.write("\n");
-                BiomeTypes biomeTypes = (BiomeTypes) gamePlay.getNextBiomesStack().pop();
+                boolean isHiddenDungeonExcist = (boolean)tempHiddenDungeonStack1.pop();
+                bfWriterNextMazes.write(isHiddenDungeonExcist ? "1" : "0");
+                bfWriterNextMazes.write("\n");
+                int doorX = (int)tempHiddenDungeonStack1.pop();
+                int doorY = (int)tempHiddenDungeonStack1.pop();
+                bfWriterNextMazes.write(doorX + "," + doorY);
+                bfWriterNextMazes.write("\n");
+                //----------WRİTE BİOMES----------------
+                BiomeTypes biomeTypes = (BiomeTypes) tempBiomesStack1.pop();
                 bfWriterNextMazes.write(biomeTypes.toString());
                 bfWriterNextMazes.write("\n");
-                Biomes biomes = (Biomes) gamePlay.getNextBiomesStack().pop();
+                Biomes biomes = (Biomes) tempBiomesStack1.pop();
                 bfWriterNextMazes.write(biomes.toString());
                 bfWriterNextMazes.write("\n");
                 Dungeon dungeonMaze = (Dungeon) tempMazeStack1.pop();
@@ -396,6 +415,15 @@ public class Setting {
 
         bfWriter3.close();
         BufferedWriter bfWriter4 = new BufferedWriter(new FileWriter("dungeonSave.txt"));
+        //---------------Write hidden dungeon-----------
+        bfWriter4.write("\n");
+        boolean isHiddenDungeonExcist = gamePlay.getDungeon().isHiddenDungeonExcist();
+        bfWriter4.write(isHiddenDungeonExcist ? "1" : "0");
+        bfWriter4.write("\n");
+        int doorX = gamePlay.getDungeon().getHiddeDoorX();
+        int doorY = gamePlay.getDungeon().getHiddeDoorY();
+        bfWriter4.write(doorX + "," + doorY);
+        bfWriter4.write("\n");
         Biomes biomes = gamePlay.getBiomes();
         BiomeTypes biomeTypes = gamePlay.getBiomeTypes();
         bfWriter4.write(gamePlay.getDungeon().getDungeonX()+","+gamePlay.getDungeon().getDungeonY());
@@ -446,6 +474,19 @@ public class Setting {
         BufferedReader bufferedReader1 = new BufferedReader(new  FileReader("dungeonSave.txt"));
         String line1;
         String[] datas;
+        line1 = bufferedReader1.readLine();
+        line1 = bufferedReader1.readLine();
+        boolean isHiddenDungeonExcist = false;
+        if (Integer.parseInt(line1) == 1) {
+            isHiddenDungeonExcist = true;
+        }
+        gamePlay.getDungeon().setHiddenDungeonExcist(isHiddenDungeonExcist);
+        line1 = bufferedReader1.readLine();
+        String[] dataDoor = line1.split(",");
+        int doorX = Integer.parseInt(dataDoor[0]);
+        int doorY = Integer.parseInt(dataDoor[1]);
+        gamePlay.getDungeon().setHiddeDoorX(doorX);
+        gamePlay.getDungeon().setHiddeDoorY(doorY);
         line1 = bufferedReader1.readLine();
         datas = line1.split(",");
         int row = Integer.parseInt(datas[0]);
@@ -680,6 +721,19 @@ public class Setting {
                 if (counterSpaces == 0) {
                     //-------------- maze oku ------------------
                     lineMaze = mazeReader.readLine();
+                    isHiddenDungeonExcist = false;
+                    if (Integer.parseInt(lineMaze) == 1) {
+                        isHiddenDungeonExcist = true;
+                    }
+                    gamePlay.getHiddenDungeonStack().push(isHiddenDungeonExcist);
+                    lineMaze = mazeReader.readLine();
+                    String[] dataHiddenDungeon = lineMaze.split(",");
+                    doorX = Integer.parseInt(dataHiddenDungeon[0]);
+                    doorY = Integer.parseInt(dataHiddenDungeon[1]);
+                    gamePlay.getHiddenDungeonStack().push(doorX);
+                    gamePlay.getHiddenDungeonStack().push(doorY);
+                    //---------------read biomes
+                    lineMaze = mazeReader.readLine();
                     Biomes biome = null;
                     BiomeTypes biomeType = null;
                     if (lineMaze.equals("ICE_SPIKES")) {
@@ -709,8 +763,8 @@ public class Setting {
                     } else {
                         biome = Biomes.WARM;
                     }
-                    gamePlay.getBiomesStack().push(biome);
                     gamePlay.getBiomesStack().push(biomeType);
+                    gamePlay.getBiomesStack().push(biome);
                     lineMaze = mazeReader.readLine();
                     int mazeX = Integer.parseInt(lineMaze);
                     lineMaze = mazeReader.readLine();
@@ -798,6 +852,8 @@ public class Setting {
         gamePlay.setEnemyStack(reverseStack(gamePlay.getEnemyStack()));
         gamePlay.setNpcStack(reverseStack(gamePlay.getNpcStack()));
         gamePlay.setVertexStack(reverseStack(gamePlay.getVertexStack()));
+        gamePlay.setBiomesStack(reverseStack(gamePlay.getBiomesStack()));
+        gamePlay.setHiddenDungeonStack(reverseStack(gamePlay.getHiddenDungeonStack()));
         mazeReader.close();
         //---------------------MAZES NEXT file load--------------------------
         BufferedReader mazeNextReader = new BufferedReader(new FileReader("mazesNext.txt"));
@@ -807,6 +863,20 @@ public class Setting {
             if (lineMaze1.trim().isEmpty()) {
                 if (counterSpaces1 == 0) {
                     //-------------- maze oku ------------------
+                    //---read hidden dungeon------
+                    lineMaze1 = mazeNextReader.readLine();
+                    boolean isHiddenDungeonExcist1 = false;
+                    if (Integer.parseInt(lineMaze1) == 1) {
+                        isHiddenDungeonExcist1 = true;
+                    }
+                    gamePlay.getNextHiddenDungeonStack().push(isHiddenDungeonExcist1);
+                    lineMaze1 = mazeNextReader.readLine();
+                    String[] dataDoor1 = lineMaze1.split(",");
+                    int doorX1 = Integer.parseInt(dataDoor1[0]);
+                    int doorY1 = Integer.parseInt(dataDoor1[1]);
+                    gamePlay.getNextHiddenDungeonStack().push(doorX1);
+                    gamePlay.getNextHiddenDungeonStack().push(doorY1);
+                    //-----------read biomes
                     Biomes biome = null;
                     BiomeTypes biomeType = null;
                     lineMaze1 = mazeNextReader.readLine();
@@ -837,8 +907,8 @@ public class Setting {
                     } else {
                         biome = Biomes.WARM;
                     }
-                    gamePlay.getNextBiomesStack().push(biome);
                     gamePlay.getNextBiomesStack().push(biomeType);
+                    gamePlay.getNextBiomesStack().push(biome);
                     lineMaze1 = mazeNextReader.readLine();
                     int mazeX = Integer.parseInt(lineMaze1);
                     lineMaze1 = mazeNextReader.readLine();
@@ -929,6 +999,8 @@ public class Setting {
         gamePlay.setNextEnemyStack(reverseStack(gamePlay.getNextEnemyStack()));
         gamePlay.setNextNpcStack(reverseStack(gamePlay.getNextNpcStack()));
         gamePlay.setNextVertexStack(reverseStack(gamePlay.getNextVertexStack()));
+        gamePlay.setNextBiomesStack(reverseStack(gamePlay.getNextBiomesStack()));
+        gamePlay.setNextHiddenDungeonStack(reverseStack(gamePlay.getNextHiddenDungeonStack()));
         mazeNextReader.close();
     }
     public LinkedStack reverseStack(LinkedStack stackToBeReversed) {
