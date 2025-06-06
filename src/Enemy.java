@@ -99,43 +99,131 @@ public class Enemy {
         int randomNum = 0;
         int x = 0;
         int y = 0;
-        do {
-            x = rand.nextInt(dungeon.getDungeonX());
-            y = rand.nextInt(dungeon.getDungeonY());
-        } while (dungeon.getDungeonMatrix()[x][y] != ' ');
-        randomNum = rand.nextInt(5);
-        if (randomNum == 0) {
-            type = "demon king";
-            health = 12500;
-            attack = 1500;
-            defense = 750;
-            comment = "You encountered the demon king";
-        } else if (randomNum == 1){
-            type = "dragon";
-            health = 10000;
-            attack = 1750;
-            defense = 500;
-            comment = "You encountered the dragon";
-        } else if (randomNum == 2){
-            type = "orc king";
-            health = 20000;
-            attack = 1000;
-            defense = 750;
-            comment = "You encountered orc king";
-        } else if (randomNum == 3){
-            type = "skeleton king";
-            health = 7500;
-            attack = 2000;
-            defense = 400;
-            comment = "You encountered the skeleton king";
-        } else {
-            type = "hero";
-            health = 10000;
-            attack = 1750;
-            defense = 500;
-            comment = "You encountered hero";
+        if (dungeon.getBiome().equals(Biomes.HOT)) {
+            do {
+                x = rand.nextInt(dungeon.getDungeonX());
+                y = rand.nextInt(dungeon.getDungeonY());
+            } while (dungeon.getDungeonMatrix()[x][y] != ' ');
+            randomNum = rand.nextInt(5);
+            if (randomNum == 0) {
+                type = "Ignarok the Blazing Tyrant";
+                health = 12500;
+                attack = 1500;
+                defense = 750;
+                gender = "Male";
+                comment = "You dare step into my dominion mortal? Then suffer the wrath of the undying!";
+            } else if (randomNum == 1) {
+                type = "Pyralith the Worldburner";
+                health = 10000;
+                attack = 1750;
+                defense = 500;
+                gender = "Male";
+                comment = "Foolish mortals  you dare challenge the skies themselves?";
+            } else if (randomNum == 2) {
+                type = "Ember Queen Seraphira";
+                health = 20000;
+                attack = 1000;
+                defense = 750;
+                gender = "Female";
+                comment = "Resist all you want but in the end your soul will burn for me and you will be mine forever.";
+            } else if (randomNum == 3) {
+                type = "Velgrath the Bone King";
+                health = 7500;
+                attack = 2000;
+                defense = 400;
+                comment = "From the marrow of the dead  I rise to crush the living.";
+            } else {
+                type = "Scorvyn the Sand Reaper";
+                health = 10000;
+                attack = 1750;
+                defense = 500;
+                comment = "I reap the sands of time and with them, your fate.";
+            }
+            dungeon.getDungeonMatrix()[x][y] = 'E';
+        } else if (dungeon.getBiome().equals(Biomes.WARM)) {
+            do {
+                x = rand.nextInt(dungeon.getDungeonX());
+                y = rand.nextInt(dungeon.getDungeonY());
+            } while (dungeon.getDungeonMatrix()[x][y] != ' ');
+            randomNum = rand.nextInt(5);
+            if (randomNum == 0) {
+                type = "Sylvan Revenant";
+                health = 10000;
+                attack = 1500;
+                defense = 750;
+                comment = "Once protector  now vengeance bound  I haunt the forest forever.";
+            } else if (randomNum == 1) {
+                type = "Scorchscale Behemoth";
+                health = 75000;
+                attack = 1500;
+                defense = 500;
+                comment = "Born from the searing sands  I am the land’s living inferno.";
+            } else if (randomNum == 2) {
+                type = "Orc King";
+                health = 15000;
+                attack = 750;
+                defense = 1000;
+                gender = "Male";
+                comment = "Me Orc King! Crush all who stand! Blood and bone belong to me!";
+            } else if (randomNum == 3) {
+                type = "Plaguevine Ravager";
+                health = 10000;
+                attack = 1700;
+                defense = 400;
+                comment = "Toxic vines and pestilence will claim you as their own.";
+            } else {
+                type = "Shadowbane Hero";
+                health = 7500;
+                attack = 1500;
+                defense = 500;
+                gender = "Male";
+                comment = "Once hailed as a savior, now broken by betrayal—his shadow hides the pain no light can heal.";
+            }
+            dungeon.getDungeonMatrix()[x][y] = 'E';
+        } else if (dungeon.getBiome().equals(Biomes.COLD)) {
+            do {
+                x = rand.nextInt(dungeon.getDungeonX());
+                y = rand.nextInt(dungeon.getDungeonY());
+            } while (dungeon.getDungeonMatrix()[x][y] != ' ');
+            randomNum = rand.nextInt(5);
+            if (randomNum == 0) {
+                type = "Icevein Hydra";
+                health = 10000;
+                attack = 1500;
+                defense = 750;
+                gender = "Male";
+                comment = "We are here to bring about your merciless death... and freeze you into oblivion.";
+            } else if (randomNum == 1) {
+                type = "Glacier Empress";
+                health = 10000;
+                attack = 1500;
+                defense = 500;
+                gender = "Female";
+                comment = "I will freeze you  binding you to me for eternity.";
+            } else if (randomNum == 2) {
+                type = "Shardbreaker Yeti";
+                health = 17500;
+                attack = 1000;
+                defense = 750;
+                gender = "Male";
+                comment = "I will crush your bones and shatter your spirit beneath the glacier’s weight.";
+            } else if (randomNum == 3) {
+                type = "Blizzard Queen";
+                health = 7500;
+                attack = 1250;
+                defense = 500;
+                gender = "Female";
+                comment = "Within my storm  all hope freezes and dies.And you will be the next one...";
+            } else {
+                type = "Frostbane Sovereign";
+                health = 12500;
+                attack = 1500;
+                defense = 400;
+                gender = "Female";
+                comment = "I am the end of all warmth your last breath will freeze in my presence.";
+            }
+            dungeon.getDungeonMatrix()[x][y] = 'E';
         }
-        dungeon.getDungeonMatrix()[x][y] = 'E';
         enemies[10] = new Enemy(health,attack,defense,type,x,y,comment,false,gender);
         if (dungeon.getBiomeType().equals(BiomeTypes.FOREST)) {
             for (int i = 0; i < 10; i++) {
@@ -213,7 +301,7 @@ public class Enemy {
                     comment = "Are you wearing red.No you can't wear that so I will kill you.";
                     gender = "Male";
                 } else {
-                    type = "doppelganger";
+                    type = "Doppelganger";
                     health = 1500;
                     attack = 225;
                     defense = 100;

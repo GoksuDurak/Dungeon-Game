@@ -173,9 +173,9 @@ public class Setting {
                     bfWriterNextMazes.write(tempEnemy.getComment() + ",");
                     bfWriterNextMazes.write(tempEnemy.getGender() + ",");
                     if (tempEnemy.isDead()) {
-                        bfWriterNextMazes.write("false,");
-                    } else {
                         bfWriterNextMazes.write("true,");
+                    } else {
+                        bfWriterNextMazes.write("false,");
                     }
                     bfWriterNextMazes.write("\n");
                 }
@@ -733,7 +733,7 @@ public class Setting {
                         lineMaze = mazeReader.readLine();
                         String[] dataEnemy = lineMaze.split(",");
                         boolean isDead = false;
-                        if (dataEnemy[8].equalsIgnoreCase("false")) {
+                        if (dataEnemy[8].equalsIgnoreCase("true")) {
                             isDead = true;
                         }
                         Enemy enemy = new Enemy(Integer.parseInt(dataEnemy[0]),Integer.parseInt(dataEnemy[1]),Integer.parseInt(dataEnemy[2]),dataEnemy[3],Integer.parseInt(dataEnemy[4]),Integer.parseInt(dataEnemy[5]),dataEnemy[6],isDead,dataEnemy[7]);
@@ -861,7 +861,7 @@ public class Setting {
                         lineMaze1 = mazeNextReader.readLine();
                         String[] dataEnemy = lineMaze1.split(",");
                         boolean isDead = false;
-                        if (dataEnemy[8].equalsIgnoreCase("false")) {
+                        if (dataEnemy[8].equalsIgnoreCase("true")) {
                             isDead = true;
                         }
                         Enemy enemy = new Enemy(Integer.parseInt(dataEnemy[0]),Integer.parseInt(dataEnemy[1]),Integer.parseInt(dataEnemy[2]),dataEnemy[3],Integer.parseInt(dataEnemy[4]),Integer.parseInt(dataEnemy[5]),dataEnemy[6],isDead,dataEnemy[7]);
