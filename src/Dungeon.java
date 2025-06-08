@@ -139,6 +139,9 @@ public class Dungeon {
             hiddenDoorX = doorX;
             hiddenDoorY = doorY;
         }
+        hiddenDoorX = 0;
+        hiddenDoorY = 1;
+        isHiddenDungeonExcist = true;
     }
     public void createRandomDungeon() {
         for (int i = 0; i < getDungeonX(); i++) {

@@ -138,11 +138,11 @@ public class LinkedQueue {
             front = rear;
         } else {
             Node temp = front;
-            while (temp.link != null) {
-                temp = temp.link;
+            while (temp.getLink() != null) {
+                temp = temp.getLink();
             }
             Node newNode = new Node(data);
-            temp.link = newNode;
+            temp.setLink(newNode);
             rear = newNode;
         }
     }

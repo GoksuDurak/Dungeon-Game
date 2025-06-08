@@ -21,3 +21,6 @@ bow 40
 staff 41
 axe 42
 spear 43
+HOT hard
+COLD moderate
+WARM easy

@@ -10,6 +10,3 @@ class GameTest {
     }
 }
 //TODO List
-/*
-*envanter zırh giyme
-* */

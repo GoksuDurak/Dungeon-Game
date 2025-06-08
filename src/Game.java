@@ -7,7 +7,7 @@ import enigma.console.TextAttributes;
 
 public class Game {
 
-    public static enigma.console.Console cn = Enigma.getConsole("Mouse and Keyboard",91,41,20,1);
+    public static enigma.console.Console cn = Enigma.getConsole("Mouse and Keyboard",91,42,20,1);
     public TextMouseListener tmlis;
     public KeyListener klis;
 

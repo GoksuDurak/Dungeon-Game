@@ -1,11 +1,11 @@
-1250,225,100,skeleton,21,29,,false
-1250,225,100,skeleton,11,34,,false
-3000,175,100,orc,23,9,,false
-1500,250,100,goblin,15,2,,false
-1750,200,75,undead,29,32,,false
-1750,200,75,undead,3,28,,false
-1500,250,100,goblin,3,10,,false
-1250,225,100,skeleton,6,11,,false
-1750,200,75,undead,11,7,,false
-1250,225,100,skeleton,30,33,,false
-7500,2000,400,skeleton king,13,25,You encountered the skeleton king,false
+3200,340,250,Frosthorn Herd,25,11,Challenge the herd… and be trampled beneath the frost.,Male,false
+3500,325,175,Polar Leviathan,29,26,Your fate is sealed beneath the ice and waves.,Male,false
+3500,325,175,Polar Leviathan,13,21,Your fate is sealed beneath the ice and waves.,Male,false
+3200,340,250,Frosthorn Herd,26,1,Challenge the herd… and be trampled beneath the frost.,Male,false
+3250,300,250,Moonfur Bear,5,32,Beware the beast that howls at the full moon.,Male,false
+4250,325,175,Lightfang Wolf,21,2,I hunt not just with claws but with light itself.,Female,false
+4250,325,175,Lightfang Wolf,23,11,I hunt not just with claws but with light itself.,Female,false
+3250,300,250,Moonfur Bear,8,3,Beware the beast that howls at the full moon.,Male,false
+3250,300,250,Moonfur Bear,2,3,Beware the beast that howls at the full moon.,Male,false
+3200,340,250,Frosthorn Herd,33,29,Challenge the herd… and be trampled beneath the frost.,Male,false
+17500,1000,750,Shardbreaker Yeti,1,7,I will crush your bones and shatter your spirit beneath the glacier’s weight.,Male,false

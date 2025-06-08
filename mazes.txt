@@ -1,71 +1,319 @@
 
-FOREST
+0
+0,0
+TUNDRA
 COLD
-27
-31
-+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
-|,●, , , ,N, , , , ,N, , , , , , , , , , , , , , , , , , ,P,|,
-+,¤,+,-,+,-,+,-,+,-,+, ,+,-,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+, ,+,
-|, ,|, , , , , , ,N,|, ,|, ,N, , ,N,|, ,|, , ,N,|,¤, , , , ,|,
-+, ,+, ,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+,¤,+,-,+, ,+,
-|, ,|, ,|, , , ,|, ,|, , ,¤, , ,|,N, , ,|, , , ,|, ,|, ,|, ,|,
-+, ,+, ,+, ,+, ,+, ,+,-,+,-,+, ,+, ,+,-,+, ,+, ,+, ,+, ,+,-,+,
-|, ,|,N, , ,|, ,|, ,|, , , ,|, ,|, , , ,|, ,|, ,|, ,|, , , ,|,
-+, ,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+,-,+, ,+, ,+, ,+, ,+,-,+, ,+,
-|, , , ,E, , , ,|, ,|, ,|, , , , , ,|, ,|, ,|, ,|, ,|, , , ,|,
-+,-,+,-,+,-,+,-,+, ,+, ,+,-,+,-,+, ,+, ,+, ,+, ,+, ,+, ,+,-,+,
-|, , , , , , , ,¤, ,|, , , , , ,¤, ,|, ,|, ,|, ,|,E,|, , , ,|,
-+, ,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+, ,+,-,+, ,+,
-|, , , , , , , ,|, ,E, , , , , , , ,|, ,|, , , ,|, , , , , ,|,
-+,-,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+,-,+, ,+,¤,+,E,+,-,+,-,+, ,+,
-|,¤, , , , , , , , ,|, , , , ,N,¤, , , ,|, ,|, ,|, , , , ,E,|,
-+,-,+,-,+,-,+,-,+,-,+, ,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+,
-|,¤, , ,¤, , , , , ,|, ,|, , , ,E, , , , , ,|, ,|, , , , , ,|,
-+, ,+,-,+,-,+,-,+,¤,+, ,+,-,+,-,+,-,+, ,+,-,+, ,+, ,+,-,+, ,+,
-|, , , , ,E, , ,|, , , , , , , , , ,|, ,|, ,|,E,|, ,|, ,|, ,|,
-+,-,+,-,+,-,+, ,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+, ,+,-,+, ,+,¤,+,
-|, ,¤, , , ,|,N, , ,¤,¤, , , , ,|, ,|, ,|, ,|, , , , , ,|, ,|,
-+, ,+, ,+,-,+,-,+,-,+, ,+,-,+,-,+,N,+, ,+,E,+,-,+,-,+, ,+, ,+,
-|, ,|, , , ,E, , , , ,¤,|, ,N, , , ,|, ,|, ,|, , , , , , ,¤,|,
-+, ,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+,¤,+, ,+,-,+,-,+, ,+,
-|, , , , , , , , , , , , , ,¤, , , , , ,|, , , , ,E, ,¤,|, ,|,
-+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
+35
+37
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
+|,N, , ,|, , , ,|, , ,¤, , , , ,|, , , , , , ,¤,|, , , ,|, , , , , , , ,|,
++,N,+, ,+,¤,+, ,+, ,+,-,+,-,+, ,+, ,+,-,+,-,+, ,+, ,+, ,+, ,+,-,+,-,+, ,+,
+|, ,|, ,|, ,|,¤,|, , , , , ,|, , , , ,¤,E, ,|, ,|, ,|, ,|, ,|, , , ,|, ,|,
++, ,+, ,+, ,+, ,+, ,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+, ,+, ,+,-,+, ,+,
+|, ,|, , , ,|, , , ,|, , ,E, , ,|, , , , , ,|, , , ,|,N, , ,|, ,|,¤, , ,|,
++, ,+,-,+,-,+,-,+,-,+, ,+,-,+, ,+, ,+,-,+, ,+, ,+,-,+,-,+,-,+, ,+, ,+,-,+,
+|, ,|, , , , , , ,E,|, ,|, , , ,|, ,|, ,|, ,|, , , , , , ,¤, , ,|, , , ,|,
++, ,+, ,+,-,+,-,+,-,+, ,+,-,+, ,+, ,+, ,+, ,+,-,+, ,+,-,+,-,+,-,+,-,+, ,+,
+|,¤, , ,|,●,|, , , ,|, , , ,|, , , ,|, ,|,E, ,E,|, ,|, ,¤, , , , , , , ,|,
++,-,+, ,+, ,+, ,+, ,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+,-,+, ,+,-,+,-,+,-,+, ,+,
+|, , , ,|, , , ,|, ,|, ,|, , ,N, , ,|, , , ,|, , , , , ,|, , , , , ,|, ,|,
++, ,+,-,+,-,+,-,+, ,+, ,+,-,+,-,+, ,+,¤,+,-,+,-,+,-,+,-,+, ,+,-,+, ,+, ,+,
+|, ,|, , , , , , , ,|,N,|, , , , , ,|,E,|, , , , , , , , , ,|, , , ,|, ,|,
++,-,+, ,+,-,+,-,+,-,+, ,+, ,+,-,+,-,+,¤,+, ,+,-,+,E,+,-,+,-,+, ,+,-,+, ,+,
+|, , , ,|, , , ,|, , , ,|, , , , ,¤,|, , , ,|, ,|, , , ,|, , , ,|, ,E, ,|,
++, ,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+, ,+, ,+,-,+, ,+,-,+, ,+,-,+,-,+, ,+,-,+,
+|, ,N, , ,N,|, ,|, , , , , ,¤, ,|, ,|, ,|, , , , , ,|, , ,¤, , , ,¤,|, ,|,
++,-,+,-,+, ,+, ,+, ,+,-,+,-,+,-,+, ,+, ,+, ,+, ,+, ,+,-,+,-,+,-,+,-,+, ,+,
+|,P,|, , , ,|, ,N, ,|, , , ,N, ,|, ,|, ,|, ,|, ,|, ,|, , ,E, ,E,|, , , ,|,
++, ,+, ,+,-,+, ,+,-,+, ,+,-,+, ,+,¤,+, ,+,-,+, ,+,N,+,-,+, ,+, ,+, ,+, ,+,
+|, ,|, ,|, ,|, ,|, , , ,|, ,|, ,|, ,|, , ,¤, , ,|, , ,¤,|, ,|, , , ,|, ,|,
++, ,+, ,+, ,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+,-,+,-,+,-,+, ,+,-,+, ,+,-,+, ,+,
+|, , , ,|, ,|, ,|, , , ,|, , , ,|, , , , , , , , , ,|, , , ,|, ,|, , , ,|,
++,¤,+,-,+, ,+, ,+,-,+, ,+, ,+,-,+,-,+,-,+, ,+,-,+, ,+,-,+, ,+,-,+, ,+, ,+,
+|, ,|, , , ,¤, ,|, , , ,|, ,|,¤, , , , ,|, ,|, ,N, ,|, ,|, , , , ,¤,|, ,|,
++, ,+,-,+,-,+, ,+, ,+,-,+, ,+, ,+,-,+, ,+,-,+, ,+,-,+, ,+,-,+,-,+,-,+, ,+,
+|, , , , , ,|, ,|, ,¤, ,|, , , ,|, ,|, , ,¤, , ,|, , , ,|, , , , , , , ,|,
++,-,+,-,+, ,+, ,+,-,+, ,+,-,+,-,+,¤,+,-,+,-,+,-,+, ,+, ,+,¤,+,-,+,-,+,-,+,
+|, , , ,|, ,|, , , ,|, ,|, , , , , ,|, , , , , ,|, ,|, , , ,|, , , , , ,|,
++, ,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+, ,+,-,+,-,+, ,+, ,+,-,+,
+|, ,|, , ,¤,|, , , ,|, ,|,¤,|, , , ,|, ,|, ,|, , , ,|, , , , , ,|, ,¤, ,|,
++, ,+,-,+,-,+,-,+,-,+,¤,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+,-,+,-,+,-,+,-,+, ,+,
+|, , , , , , , , , , , ,|, ,|, , , , , ,|, , , , , ,¤, , , , , , , , ,E,|,
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
 
 11
-1750,200,75,undead,19,5,,false,
-1250,225,100,skeleton,23,6,,false,
-1750,200,75,undead,13,10,,false,
-3000,175,100,orc,14,23,,false,
-1500,250,100,goblin,15,29,,false,
-1750,200,75,undead,9,4,,false,
-3000,175,100,orc,22,21,,false,
-1500,250,100,goblin,17,16,,false,
-1500,250,100,goblin,11,25,,false,
-1500,250,100,goblin,25,25,,false,
-10000,1750,500,dragon,19,23,You encountered the dragon,false,
+2250,250,150,Icebound Shaman,7,9,The cold has no mercy. Nor do I.,Male,false,
+2500,400,75,Glacier Wolf,15,34,My breath freezes hope itself. You tread on sacred ice... now feel its bite.,Male,false,
+3000,250,150,Shard Bears,19,29,You crack like thin ice beneath us,Female,false,
+4000,200,200,Frost Wraith,14,25,Your warmth… will not last and you can not outrun the frost.,Female,false,
+2500,400,75,Glacier Wolf,9,23,My breath freezes hope itself. You tread on sacred ice... now feel its bite.,Male,false,
+2250,250,150,Icebound Shaman,33,35,The cold has no mercy. Nor do I.,Male,false,
+4000,200,200,Frost Wraith,5,13,Your warmth… will not last and you can not outrun the frost.,Female,false,
+3000,250,150,Shard Bears,9,21,You crack like thin ice beneath us,Female,false,
+2250,250,150,Icebound Shaman,19,31,The cold has no mercy. Nor do I.,Male,false,
+4000,200,200,Frost Wraith,13,19,Your warmth… will not last and you can not outrun the frost.,Female,false,
+12500,1500,400,Frostbane Sovereign,3,20,I am the end of all warmth your last breath will freeze in my presence.,Female,false,
 
 20
 Lumberjacks
-false_Elra Treehewer_Lumberjack_Quiet but strong.Her axe does not stop even in winter!!!_forest_Girl_21_19_gamePlay
-false_Mira Ironbark_Lumberjack_She became a legend with her axe.Villagers respect her._forest_Girl_16_11_gamePlay
-false_Thalia Woodsmile_Lumberjack_A gentle girl with a singing voice and a shiny axe. The forest knows her name and calls out to her --> Thalia._forest_Girl_23_14_gamePlay
-false_Brynn Oakram_Lumberjack_She draws her strength from her arms and carries heavy logs all by herself._forest_Girl_1_24_gamePlay
-false_Sera Axewind_Lumberjack_She is known for her swift axe, trees fall as if they bow to her._forest_Girl_1_5_gamePlay
-false_Velda Timberjaw_Lumberjack_Brave, a former soldier who was used by others and had wielded an axe in battle._forest_Girl_21_7_gamePlay
-false_Lira Logcutter_Lumberjack_She lives alone in the forest, immersed in nature._forest_Girl_3_17_gamePlay
-false_Ysolde Barkcloak_Lumberjack_She wears a cloak made of leaves, a mysterious person._forest_Girl_21_26_gamePlay
-false_Maren Pinewhisper_Lumberjack_She is quiet and careful,prays to every tree first._forest_Girl_6_23_gamePlay
-false_Freya Branchbreaker_Lumberjack_A large-built woman, a woodswoman known for her legendary strength._forest_Girl_5_17_gamePlay
-false_Garruk Woodsplitter_Lumberjack_Muscular, stern-faced, the strongest man in the village._forest_Boy_1_10_gamePlay
-false_Thorne Axeblade_Lumberjack_A woodsman who expertly swings his enchanted axe._forest_Boy_1_12_gamePlay
-false_Bram Ironlog_Lumberjack_Calm and patient, teaches young woodsmen._forest_Boy_3_9_gamePlay
-false_Kael Timberfist_Lumberjack_A fierce man; it wouldn’t be surprising if he could knock down a tree with his fist._forest_Boy_5_1_gamePlay
-false_Borin Pinecleaver_Lumberjack_Cheerful, an old woodsman who constantly tells stories._forest_Boy_19_3_gamePlay
-false_Ulric Barkskin_Lumberjack_His face is as tough as tree bark, he lives in very ancient forests._forest_Boy_15_15_gamePlay
-false_Darnel Axehand_Lumberjack_Lost one arm but replaced it with an axe-hand._forest_Boy_22_17_gamePlay
-false_Varek Oakhew_Lumberjack_Serious, disciplined, and dedicated to duty._forest_Boy_3_23_gamePlay
-false_Rurik Woodmaul_Lumberjack_Prefers to fell trees not with an axe but with a giant hammer._forest_Boy_7_3_gamePlay
-false_Fenric Logsplitter_Lumberjack_Sells firewood to caravans, turning woodsman skills into trade._forest_Boy_3_14_gamePlay
+false_Elra Treehewer_Lumberjack_Quiet but strong.Her axe does not stop even in winter!!!_forest_Girl_30_5_gamePlay
+false_Mira Ironbark_Lumberjack_She became a legend with her axe.Villagers respect her._forest_Girl_19_8_gamePlay
+false_Thalia Woodsmile_Lumberjack_A gentle girl with a singing voice and a shiny axe. The forest knows her name and calls out to her --> Thalia._forest_Girl_19_14_gamePlay
+false_Brynn Oakram_Lumberjack_She draws her strength from her arms and carries heavy logs all by herself._forest_Girl_8_11_gamePlay
+false_Sera Axewind_Lumberjack_She is known for her swift axe, trees fall as if they bow to her._forest_Girl_13_1_gamePlay
+false_Velda Timberjaw_Lumberjack_Brave, a former soldier who was used by others and had wielded an axe in battle._forest_Girl_20_25_gamePlay
+false_Lira Logcutter_Lumberjack_She lives alone in the forest, immersed in nature._forest_Girl_1_1_gamePlay
+false_Ysolde Barkcloak_Lumberjack_She wears a cloak made of leaves, a mysterious person._forest_Girl_23_22_gamePlay
+false_Maren Pinewhisper_Lumberjack_She is quiet and careful,prays to every tree first._forest_Girl_26_1_gamePlay
+false_Freya Branchbreaker_Lumberjack_A large-built woman, a woodswoman known for her legendary strength._forest_Girl_11_15_gamePlay
+false_Garruk Woodsplitter_Lumberjack_Muscular, stern-faced, the strongest man in the village._forest_Boy_17_5_gamePlay
+false_Thorne Axeblade_Lumberjack_A woodsman who expertly swings his enchanted axe._forest_Boy_30_31_gamePlay
+false_Bram Ironlog_Lumberjack_Calm and patient, teaches young woodsmen._forest_Boy_13_11_gamePlay
+false_Kael Timberfist_Lumberjack_A fierce man; it wouldn’t be surprising if he could knock down a tree with his fist._forest_Boy_17_2_gamePlay
+false_Borin Pinecleaver_Lumberjack_Cheerful, an old woodsman who constantly tells stories._forest_Boy_25_24_gamePlay
+false_Ulric Barkskin_Lumberjack_His face is as tough as tree bark, he lives in very ancient forests._forest_Boy_20_19_gamePlay
+false_Darnel Axehand_Lumberjack_Lost one arm but replaced it with an axe-hand._forest_Boy_16_7_gamePlay
+false_Varek Oakhew_Lumberjack_Serious, disciplined, and dedicated to duty._forest_Boy_5_11_gamePlay
+false_Rurik Woodmaul_Lumberjack_Prefers to fell trees not with an axe but with a giant hammer._forest_Boy_5_27_gamePlay
+false_Fenric Logsplitter_Lumberjack_Sells firewood to caravans, turning woodsman skills into trade._forest_Boy_2_1_gamePlay
+
+19,1,
+19,1,
+9,5,
+
+0
+0,0
+ICE_SPIKES
+COLD
+35
+37
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
+|, , , , , , , ,¤, ,N, , , , , , ,¤, , ,|,¤, , , , ,N, , ,¤,|, , , , , ,|,
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+, ,+,-,+, ,+,
+|, , , , , ,|, , , , , , , ,|, ,|, ,|, ,|, , , ,|, ,N, ,|, ,¤, , , ,|, ,|,
++, ,+,-,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+, ,+, ,+, ,+,-,+, ,+,-,+,-,+,-,+, ,+,
+|, , , ,|, , , ,|, ,¤, ,|, , , ,N, ,|,E, , ,|,¤, , ,|, , , ,|, , , ,|, ,|,
++, ,+, ,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+,-,+,-,+, ,+, ,+, ,+,
+|, ,|, ,|,N, , , , ,|,E, , ,|, ,|, , ,E, , ,|, , , ,|, , , , , ,|, , , ,|,
++,N,+, ,+, ,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+, ,+, ,+,-,+, ,+,-,+,-,+,-,+, ,+,
+|, ,|, ,|, ,|, , , , ,¤,|, ,|, , , , , ,|, , , , , ,|, ,|, , , , ,E,|, ,|,
++, ,+, ,+, ,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+,-,+,-,+,¤,+, ,+, ,+,-,+, ,+, ,+,
+|, ,|, , , ,|, , , ,|, ,|, ,|, , ,¤,|, , , ,|, , , , , ,|, ,|, ,|, ,|, ,|,
++, ,+,-,+,-,+, ,+, ,+, ,+, ,+, ,+, ,+, ,+, ,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+,
+|, ,|, , , , , ,|, , , ,|, , , ,|, , , ,|, ,|, , , , , , ,E,|, ,|, , , ,|,
++, ,+,-,+, ,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+,-,+, ,+,-,+, ,+,
+|, ,|, , , ,|, , , ,|,N, , , , , , ,|, ,|,¤,|, ,|, , , , ,N, , ,|, , , ,|,
++, ,+,E,+,-,+,N,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+, ,+,-,+,
+|, , , ,|, , , ,|, ,|, ,|,¤, , , ,¤, , , , ,|, , , ,|, , , , , ,|, ,|, ,|,
++,-,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+,-,+,-,+,-,+, ,+,-,+,-,+,-,+,-,+, ,+, ,+,
+|, ,|, ,|, ,|,¤, , , , ,|, ,|, , , , ,N, , , , ,|, , , , , , , , , ,|, ,|,
++, ,+, ,+, ,+,-,+,-,+,-,+, ,+,E,+,-,+,-,+,-,+,-,+, ,+,¤,+,-,+,-,+,-,+, ,+,
+|, , , ,|, , , , , ,|, , , ,|, ,|, , , ,|, , , ,|, ,|, ,|, , , ,|, , , ,|,
++,-,+,-,+,-,+,-,+, ,+, ,+,-,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+, ,+, ,+,-,+, ,+,
+|, , , ,¤, ,¤, , , ,|, ,|, , , ,|,¤, , ,|, ,|, ,|, ,|, , , ,|, ,|, ,¤, ,|,
++, ,+,-,+,-,+, ,+,-,+,-,+, ,+,-,+,-,+, ,+, ,+,¤,+, ,+, ,+,-,+, ,+, ,+, ,+,
+|, ,|, , , , , ,|, , , , , ,|, , , , , ,|, ,|, ,|, , , ,|, ,|,●,|,¤,|, ,|,
++, ,+,-,+, ,+,-,+, ,+,-,+,-,+,-,+, ,+,-,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+, ,+,
+|, , , ,|, , , ,|, ,|, , , , , ,|, , , , , ,|, , , , , , , , , , , ,|, ,|,
++, ,+, ,+,-,+, ,+, ,+,-,+, ,+, ,+,-,+,-,+,-,+,-,+,-,+, ,+,-,+, ,+,-,+,¤,+,
+|, ,|, ,|, ,|, ,|, , , , , ,|, ,|, , , ,|, , , , , ,|,¤,|, , , ,|, , ,¤,|,
++, ,+, ,+, ,+, ,+,-,+,-,+,-,+, ,+, ,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+,-,+,-,+,
+|, ,|, ,|,E, , , , , , , , ,|, , , ,|, ,N, ,|, ,|,E,|, ,|, , , , , , , ,|,
++, ,+, ,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+,-,+, ,+,
+|,P,|,E, , , , , , , , , , , , , , , , , , , , , , , , , ,E, , , ,¤, , ,|,
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
+
+11
+3000,150,400,Blizzard Stalker,20,15,You think you’re alone in the storm?,Female,false,
+2750,400,175,Icicle Bats,9,33,Our wings cut the frozen air. And you will be the next to be cut.,Female,false,
+3000,275,225,Cryomancer’s Remnant,7,11,You walk where power died… and cursed it left behind.,Female,false,
+3000,300,225,Spikewind Wraiths,13,29,Pierce the silence... leave nothing behind.,Male,false,
+2750,400,175,Icicle Bats,33,3,Our wings cut the frozen air. And you will be the next to be cut.,Female,false,
+3000,275,225,Cryomancer’s Remnant,31,5,You walk where power died… and cursed it left behind.,Female,false,
+3000,150,400,Blizzard Stalker,16,3,You think you’re alone in the storm?,Female,false,
+3000,150,400,Blizzard Stalker,7,19,You think you’re alone in the storm?,Female,false,
+3000,275,225,Cryomancer’s Remnant,5,19,You walk where power died… and cursed it left behind.,Female,false,
+2750,400,175,Icicle Bats,33,29,Our wings cut the frozen air. And you will be the next to be cut.,Female,false,
+7500,1250,500,Blizzard Queen,31,25,Within my storm  all hope freezes and dies.And you will be the next one...,Female,false,
+
+20
+Lumberjacks
+false_Elra Treehewer_Lumberjack_Quiet but strong.Her axe does not stop even in winter!!!_forest_Girl_2_25_gamePlay
+false_Mira Ironbark_Lumberjack_She became a legend with her axe.Villagers respect her._forest_Girl_3_26_gamePlay
+false_Thalia Woodsmile_Lumberjack_A gentle girl with a singing voice and a shiny axe. The forest knows her name and calls out to her --> Thalia._forest_Girl_7_5_gamePlay
+false_Brynn Oakram_Lumberjack_She draws her strength from her arms and carries heavy logs all by herself._forest_Girl_33_27_gamePlay
+false_Sera Axewind_Lumberjack_She is known for her swift axe, trees fall as if they bow to her._forest_Girl_16_7_gamePlay
+false_Velda Timberjaw_Lumberjack_Brave, a former soldier who was used by others and had wielded an axe in battle._forest_Girl_25_19_gamePlay
+false_Lira Logcutter_Lumberjack_She lives alone in the forest, immersed in nature._forest_Girl_30_3_gamePlay
+false_Ysolde Barkcloak_Lumberjack_She wears a cloak made of leaves, a mysterious person._forest_Girl_15_11_gamePlay
+false_Maren Pinewhisper_Lumberjack_She is quiet and careful,prays to every tree first._forest_Girl_32_23_gamePlay
+false_Freya Branchbreaker_Lumberjack_A large-built woman, a woodswoman known for her legendary strength._forest_Girl_19_19_gamePlay
+false_Garruk Woodsplitter_Lumberjack_Muscular, stern-faced, the strongest man in the village._forest_Boy_8_1_gamePlay
+false_Thorne Axeblade_Lumberjack_A woodsman who expertly swings his enchanted axe._forest_Boy_15_29_gamePlay
+false_Bram Ironlog_Lumberjack_Calm and patient, teaches young woodsmen._forest_Boy_1_26_gamePlay
+false_Kael Timberfist_Lumberjack_A fierce man; it wouldn’t be surprising if he could knock down a tree with his fist._forest_Boy_1_10_gamePlay
+false_Borin Pinecleaver_Lumberjack_Cheerful, an old woodsman who constantly tells stories._forest_Boy_5_16_gamePlay
+false_Ulric Barkskin_Lumberjack_His face is as tough as tree bark, he lives in very ancient forests._forest_Boy_31_20_gamePlay
+false_Darnel Axehand_Lumberjack_Lost one arm but replaced it with an axe-hand._forest_Boy_10_3_gamePlay
+false_Varek Oakhew_Lumberjack_Serious, disciplined, and dedicated to duty._forest_Boy_21_22_gamePlay
+false_Rurik Woodmaul_Lumberjack_Prefers to fell trees not with an axe but with a giant hammer._forest_Boy_24_13_gamePlay
+false_Fenric Logsplitter_Lumberjack_Sells firewood to caravans, turning woodsman skills into trade._forest_Boy_5_25_gamePlay
+
+33,1,
+33,1,
+25,31,
+
+0
+0,0
+TUNDRA
+COLD
+35
+37
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
+|, , , , , , , ,|, , , , , ,|, , , , , , , , , ,|, , , ,|, , , , ,E,|, ,|,
++, ,+,-,+,-,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+, ,+, ,+, ,+,-,+, ,+, ,+,
+|, , , , , ,|, , , ,|,E, , ,|, ,|, ,|, , , ,|, , , ,|, ,|,¤,|, ,|,N,|, ,|,
++,-,+,-,+, ,+,-,+,-,+,-,+, ,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+, ,+, ,+, ,+, ,+,
+|,E,|, , , ,|,●, , , , ,|, ,|, , , ,|, ,|, ,|, ,E, , , ,|,¤,|, ,|, , , ,|,
++, ,+, ,+, ,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+, ,+,-,+,-,+, ,+, ,+,-,+, ,+,
+|, ,|, ,|,P,|, , , , , ,|, , , ,|, , , ,|, ,|,¤, , ,E, , , ,|, , , , , ,|,
++, ,+, ,+,-,+, ,+,-,+,-,+,-,+,-,+, ,+, ,+,¤,+,-,+,-,+,-,+,-,+, ,+,-,+,-,+,
+|,¤,|, , , ,|, ,|, , ,N, ,N, , , , ,|, ,|,¤, , , , , ,E,|, , , ,|, , , ,|,
++, ,+,-,+, ,+, ,+,-,+, ,+, ,+,-,+,-,+, ,+,-,+,¤,+, ,+,-,+, ,+,-,+,-,+, ,+,
+|, ,|, , , ,|, ,N, ,|, ,|, , , , , ,|, , , ,|, ,|, ,|, , , ,|, , , , , ,|,
++, ,+, ,+,-,+,-,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+,-,+, ,+, ,+,-,+, ,+,-,+,¤,+,
+|, ,|, , , , , ,|, ,|, ,|, , , ,|, , , ,|, , , , , ,|, ,|, , , ,|, ,|, ,|,
++, ,+,-,+, ,+,-,+, ,+, ,+,E,+, ,+,-,+, ,+,-,+,-,+, ,+, ,+, ,+,-,+, ,+, ,+,
+|, , ,E,|,E, , , , ,|, ,|, ,|, ,|, , , ,|, , , ,|, ,|, , , ,|, , , , , ,|,
++, ,+,-,+,-,+,-,+,-,+,-,+,¤,+,¤,+, ,+,-,+,¤,+, ,+,-,+,-,+,-,+, ,+,-,+,-,+,
+|, ,|, , , , , , , , , ,|, ,|,¤,|,N,|, , ,¤,|,¤, , , , , , ,|, ,|, , ,¤,|,
++, ,+, ,+, ,+,-,+,-,+,N,+, ,+, ,+, ,+, ,+,-,+,-,+,-,+, ,+,-,+, ,+, ,+, ,+,
+|, ,|, ,|, , ,¤, , ,|, , ,¤,|, , , ,|, ,|, , , , , ,|, ,¤, ,|, ,|,¤,|, ,|,
++, ,+, ,+,-,+,-,+, ,+,-,+,-,+,-,+, ,+,N,+,-,+,-,+, ,+,-,+, ,+, ,+, ,+, ,+,
+|, , , , , ,|, , ,¤,|, , , , , , , ,|, , , , , , , , , ,|, ,N, ,|, ,|, ,|,
++, ,+,-,+,-,+, ,+,-,+, ,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+,-,+,-,+,-,+, ,+,
+|, ,|, ,¤, ,¤, ,|, ,|, ,|, ,|, , , , ,¤, , , ,¤,|, , , ,|,¤, , , , , , ,|,
++, ,+, ,+,-,+,-,+,¤,+, ,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+,-,+,-,+,-,+, ,+, ,+,
+|, ,|, , , ,|, , , ,|, ,|,¤,|, ,¤, ,|, , , ,|, , , ,|, , , , , ,|, ,|, ,|,
++,-,+,-,+, ,+, ,+, ,+, ,+, ,+,-,+, ,+, ,+, ,+, ,+,-,+, ,+,-,+, ,+, ,+,-,+,
+|, ,¤, ,|, ,|, ,|, ,|, , , , , ,|, ,|, ,|,¤,|, , , ,|, ,|, , , ,|, , , ,|,
++, ,+, ,+, ,+, ,+, ,+,-,+, ,+,-,+, ,+, ,+, ,+,-,+, ,+, ,+,-,+, ,+,-,+, ,+,
+|, ,|, , , ,|, ,|, , , , ,N,|, , , ,|, ,|, , , ,|, ,|, , , ,|, , , , , ,|,
++, ,+,-,+,-,+,-,+,-,+,-,+, ,+, ,+,-,+, ,+,-,+,-,+, ,+,-,+, ,+,-,+,-,+, ,+,
+|, , , , , ,|,N, , ,E, ,|, ,|, ,|, ,|, ,|, , , ,|, , , ,|, ,|,¤, , ,|, ,|,
++, ,+,-,+, ,+, ,+,-,+, ,+,-,+, ,+, ,+, ,+, ,+, ,+,-,+, ,+, ,+, ,+,-,+, ,+,
+|, , , ,|, , , , , ,|, ,E, , , , , ,|, , , ,|, , , , , , , ,|, , , , , ,|,
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
+
+11
+2250,250,150,Icebound Shaman,33,12,The cold has no mercy. Nor do I.,Male,false,
+2500,400,75,Glacier Wolf,15,5,My breath freezes hope itself. You tread on sacred ice... now feel its bite.,Male,false,
+3000,250,150,Shard Bears,14,13,You crack like thin ice beneath us,Female,false,
+2500,400,75,Glacier Wolf,5,1,My breath freezes hope itself. You tread on sacred ice... now feel its bite.,Male,false,
+4000,200,200,Frost Wraith,15,3,Your warmth… will not last and you can not outrun the frost.,Female,false,
+4000,200,200,Frost Wraith,7,26,Your warmth… will not last and you can not outrun the frost.,Female,false,
+2250,250,150,Icebound Shaman,3,11,The cold has no mercy. Nor do I.,Male,false,
+2250,250,150,Icebound Shaman,9,27,The cold has no mercy. Nor do I.,Male,false,
+3000,250,150,Shard Bears,31,10,You crack like thin ice beneath us,Female,false,
+2500,400,75,Glacier Wolf,1,33,My breath freezes hope itself. You tread on sacred ice... now feel its bite.,Male,false,
+7500,1250,500,Blizzard Queen,5,24,Within my storm  all hope freezes and dies.And you will be the next one...,Female,false,
+
+20
+Lumberjacks
+false_Elra Treehewer_Lumberjack_Quiet but strong.Her axe does not stop even in winter!!!_forest_Girl_11_7_gamePlay
+false_Mira Ironbark_Lumberjack_She became a legend with her axe.Villagers respect her._forest_Girl_25_5_gamePlay
+false_Thalia Woodsmile_Lumberjack_A gentle girl with a singing voice and a shiny axe. The forest knows her name and calls out to her --> Thalia._forest_Girl_7_15_gamePlay
+false_Brynn Oakram_Lumberjack_She draws her strength from her arms and carries heavy logs all by herself._forest_Girl_1_18_gamePlay
+false_Sera Axewind_Lumberjack_She is known for her swift axe, trees fall as if they bow to her._forest_Girl_21_24_gamePlay
+false_Velda Timberjaw_Lumberjack_Brave, a former soldier who was used by others and had wielded an axe in battle._forest_Girl_3_14_gamePlay
+false_Lira Logcutter_Lumberjack_She lives alone in the forest, immersed in nature._forest_Girl_25_14_gamePlay
+false_Ysolde Barkcloak_Lumberjack_She wears a cloak made of leaves, a mysterious person._forest_Girl_1_26_gamePlay
+false_Maren Pinewhisper_Lumberjack_She is quiet and careful,prays to every tree first._forest_Girl_5_5_gamePlay
+false_Freya Branchbreaker_Lumberjack_A large-built woman, a woodswoman known for her legendary strength._forest_Girl_21_4_gamePlay
+false_Garruk Woodsplitter_Lumberjack_Muscular, stern-faced, the strongest man in the village._forest_Boy_13_13_gamePlay
+false_Thorne Axeblade_Lumberjack_A woodsman who expertly swings his enchanted axe._forest_Boy_17_13_gamePlay
+false_Bram Ironlog_Lumberjack_Calm and patient, teaches young woodsmen._forest_Boy_23_11_gamePlay
+false_Kael Timberfist_Lumberjack_A fierce man; it wouldn’t be surprising if he could knock down a tree with his fist._forest_Boy_21_15_gamePlay
+false_Borin Pinecleaver_Lumberjack_Cheerful, an old woodsman who constantly tells stories._forest_Boy_8_11_gamePlay
+false_Ulric Barkskin_Lumberjack_His face is as tough as tree bark, he lives in very ancient forests._forest_Boy_11_6_gamePlay
+false_Darnel Axehand_Lumberjack_Lost one arm but replaced it with an axe-hand._forest_Boy_16_21_gamePlay
+false_Varek Oakhew_Lumberjack_Serious, disciplined, and dedicated to duty._forest_Boy_1_6_gamePlay
+false_Rurik Woodmaul_Lumberjack_Prefers to fell trees not with an axe but with a giant hammer._forest_Boy_15_16_gamePlay
+false_Fenric Logsplitter_Lumberjack_Sells firewood to caravans, turning woodsman skills into trade._forest_Boy_15_19_gamePlay
+
+7,5,
+7,5,
+5,7,
+
+0
+0,0
+SWAMP
+WARM
+27
+31
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
+|,●, , , , ,N, , , , , , , , , ,E, ,N, , , , , , , , , , ,P,|,
++, ,+,-,+,-,+,-,+,-,+, ,+,-,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+, ,+,
+|, ,|, ,E, , , , , ,|, ,|, ,N, , , ,|, ,|, , , ,|, , , ,¤, ,|,
++, ,+, ,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+,-,+, ,+, ,+,-,+, ,+,
+|,¤,|, ,|,N, ,¤,|, ,|, , , , , ,|, , , ,|, , , ,|, ,|, ,|, ,|,
++, ,+, ,+, ,+, ,+, ,+,-,+,-,+, ,+,¤,+,-,+, ,+, ,+, ,+,¤,+,-,+,
+|, ,|, , , ,|, ,|, ,|, , , ,|, ,|, , , ,|,¤,|, ,|, ,|, , ,E,|,
++, ,+,-,+,-,+, ,+,¤,+, ,+,-,+,-,+,-,+, ,+, ,+, ,+, ,+,-,+, ,+,
+|, , , , , , , ,|, ,|, ,|, , , , , ,|, ,|, ,|, ,|, ,|, , , ,|,
++,-,+,-,+,-,+,-,+, ,+, ,+,-,+,-,+, ,+, ,+,¤,+, ,+, ,+, ,+,-,+,
+|,¤,¤, , , , , ,E, ,|, , , , , , , ,|, ,|, ,|, ,|, ,|, , , ,|,
++, ,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+,¤,+, ,+,-,+,E,+,-,+,¤,+,
+|, , , , , , , ,|, , , ,¤,N,¤, , , ,|, ,|, , , ,|, ,¤, , , ,|,
++,-,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+,
+|, , , , , ,E, , , ,|, , , , , ,N, , ,N,|, ,|, ,|, , , , , ,|,
++,-,+,-,+,-,+,-,+,-,+, ,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+,
+|,E, , ,E, , , , , ,|, ,|,N, , , , ,¤, , , ,|, ,|, , , , , ,|,
++, ,+,-,+,-,+,-,+, ,+, ,+,-,+,-,+,-,+, ,+,-,+, ,+, ,+,-,+, ,+,
+|, , , , , , , ,|, , ,E, , ,¤, , , ,|, ,|, ,|, ,|, ,|, ,|, ,|,
++,-,+,-,+,-,+, ,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+,E,+,-,+, ,+, ,+,
+|, ,¤, ,N, ,|, , , , , , , , ,N,|, ,|, ,|, ,|, ,N, , , ,|, ,|,
++, ,+, ,+,-,+,-,+,-,+, ,+,-,+,-,+, ,+, ,+,¤,+,-,+,-,+, ,+, ,+,
+|, ,|, , , , , , , , ,N,|, , ,¤, , ,|, ,|, ,|, , , , ,¤,E,¤,|,
++, ,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+, ,+, ,+, ,+,-,+,-,+, ,+,
+|, , , , ,N, , , , , ,¤, , , , , , , , ,|, , , , , , , ,|, ,|,
++,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,-,+,
+
+11
+2500,150,150,Swamp Ghoul,23,28,You you.Did you kill my people? I will make you pay for this.,Male,false,
+1400,275,125,Drowned Spirit,19,11,I am cursed. Please defeat the darkness within me to break this curse and save me.,Female,false,
+2500,150,150,Swamp Ghoul,12,25,You you.Did you kill my people? I will make you pay for this.,Male,false,
+1750,200,75,Undead,17,1,The grave could not hold me... and neither will you.,Male,false,
+1750,200,75,Undead,7,29,The grave could not hold me... and neither will you.,Male,false,
+1400,275,125,Drowned Spirit,17,4,I am cursed. Please defeat the darkness within me to break this curse and save me.,Female,false,
+2500,150,150,Swamp Ghoul,3,4,You you.Did you kill my people? I will make you pay for this.,Male,false,
+2500,150,150,Swamp Ghoul,11,8,You you.Did you kill my people? I will make you pay for this.,Male,false,
+1700,300,200,Reed Witch,15,6,I will make you fall in love with me and you will always remain my slave.,Female,false,
+1700,300,200,Reed Witch,1,16,I will make you fall in love with me and you will always remain my slave.,Female,false,
+10000,1700,400,Plaguevine Ravager,20,23,Toxic vines and pestilence will claim you as their own.,,false,
+
+20
+Lumberjacks
+false_Elra Treehewer_Lumberjack_Quiet but strong.Her axe does not stop even in winter!!!_forest_Girl_11_7_gamePlay
+false_Mira Ironbark_Lumberjack_She became a legend with her axe.Villagers respect her._forest_Girl_25_5_gamePlay
+false_Thalia Woodsmile_Lumberjack_A gentle girl with a singing voice and a shiny axe. The forest knows her name and calls out to her --> Thalia._forest_Girl_7_15_gamePlay
+false_Brynn Oakram_Lumberjack_She draws her strength from her arms and carries heavy logs all by herself._forest_Girl_1_18_gamePlay
+false_Sera Axewind_Lumberjack_She is known for her swift axe, trees fall as if they bow to her._forest_Girl_21_24_gamePlay
+false_Velda Timberjaw_Lumberjack_Brave, a former soldier who was used by others and had wielded an axe in battle._forest_Girl_3_14_gamePlay
+false_Lira Logcutter_Lumberjack_She lives alone in the forest, immersed in nature._forest_Girl_25_14_gamePlay
+false_Ysolde Barkcloak_Lumberjack_She wears a cloak made of leaves, a mysterious person._forest_Girl_1_26_gamePlay
+false_Maren Pinewhisper_Lumberjack_She is quiet and careful,prays to every tree first._forest_Girl_5_5_gamePlay
+false_Freya Branchbreaker_Lumberjack_A large-built woman, a woodswoman known for her legendary strength._forest_Girl_21_4_gamePlay
+false_Garruk Woodsplitter_Lumberjack_Muscular, stern-faced, the strongest man in the village._forest_Boy_13_13_gamePlay
+false_Thorne Axeblade_Lumberjack_A woodsman who expertly swings his enchanted axe._forest_Boy_17_13_gamePlay
+false_Bram Ironlog_Lumberjack_Calm and patient, teaches young woodsmen._forest_Boy_23_11_gamePlay
+false_Kael Timberfist_Lumberjack_A fierce man; it wouldn’t be surprising if he could knock down a tree with his fist._forest_Boy_21_15_gamePlay
+false_Borin Pinecleaver_Lumberjack_Cheerful, an old woodsman who constantly tells stories._forest_Boy_8_11_gamePlay
+false_Ulric Barkskin_Lumberjack_His face is as tough as tree bark, he lives in very ancient forests._forest_Boy_11_6_gamePlay
+false_Darnel Axehand_Lumberjack_Lost one arm but replaced it with an axe-hand._forest_Boy_16_21_gamePlay
+false_Varek Oakhew_Lumberjack_Serious, disciplined, and dedicated to duty._forest_Boy_1_6_gamePlay
+false_Rurik Woodmaul_Lumberjack_Prefers to fell trees not with an axe but with a giant hammer._forest_Boy_15_16_gamePlay
+false_Fenric Logsplitter_Lumberjack_Sells firewood to caravans, turning woodsman skills into trade._forest_Boy_15_19_gamePlay
 
 1,29,
 1,29,

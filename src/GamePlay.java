@@ -104,6 +104,10 @@ public class GamePlay {
     public static boolean forestIsLeftPressed = false;
     public static boolean forestIsUpPressed = false;
     public static boolean forestIsDownPressed = false;
+    public static boolean hiddenDungeonIsRightPressed = false;
+    public static boolean hiddenDungeonIsLeftPressed = false;
+    public static boolean hiddenDungeonIsUpPressed = false;
+    public static boolean hiddenDungeonIsDownPressed = false;
     private Biomes biomes;
     private BiomeTypes biomeTypes;
     private boolean isTranformHidden = false;
@@ -2767,6 +2771,18 @@ public class GamePlay {
                         forestIsUpPressed = true;
                     }
                 }
+                //----------------HIDDEN DUNGEON-----------------
+                if (isTranformHidden) {
+                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                        hiddenDungeonIsRightPressed = true;
+                    } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                        hiddenDungeonIsLeftPressed = true;
+                    } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                        hiddenDungeonIsDownPressed = true;
+                    } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                        hiddenDungeonIsUpPressed = true;
+                    }
+                }
             }
             public void keyReleased(KeyEvent e) {}
         };
@@ -2805,9 +2821,8 @@ public class GamePlay {
     }
     public void hiddenDugeon(Game game) {
         while (true) {
-            game.Clear();
-            System.out.println("aaaa");
-            scanner.nextLine();
+            HiddenDungeon hiddenDungeon = new HiddenDungeon(35,35);
+            hiddenDungeon.start();
             break;
         }
         isTranformHidden = false;
