@@ -377,7 +377,7 @@ public class GamePlay {
 
         String name = "";
 
-        player = new Player(name,0,0,2250,200,200,0,22500,150,3,200);
+        player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
         PlayerHP = player.getHp();
         PlayerDefence = player.getDefence();
         PlayerAttack = player.getAttack();
@@ -2825,6 +2825,9 @@ public class GamePlay {
         while (true) {
             HiddenDungeon hiddenDungeon = new HiddenDungeon(35,35,this);
             hiddenDungeon.start();
+            dungeon.setHiddenDungeonExcist(false);
+            dungeon.setHiddeDoorX(0);
+            dungeon.setHiddeDoorY(0);
             break;
         }
         isTranformHidden = false;

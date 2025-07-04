@@ -124,6 +124,7 @@ public class HiddenDungeon {
     private int ball1Y = 0;
     private int ball2X = 0;
     private int ball2Y = 0;
+    private int playerLife = 5;
 
     public HiddenDungeon(int x, int y,GamePlay gamePlay) {
         hiddenDungeon = new char[x][y];
@@ -396,6 +397,13 @@ public class HiddenDungeon {
         if (yourKeys.isEmpty()) {
             System.out.print("none");
         }
+        Game.cn.getTextWindow().setCursorPosition(hiddenDungeon[0].length + 1 ,2);
+        System.out.print("Your Life : ");
+        for (int i = 0; i < playerLife; i++) {
+            Game.cn.setTextAttributes(new TextAttributes(Color.RED));
+            System.out.print("♥");
+        }
+        Game.cn.setTextAttributes(new TextAttributes(Color.WHITE));
         Game.cn.getTextWindow().setCursorPosition(0 ,0);
     }
 
@@ -549,7 +557,7 @@ public class HiddenDungeon {
         }
     }
     public void createBall(int x, int y) {
-        hiddenDungeon[x][y] = '0';
+        hiddenDungeon[x][y] = '●';
     }
     public Vertex moveBall(boolean flag,int ball1X,int ball1Y) {
         if (!flag) {
@@ -560,8 +568,18 @@ public class HiddenDungeon {
         if (downActive) {
             if (hiddenDungeon[ball1X + 1][ball1Y] != '-') {
                 hiddenDungeon[ball1X][ball1Y] = ' ';
+                if (ball1X == hiddenPlayerX && ball1Y == hiddenPlayerY) {
+                    if (playerLife <= 0) {
+                        isGameFinished = true;
+                        return null;
+                    }
+                    playerLife--;
+                    hiddenPlayerX = 1;
+                    hiddenPlayerY = 1;
+                    hiddenDungeon[1][1] = 'P';
+                }
                 ball1X += directionBall;
-                hiddenDungeon[ball1X][ball1Y] = '0';
+                hiddenDungeon[ball1X][ball1Y] = '●';
             } else {
                 downActive = false;
                 upActive = true;
@@ -571,8 +589,18 @@ public class HiddenDungeon {
         if (upActive) {
             if (hiddenDungeon[ball1X - 1][ball1Y] != '-') {
                 hiddenDungeon[ball1X][ball1Y] = ' ';
+                if (ball1X == hiddenPlayerX && ball1Y == hiddenPlayerY) {
+                    if (playerLife <= 0) {
+                        isGameFinished = true;
+                        return null;
+                    }
+                    playerLife--;
+                    hiddenPlayerX = 1;
+                    hiddenPlayerY = 1;
+                    hiddenDungeon[1][1] = 'P';
+                }
                 ball1X += directionBall;
-                hiddenDungeon[ball1X][ball1Y] = '0';
+                hiddenDungeon[ball1X][ball1Y] = '●';
             } else {
                 upActive = false;
                 downActive = true;
@@ -600,19 +628,25 @@ public class HiddenDungeon {
             if (time % 1 == 0) {
                 move();
             }
-            if (hiddenDungeon[2][2] != '-') {
-                Vertex newBall = moveBall(true,ball1X,ball1Y);
-                ball1X = newBall.getVertexX();
-                ball1Y = newBall.getVertexY();
-                newBall = moveBall(true,ballX,ballY);
-                ballX = newBall.getVertexX();
-                ballY = newBall.getVertexY();
-                newBall = moveBall(true,ball2X,ball2Y);
-                ball2X = newBall.getVertexX();
-                ball2Y = newBall.getVertexY();
-            }
             if (isGameFinished) {
                 break;
+            }
+            if (hiddenDungeon[2][2] != '-') {
+                Vertex newBall = moveBall(true,ball1X,ball1Y);
+                if (newBall != null) {
+                    ball1X = newBall.getVertexX();
+                    ball1Y = newBall.getVertexY();
+                }
+                newBall = moveBall(true,ballX,ballY);
+                if (newBall != null) {
+                    ballX = newBall.getVertexX();
+                    ballY = newBall.getVertexY();
+                }
+                newBall = moveBall(true,ball2X,ball2Y);
+                if (newBall != null) {
+                    ball2X = newBall.getVertexX();
+                    ball2Y = newBall.getVertexY();
+                }
             }
             try {
                 Thread.sleep(100);
