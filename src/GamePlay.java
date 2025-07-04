@@ -111,8 +111,25 @@ public class GamePlay {
     private Biomes biomes;
     private BiomeTypes biomeTypes;
     private boolean isTranformHidden = false;
+    private boolean paintMode = false;
     GamePlay() {}
 
+
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public void setMouseX(int mouseX) {
+        this.mouseX = mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
+    }
+
+    public void setMouseY(int mouseY) {
+        this.mouseY = mouseY;
+    }
 
     public LinkedStack getHiddenDungeonStack() {
         return hiddenDungeonStack;
@@ -484,6 +501,15 @@ public class GamePlay {
                     }
                 }
 
+            }
+            //--------------Paint Mode----------
+            if (paintMode) {
+                //--------->game
+                paintStart(game);
+                takesInput = true;
+                infoIsCome = true;
+                isMousePressedActive = false;
+                paintMode = false;
             }
             //---------------HİDDEN DUNGEON--------
             if (isTranformHidden) {
@@ -2158,18 +2184,23 @@ public class GamePlay {
                         game.keypr = 1;
                         game.rkey = e.getKeyCode();
                     }
-                    if(e.getKeyCode() == KeyEvent.VK_S){
+                    if (e.getKeyCode() == KeyEvent.VK_P) {
+                        //Paint Mode Active
+                        infoIsCome = false;
+                        isMousePressedActive = true;
+                        paintMode = true;
+                        takesInput = false;
+                    }
+                    if (e.getKeyCode() == KeyEvent.VK_S) {
                         isSettingOpened=true;
                         infoIsCome = false;
-                        isMousePressedActive=true;
+                        isMousePressedActive = true;
                     }
-                    if(e.getKeyCode() == KeyEvent.VK_E)
-                    {
+                    if (e.getKeyCode() == KeyEvent.VK_E) {
                         inventoryOpened = true;
                         infoIsCome = false;
                     }
-                    if(e.getKeyCode() == KeyEvent.VK_M)
-                    {
+                    if (e.getKeyCode() == KeyEvent.VK_M) {
                         isMarketOpened = true;
                         infoIsCome = false;
                     }
@@ -2785,6 +2816,9 @@ public class GamePlay {
                         hiddenDungeonIsUpPressed = true;
                     }
                 }
+                if (paintMode) {
+                    // işlem
+                }
             }
             public void keyReleased(KeyEvent e) {}
         };
@@ -2820,6 +2854,10 @@ public class GamePlay {
            }
            return selectedNPC;
        }
+    }
+    public void paintStart(Game game) {
+        Paint paint = new Paint(20,20,game,this);
+        paint.start();
     }
     public void hiddenDugeon(Game game) {
         while (true) {
