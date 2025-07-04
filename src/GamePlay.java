@@ -487,8 +487,10 @@ public class GamePlay {
             }
             //---------------HİDDEN DUNGEON--------
             if (isTranformHidden) {
+                takesInput = false;
                 hiddenDugeon(game);
                 infoIsCome = true;
+                takesInput = true;
             }
             //-------------------NPC-------------
             if (isNPCEncountered) {
@@ -2821,7 +2823,7 @@ public class GamePlay {
     }
     public void hiddenDugeon(Game game) {
         while (true) {
-            HiddenDungeon hiddenDungeon = new HiddenDungeon(35,35);
+            HiddenDungeon hiddenDungeon = new HiddenDungeon(35,35,this);
             hiddenDungeon.start();
             break;
         }
