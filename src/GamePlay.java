@@ -113,6 +113,8 @@ public class GamePlay {
     private boolean isTranformHidden = false;
     private boolean paintMode = false;
     private boolean palletteMode = false;
+    private Help help;
+
     GamePlay() {}
 
 
@@ -371,13 +373,15 @@ public class GamePlay {
             System.out.println("----------------");
             System.out.println("--- Load     ---");
             System.out.println("----------------");
+            System.out.println("--- Help     ---");
+            System.out.println("----------------");
             System.out.println("--- Exit     ---");
             System.out.println("----------------");
             if(mouseY == 4 && mouseX > 3 && mouseX < 8) {
                 //Load
                 setting.loadFile();
                 break;
-            } else if (mouseY == 6 && mouseX > 3 && mouseX < 8) {
+            } else if (mouseY == 8 && mouseX > 3 && mouseX < 8) {
                 //Exit
                 gameFinished = true;
                 isSettingOpened = false;
@@ -393,8 +397,13 @@ public class GamePlay {
                 String name = scanner.nextLine();
                 player.setName(name);
                 break;
+            }  else if (mouseY == 6 && mouseX > 3 && mouseX < 8) {
+                //Help
+                help.informations();
+                mouseX = 0;
+                mouseY = 0;
+                break;
             }
-
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -411,7 +420,7 @@ public class GamePlay {
         //Oyun başladı önce oyuncu oluşur
 
         String name = "";
-
+        help = new Help(game);
         player = new Player(name,0,0,2250,200,200,0,225,150,3,200);
         PlayerHP = player.getHp();
         PlayerDefence = player.getDefence();
@@ -633,9 +642,10 @@ public class GamePlay {
                     System.out.println("----------");
                     System.out.println("- Load   -");
                     System.out.println("----------");
+                    System.out.println("- Help   -");
+                    System.out.println("----------");
                     System.out.println("- Exit   -");
                     System.out.println("----------");
-
                     if(mouseY == 1 && mouseX < 8 && mouseX > 2){
                         //resume
                         isSettingOpened = false;
@@ -644,7 +654,7 @@ public class GamePlay {
                         mouseX = 0;
                         mouseY = 0;
                         break;
-                    } else if (mouseY == 7 && mouseX > 2 && mouseX < 6) {
+                    } else if (mouseY == 9 && mouseX > 2 && mouseX < 6) {
                         //exit
                         gameFinished = true;
                         isSettingOpened = false;
@@ -672,6 +682,12 @@ public class GamePlay {
                         isSettingOpened = false;
                         infoIsCome = true;
                         isMousePressedActive = false;
+                        mouseX = 0;
+                        mouseY = 0;
+                        break;
+                    } else if(mouseY == 7 && mouseX > 2 && mouseX < 6) {
+                        //Help
+                        help.informations();
                         mouseX = 0;
                         mouseY = 0;
                         break;

@@ -138,6 +138,7 @@ public class Paint {
                     }
                 }
             }
+            
             while (true) {
                 gamePlay.clearPart(0, 5, game, 5, 70);
                 System.out.print("Your color ---> ");
