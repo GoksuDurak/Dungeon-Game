@@ -112,7 +112,24 @@ public class GamePlay {
     private BiomeTypes biomeTypes;
     private boolean isTranformHidden = false;
     private boolean paintMode = false;
+    private boolean palletteMode = false;
     GamePlay() {}
+
+
+    public boolean isPaintMode() {
+        return paintMode;
+    }
+
+    public void setPaintMode(boolean paintMode) {
+        this.paintMode = paintMode;
+    }
+    public boolean isPalletteMode() {
+        return palletteMode;
+    }
+
+    public void setPalletteMode(boolean palletteMode) {
+        this.palletteMode = palletteMode;
+    }
 
 
     public int getMouseX() {
@@ -346,6 +363,7 @@ public class GamePlay {
     public void startScreen() throws IOException {
         isMousePressedActive = true;
         while (true) {
+            takesInput = false;
             Game.Clear();
             System.out.println("Welcome to the Dungeon");
             System.out.println("----------------");
@@ -433,6 +451,7 @@ public class GamePlay {
         movement(); //hareket fonksiyonu
         mouse();
         startScreen();
+        takesInput = true;
         isSettingOpened = false;
         inventoryOpened = false;
 
@@ -2818,6 +2837,11 @@ public class GamePlay {
                 }
                 if (paintMode) {
                     // işlem
+                    if (e.getKeyCode() == KeyEvent.VK_C) {
+                        palletteMode = true;
+                    } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        paintMode = false;
+                    }
                 }
             }
             public void keyReleased(KeyEvent e) {}
